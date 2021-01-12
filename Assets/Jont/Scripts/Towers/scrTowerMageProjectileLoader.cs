@@ -8,18 +8,24 @@ using UnityEngine;
 public class scrTowerMageProjectileLoader : MonoBehaviour
 {
     [SerializeField] protected Transform projectileSpawnPos;
+    [Tooltip("This is effectivly the reload time for this tower")]
+    [Range(0.1f, 10f)]
     [SerializeField] protected float delayBetweenAttacks = 2f;
+    [SerializeField] protected float damage = 2f;
+
+    public float Damage { get; set; }
 
     protected float _nextAttackTime;
     protected ObjectPooler _pooler;
     protected scrTower Tower;
-    private scrMageBoltProjectile currentProjectileLoaded;
+    private scrMainProjectile currentProjectileLoaded;
 
     private void Start()
     {
         _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
         Tower = GetComponent<scrTower>();
 
+        Damage = damage;
         LoadProjectile();
     }
 
@@ -53,9 +59,11 @@ public class scrTowerMageProjectileLoader : MonoBehaviour
         newInstance.transform.SetParent(projectileSpawnPos); //THIS IS NECESSARY TO MAKE THE PROJECTILE INSTANCE FACE THE SAME WAY AS THE TURRET
         //AS IT SPAWNS
 
-        currentProjectileLoaded = newInstance.GetComponent<scrMageBoltProjectile>();
+        currentProjectileLoaded = newInstance.GetComponent<scrMainProjectile>();
         currentProjectileLoaded.TurretOwner = this; //This is weird, covered in episode 26, around 3.30
         currentProjectileLoaded.ResetProjectile();
+        currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrMainProjectile 
+        //(or scrArrow projectile, which derrives from this) to equal the "Damage" property in this script.
         newInstance.SetActive(true);
     }
 

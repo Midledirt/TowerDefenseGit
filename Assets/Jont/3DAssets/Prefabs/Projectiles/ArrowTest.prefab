@@ -98,8 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 20
   damage: 1
-  MinDistanceToDealDamage: 0.1
-  isMageBolt: 1
+  MinDistanceToDealDamage: 0.305
 --- !u!65 &4741510063664116122
 BoxCollider:
   m_ObjectHideFlags: 0

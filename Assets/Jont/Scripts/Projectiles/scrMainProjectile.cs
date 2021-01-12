@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This class handles the movement of the mage projectile! The "scrArrow" script derives from this.
+/// This class handles the movement of the mage projectile! Since other projectiles derrives from this, ive decided to call it "scrMainProjectile".
 /// </summary>
-public class scrMageBoltProjectile : MonoBehaviour
+public class scrMainProjectile : MonoBehaviour
 {
+    [Tooltip("How fast this projectile moves")]
     [SerializeField] protected float movementSpeed = 10f; //These will be "protected" instead of "private" because this will allow 
-    //the "scrArrow" script (which derives from this one) to use these variables
-    [SerializeField] protected float damage = 2f;
+    [Tooltip("Defines how close to the target the projectiles needs to be in order to hit it. The larger this radius is, the easier and ealier the collision")]
+    [Range(0.1f, 1f)]
     [SerializeField] private float MinDistanceToDealDamage = 0.1f;
 
     //public bool isMageBolt = true; //This is my way of making the "scrTurretProjectiles" class know if this is an arrow or a mage bolt
 
     public scrTowerMageProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
+    public float Damage { get; set; }
 
     protected Creep _creepTarget;
 
@@ -45,7 +47,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         //BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
         {
-            _creepTarget._CreepHealth.DealDamage(damage); //Fires the deal damage function in the creephealth reference
+            _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
             //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
             //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
             TurretOwner.ResetTurretProjectile();

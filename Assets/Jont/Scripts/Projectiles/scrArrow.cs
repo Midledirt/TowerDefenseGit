@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// This class handles the movement of the arrow projectile
-/// This class derives from the scrMageBoltProjectile. At least for now. They share a lot of common logic.
+/// This class derives from the scrMainProjectile. At least for now. They share a lot of common logic.
 /// </summary>
 
-public class scrArrow : scrMageBoltProjectile // inherit from this as these will be very similar
+public class scrArrow : scrMainProjectile // inherit from this as these will be very similar
 {
     public Vector3 Direction { get; set; } //This "Direction" takes its input from the "scrTpwerArrowsProjectileLoader".FireProjectile
 
@@ -33,7 +33,7 @@ public class scrArrow : scrMageBoltProjectile // inherit from this as these will
             Creep creep = other.GetComponent<Creep>();
             if (creep._CreepHealth.currentHealth > 0f)
             {
-                creep._CreepHealth.DealDamage(damage);
+                creep._CreepHealth.DealDamage(Damage);
             }
 
             ObjectPooler.ReturnToPool(gameObject);
