@@ -14,7 +14,7 @@ public class scrMageBoltProjectile : MonoBehaviour
 
     //public bool isMageBolt = true; //This is my way of making the "scrTurretProjectiles" class know if this is an arrow or a mage bolt
 
-    public scrTowerProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
+    public scrTowerMageProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
 
     protected Creep _creepTarget;
 

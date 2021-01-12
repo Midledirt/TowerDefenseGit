@@ -8,19 +8,21 @@ using UnityEngine;
 
 public class scrArrow : scrMageBoltProjectile // inherit from this as these will be very similar
 {
-    public Vector3 Direction { get; set; }
+    public Vector3 Direction { get; set; } //This "Direction" takes its input from the "scrTpwerArrowsProjectileLoader".FireProjectile
 
     protected override void Update()
     {
-        if (_creepTarget != null)
+        /*if (_creepTarget != null)
         {
             MovePorjectile();
-        }
+        }*/
+        MovePorjectile(); //OK. So this is the first problem. The projectile only moves whilst it has a target. And it seems to lose the target/never get one
+    
     }
 
     protected override void MovePorjectile()
     {
-        Vector3 movement = Direction.normalized * movementSpeed * Time.deltaTime;
+        Vector3 movement = Direction.normalized * movementSpeed * Time.deltaTime; //Direction does not work... Hmmm
         transform.Translate(movement);
     }
 

@@ -6,15 +6,17 @@ using UnityEngine;
 /// This class inherits from the scrTowerProjecctileLoader.
 /// It is (so far) used exclusivly for the archer tower
 /// </summary>
-public class scrTowerArrows : scrTowerProjectileLoader
+public class scrTowerArrowsProjectileLoader : scrTowerMageProjectileLoader
 {
     protected override void Update()
     {
         if (Time.time > _nextAttackTime) //Checks that enough time has gone since the game started for the turret to load
         {
-            if (mageTurret.CurrentCreepTarget != null)
+            if (Tower.CurrentCreepTarget != null)
             {
-                Vector3 dirToTarget = mageTurret.CurrentCreepTarget.transform.position - transform.position;
+                Vector3 dirToTarget = Tower.CurrentCreepTarget.transform.position - projectileSpawnPos.position; 
+                //This makes the tower fire at the current possition of the target. This possition is not updated in the arrow script after
+                //it is fired. Thus, the tower works quite well. However, it does not "lead the target yet..." Ill wait with this
                 FireProjectile(dirToTarget);
             }
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 

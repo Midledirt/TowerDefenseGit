@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrMageTurret : MonoBehaviour
+public class scrTower : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
 
