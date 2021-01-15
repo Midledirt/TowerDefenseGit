@@ -18,7 +18,7 @@ public class scrTowerMageProjectileLoader : MonoBehaviour
     protected float _nextAttackTime;
     protected ObjectPooler _pooler;
     protected scrTower Tower;
-    private scrMainProjectile currentProjectileLoaded;
+    protected scrMainProjectile currentProjectileLoaded;
 
     private void Start()
     {
