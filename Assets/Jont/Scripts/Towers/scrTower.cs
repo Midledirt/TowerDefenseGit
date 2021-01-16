@@ -5,6 +5,7 @@ using UnityEngine;
 public class scrTower : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
+    public scrUppgradeTurrets TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
 
     public Creep CurrentCreepTarget { get; set; }
 
@@ -15,6 +16,8 @@ public class scrTower : MonoBehaviour
     {
         _gameStarted = true;
         _creeps = new List<Creep>(); //Initialize the list
+
+        TowerUpgrade = GetComponent<scrUppgradeTurrets>();    
     }
 
     private void Update()

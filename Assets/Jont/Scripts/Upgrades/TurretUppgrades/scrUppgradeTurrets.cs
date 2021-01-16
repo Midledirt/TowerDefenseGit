@@ -13,11 +13,19 @@ public class scrUppgradeTurrets : MonoBehaviour
     [SerializeField] private int upgradeCostIncremental;
     [SerializeField] private float damageIncremental;
 
+    [Header("Sell")]
+    [Range (0, 1)]
+    [SerializeField] private float sellPercentage;
+
+    public float SellPercentage { get; set; }
+    public int UppgradeCost { get; set; }
+
+
     private scrTowerMageProjectileLoader _towerProjectileLoader;
     //private scrTowerArrowsProjectileLoader _towerArrowsProjectileLoader; //Adding this does not fix the no damage bug. And it causes a null
     //reference for the mage tower...
 
-    public int UppgradeCost { get; set; }
+
 
     private void Start()
     {
@@ -25,17 +33,11 @@ public class scrUppgradeTurrets : MonoBehaviour
         //_towerArrowsProjectileLoader = GetComponent <scrTowerArrowsProjectileLoader>(); //Gets the reference
 
         UppgradeCost = uppgradeCost;
+
+        SellPercentage = sellPercentage;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.U)) //For running test
-        {
-            UpgradeTurret();
-        }
-    }
-
-    private void UpgradeTurret()
+    public void UpgradeTurret()
     {
         if (scrCurrencySystem.Instance.TotalCoins >= UppgradeCost) //Check that we have enough coins. scrCurrenctySystem is a Singleton btw
             //So we do not need a reference (I think)
@@ -44,6 +46,12 @@ public class scrUppgradeTurrets : MonoBehaviour
             //_towerArrowsProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
         }
+    }
+
+    public int GetSellValue()
+    {
+        int sellValue = Mathf.RoundToInt(UppgradeCost * SellPercentage);
+        return sellValue;
     }
 
     private void UpdateUppgrade()

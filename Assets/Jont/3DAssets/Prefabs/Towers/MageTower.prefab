@@ -167,6 +167,7 @@ MonoBehaviour:
   uppgradeCost: 10
   upgradeCostIncremental: 20
   damageIncremental: 2
+  sellPercentage: 0.75
 --- !u!1 &7494357477575318217
 GameObject:
   m_ObjectHideFlags: 0

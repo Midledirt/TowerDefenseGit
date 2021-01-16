@@ -7,6 +7,9 @@ using System; //Required for "Action"
 public class scrTowerNode : MonoBehaviour
 {
     public static Action<scrTowerNode> OnNodeSelected; //Once again, we are using an "Action". I NEED 2 read up on this. Requires System. 
+    public static Action OnTowerSold; //This needs no specific reference, unlike the Action above, because "we don`t care which node sold the
+    //turret, we just want to lose the "_currentNodeSelected" reference." "_currentNodeSelected" will reference this script, from the 
+    //"scrUIManager" class.
 
     public scrTower Tower { get; set; }
 
@@ -30,5 +33,16 @@ public class scrTowerNode : MonoBehaviour
     {
         OnNodeSelected?.Invoke(this); //This will be a reference to this script (instance?). Meaning that THIS is what wants to open the tower
         //Shop panel Confusing? Its covered in episode 46 "Place Turrets"
+    }
+
+    public void SellTower()
+    {
+        if (!NodeIsEmpty())
+        {
+            scrCurrencySystem.Instance.AddCoins(Tower.TowerUpgrade.UppgradeCost); //Get money back
+            Destroy(Tower.gameObject); //Destroy the tower gameobject
+            Tower = null; //Loose the REFERENCE (for this class), so that a new tower can be built here
+            OnTowerSold?.Invoke();
+        }
     }
 }

@@ -58,9 +58,15 @@ public class scrTowerShopManager : MonoBehaviour
         }
     }
 
+    private void TowerSold()
+    {
+        _currentNodeSelected = null;
+    }
+
     private void OnEnable()
     {
         scrTowerNode.OnNodeSelected += NodeSelected;
+        scrTowerNode.OnTowerSold += TowerSold;
         scrTowerUICard.OnPlaceTower += PlaceTower;
     }
 
@@ -68,6 +74,7 @@ public class scrTowerShopManager : MonoBehaviour
     private void OnDisable()
     {
         scrTowerNode.OnNodeSelected -= NodeSelected;
+        scrTowerNode.OnTowerSold -= TowerSold;
         scrTowerUICard.OnPlaceTower -= PlaceTower;
     }
 }
