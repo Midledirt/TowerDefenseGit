@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 /// <summary>
 /// Some of this code might be a little bit confusing since I have never instantiated UI elements like this before. It is all explained 
 /// in part 45 "Load Turrest" tho. Whilst I will certainly work on and edit this before my own release, I do think this is a good system

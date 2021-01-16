@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
@@ -16,6 +17,8 @@ public class scrTowerShopManager : MonoBehaviour
     [Header("Tower Settings")]
     [Tooltip("You will need to manualy drag and drop one of EACH main tower SCRIPTABLE OBJECT into this field")]
     [SerializeField] private scrTowerSettings[] towers; //An arracy of the class scrTowerSettings 
+
+    private scrTowerNode _currentNodeSelected;
 
     // Start is called before the first frame update
     void Start()
@@ -35,5 +38,36 @@ public class scrTowerShopManager : MonoBehaviour
 
         scrTowerUICard cardButton = newInstance.GetComponent<scrTowerUICard>();
         cardButton.SetupTurretButton(towerSettings);
+    }
+
+    private void NodeSelected(scrTowerNode nodeSelected)
+    {
+        _currentNodeSelected = nodeSelected;
+    }
+
+    private void PlaceTower(scrTowerSettings towerLoaded)
+    {
+        if(_currentNodeSelected != null)
+        {
+            GameObject towerInstance = Instantiate(towerLoaded.TowerPrefab);
+            towerInstance.transform.localPosition = _currentNodeSelected.transform.position;
+            towerInstance.transform.parent = _currentNodeSelected.transform;
+
+            scrTower towerPlaced = towerInstance.GetComponent<scrTower>();
+            _currentNodeSelected.SetTower(towerPlaced);
+        }
+    }
+
+    private void OnEnable()
+    {
+        scrTowerNode.OnNodeSelected += NodeSelected;
+        scrTowerUICard.OnPlaceTower += PlaceTower;
+    }
+
+
+    private void OnDisable()
+    {
+        scrTowerNode.OnNodeSelected -= NodeSelected;
+        scrTowerUICard.OnPlaceTower -= PlaceTower;
     }
 }
