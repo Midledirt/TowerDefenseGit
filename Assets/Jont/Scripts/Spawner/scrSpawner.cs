@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //Creates an enumerator for switching between spawn modes
 public enum SpawnModes
 {
     Fixed,
-    Random
+    //Random
 }
 
 public class scrSpawner : MonoBehaviour
 {
+    public static Action OnWaveCompleted;
+
     [Header("Settings")]
     [SerializeField] private SpawnModes spawnMode = SpawnModes.Fixed;
     [SerializeField] private int enemyCount = 10;
@@ -76,9 +79,13 @@ public class scrSpawner : MonoBehaviour
     private float GetSpawnDelay()
     {
         float delay = 0f;
-
+        
+        //I had to modify this because i am no longer allowed to use "Random.range" when I use the System namespace together with unity engine
+        //random. It may not be much of a problem, as I do not intend to use random.range for spawns anyway. 
+        delay = delayBetweenSpawns;
+        return delay;
         //If we are using fixed
-        if (spawnMode == SpawnModes.Fixed)
+        /*if (spawnMode == SpawnModes.Fixed)
         {
             delay = delayBetweenSpawns;
         }
@@ -88,15 +95,15 @@ public class scrSpawner : MonoBehaviour
             delay = GetRandomDelay();
         }
 
-        return delay;
+        return delay;*/
     }
 
     //Gets the random delay between spawns, IF random is selected
-    private float GetRandomDelay()
+    /*private float GetRandomDelay()
     {
         float randomTimer = Random.Range(minRandomDelay, maxRandomDelay);
         return randomTimer;
-    }
+    }*/
 
     private IEnumerator NextWave()
     {
@@ -113,6 +120,8 @@ public class scrSpawner : MonoBehaviour
         creepsRemaining--;
         if (creepsRemaining <= 0)
         {
+            //Invoke our event
+            OnWaveCompleted?.Invoke();
             //Start the next wave
             StartCoroutine(NextWave());
         }

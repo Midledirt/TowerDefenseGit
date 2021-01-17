@@ -11,7 +11,18 @@ public class scrTowerNode : MonoBehaviour
     //turret, we just want to lose the "_currentNodeSelected" reference." "_currentNodeSelected" will reference this script, from the 
     //"scrUIManager" class.
 
+    //[SerializeField] GameObject attackRangeSprite; //IMPORTANT: DOES NOT WORK RIGHT NOW
+
     public scrTower Tower { get; set; }
+
+    // private float _rangeSpriteSize; //IMPORTANT: DOES NOT WORK RIGHT NOW
+    // private Vector3 _rangeSpriteOriginalSize; //IMPORTANT: DOES NOT WORK RIGHT NOW
+
+    /*private void Start() //IMPORTANT: DOES NOT WORK RIGHT NOW
+    {
+        _rangeSpriteSize = attackRangeSprite.GetComponent<SpriteRenderer>().bounds.size.y;
+        _rangeSpriteOriginalSize = attackRangeSprite.transform.localScale;
+    }*/
 
     public void WhenClicked() //This fires when the mouse has clicked on this object
     {
@@ -29,10 +40,19 @@ public class scrTowerNode : MonoBehaviour
         return Tower == null;
     }
 
+    /*public void CloseAttackRangeSprite() //IMPORTANT: DOES NOT WORK RIGHT NOW
+    {
+        attackRangeSprite.SetActive(false);
+    }*/
+
     public void SelectTower()
     {
         OnNodeSelected?.Invoke(this); //This will be a reference to this script (instance?). Meaning that THIS is what wants to open the tower
         //Shop panel Confusing? Its covered in episode 46 "Place Turrets"
+        if (!NodeIsEmpty())
+        {
+            //ShowTowerInfo(); //Displays the attack range of the tower, if there is a tower placed here //IMPORTANT: DOES NOT WORK RIGHT NOW
+        }
     }
 
     public void SellTower()
@@ -45,4 +65,10 @@ public class scrTowerNode : MonoBehaviour
             OnTowerSold?.Invoke();
         }
     }
+
+    /*private void ShowTowerInfo() //IMPORTANT: DOES NOT WORK RIGHT NOW
+    {
+        attackRangeSprite.SetActive(true);
+        attackRangeSprite.transform.localScale = _rangeSpriteOriginalSize * Tower.AttackRange / (_rangeSpriteSize / 2);
+    }*/
 }

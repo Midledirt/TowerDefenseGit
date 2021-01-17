@@ -12,12 +12,28 @@ public class scrUIManager : Singleton<scrUIManager>
     [Header("Text")] 
     [SerializeField] private TextMeshProUGUI upgradeText;
     [SerializeField] private TextMeshProUGUI sellText;
+    [SerializeField] private TextMeshProUGUI totalCoinsText;
+    [SerializeField] private TextMeshProUGUI livesText;
+    [SerializeField] private TextMeshProUGUI currentWaveText;
 
     private scrTowerNode _currentNodeSelected;
+
+    private void Update()
+    {
+        totalCoinsText.text = scrCurrencySystem.Instance.TotalCoins.ToString();
+        livesText.text = scrLevelManager.Instance.TotalLives.ToString();
+        currentWaveText.text = $"Wave { scrLevelManager.Instance.CurrentWave}";
+    }
 
     public void CloseTowerShopPanel()
     {
         towerShopPanel.SetActive(false);
+    }
+
+    public void CloseNodeUIPanel()
+    {
+        //This is where the tutorial runs the "scrTowerNode" CloseAttackRangeSprite(). //IMPORTANT: DOES NOT WORK RIGHT NOW
+        nodeUIPanel.SetActive(false);
     }
 
     public void UpgradeTurret()

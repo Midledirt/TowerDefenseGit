@@ -13,18 +13,24 @@ using UnityEngine;
 /// </summary>
 public class scrSetRallyPoint : MonoBehaviour
 {
-    [SerializeField] private float rallyRange = 3f;
-    
-    
-
-    private void Start()
+    [SerializeField] private LayerMask groundLayer; //So that we can check if we have clicked on the ground
+    private Vector3 RallyPossition;
+    [SerializeField] private GameObject testObject;
+    private void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0)) //This stores a position the right way
+        {
+            RaycastHit newRay; //Set up a new temporary var
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out newRay, Mathf.Infinity, groundLayer))
+            {
+                RallyPossition = newRay.point;
+                Instantiate(testObject, RallyPossition, Quaternion.identity); //Spawn something for testing
+            }
+        }
     }
-    private void OnDrawGizmos()
+
+    public void SetRallyPoint() //This will be called by a UI button
     {
-        
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, rallyRange);
     }
 }
