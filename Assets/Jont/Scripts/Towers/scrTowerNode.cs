@@ -59,7 +59,7 @@ public class scrTowerNode : MonoBehaviour
     {
         if (!NodeIsEmpty())
         {
-            scrCurrencySystem.Instance.AddCoins(Tower.TowerUpgrade.UppgradeCost); //Get money back
+            scrCurrencySystem.Instance.AddCoins(Tower.TowerUpgrade.GetSellValue()); //Get money back
             Destroy(Tower.gameObject); //Destroy the tower gameobject
             Tower = null; //Loose the REFERENCE (for this class), so that a new tower can be built here
             OnTowerSold?.Invoke();

@@ -7,14 +7,22 @@ using UnityEngine;
 public class scrMouseSelect : MonoBehaviour
 {
     [SerializeField] private LayerMask clickableLayer; //Allows us to filther using layers
+    [SerializeField] private GameObject TestObject;
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
 
     private void Update()
     {
         if(Input.GetMouseButtonDown(0)) //This should be the left mouse button
         {
+            //Instantiate(TestObject, GetMousePosition(), Quaternion.identity); //Instantiate something at the mouse position
             RaycastHit rayHit; //Set up a new variable for storing raycast hit information
 
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, clickableLayer)) //If "fire a raycast"
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, clickableLayer)) //If "fire a raycast"
                 //fire a ray from the main camera towards the mouse position. IMPORTANT: From what I understand, you should not use "Camera.main" 
                 //in a final product. Instead I would probably need to use some variable that stores the camera I am using?
                 //ALSO: "Out" allows you to choose what to store this information to. So "out rayHit" means store this info in rayHit.
@@ -31,5 +39,16 @@ public class scrMouseSelect : MonoBehaviour
                 //May have a better way: Use Actions. OnEnable and OnDissable. It is used in episode 46. And there should be info online about it
             }
         }
+    }
+
+    private Vector3 GetMousePosition()
+    {
+        RaycastHit ray;
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out ray, Mathf.Infinity, clickableLayer))
+        {
+            return ray.point;
+        }
+        print("Got no position for the mouse");
+        return new Vector3(0,0,0);
     }
 }

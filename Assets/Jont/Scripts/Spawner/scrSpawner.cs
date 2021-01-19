@@ -26,18 +26,21 @@ public class scrSpawner : MonoBehaviour
     [SerializeField] private float minRandomDelay;
     [SerializeField] private float maxRandomDelay;
 
+    [Header("Poolers")]
+    [SerializeField] private ObjectPooler enemyWave10Pooler;
+    [SerializeField] private ObjectPooler enemyWave11Pooler;
+    [SerializeField] private ObjectPooler enemyWave21Pooler;
+
 
     private float mySpawnTimer;
     private int numberOfEnemiesSpawned;
     private int creepsRemaining; //How many enemies are still alive
 
-    private ObjectPooler myPooler;
     private scrWaypoint waypoint;
 
     private void Start()
     {
         //This will work for as long as the pooler script is on the same object as the spawner script!
-        myPooler = GetComponent<ObjectPooler>();
         waypoint = GetComponent<scrWaypoint>();
 
         creepsRemaining = enemyCount; 
@@ -63,7 +66,7 @@ public class scrSpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         //Reference the instance created by the pooler
-        GameObject newInstance = myPooler.GetInstanceFromPool();
+        GameObject newInstance = GetPooler().GetInstanceFromPool();
 
         Creep creep = newInstance.GetComponent<Creep>();
         creep.myWaypoint = waypoint;
@@ -96,6 +99,26 @@ public class scrSpawner : MonoBehaviour
         }
 
         return delay;*/
+    }
+
+    private ObjectPooler GetPooler()
+    {
+        int currentWave = scrLevelManager.Instance.CurrentWave;
+        if (currentWave <= 10) // 1 - 10
+        {
+            return enemyWave10Pooler;
+
+        }
+        if (currentWave > 10 && currentWave <= 20) // 11 - 20
+        {
+            return enemyWave11Pooler;
+        }
+        if (currentWave > 20) //21 ++
+        {
+            return enemyWave21Pooler;
+        }
+
+        return null;
     }
 
     //Gets the random delay between spawns, IF random is selected
