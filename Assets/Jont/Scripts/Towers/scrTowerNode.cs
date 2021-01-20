@@ -26,7 +26,7 @@ public class scrTowerNode : MonoBehaviour
 
     public void WhenClicked() //This fires when the mouse has clicked on this object
     {
-        print("I am clicked, I am: " + this.gameObject.name); //For testing, tested to work fine!
+        //print("I am clicked, I am: " + this.gameObject.name); //For testing, tested to work fine!
         SelectTower(); //Runs the select tower ACTION
     }
 
