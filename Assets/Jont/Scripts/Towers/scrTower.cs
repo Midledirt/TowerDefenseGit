@@ -43,7 +43,10 @@ public class scrTower : MonoBehaviour
             CurrentCreepTarget = null;
             return; //No point in continuing with the logic of this function. Exit
         }
+        //Old simple way
         CurrentCreepTarget = _creeps[0]; //IMPORTANT This is what makes us choose the first enemy in the list!
+        //New better way, tho this may be a source of errors
+       
     }
 
     private void RotateTowardsTarget()

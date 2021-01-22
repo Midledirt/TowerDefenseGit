@@ -12,7 +12,8 @@ public class Creep : MonoBehaviour
     public static Action<Creep> OnEndReaced;
 
     //From "PathFollower"
-    float distanceTravelled;
+    //float distanceTravelled;
+    public float DistanceTravelled { get; set; }
     public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
 
@@ -51,12 +52,12 @@ public class Creep : MonoBehaviour
     {
         if (pathCreator != null)
         {
-            distanceTravelled += movementSpeed * Time.deltaTime;
-            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-            transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+            DistanceTravelled += movementSpeed * Time.deltaTime;
+            transform.position = pathCreator.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
+            transform.rotation = pathCreator.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
         }
 
-        if (distanceTravelled >= pathCreator.path.length)
+        if (DistanceTravelled >= pathCreator.path.length)
         {
             //Debug.Log("Reached the end"); CONFIRMED THAT THIS TURNS TRUE WHEN THE OBJECT REACHES THE END
             EndPointReached();
@@ -65,7 +66,7 @@ public class Creep : MonoBehaviour
 
     void OnPathChanged()
     {
-        distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        DistanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
     }
 
     public void StopMovement()
@@ -88,12 +89,12 @@ public class Creep : MonoBehaviour
         //This following code will do the same thing easier, but the code might be confusing, so I keep the old method active
         //OnEndReaced?.Invoke();
         transform.position = pathCreator.path.GetPoint(0); //Resets the creep possition
-        distanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
+        DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
         CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
         ObjectPooler.ReturnToPool(gameObject);
     }
     public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
     {
-        creep.distanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
+        creep.DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
     }
 }
