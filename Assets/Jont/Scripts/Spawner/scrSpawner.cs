@@ -4,9 +4,7 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// This script does not work well. I don`t know the details, but what SEEMS to be hapening is that the "SpawnEnemy()" funciton gets
-/// called several times before the "numberOfEnemiesSpawned" updates. However, I intend to make a completely new spawner and a completely
-/// different way of handeling waves, inspired by but not copying this script. 
+/// 
 /// </summary>
 
 //Creates an enumerator for switching between spawn modes

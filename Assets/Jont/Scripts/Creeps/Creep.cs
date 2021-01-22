@@ -92,7 +92,8 @@ public class Creep : MonoBehaviour
         }
         //This following code will do the same thing easier, but the code might be confusing, so I keep the old method active
         //OnEndReaced?.Invoke();
-
+        transform.position = pathCreator.path.GetPoint(0); //Resets the creep possition
+        distanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
         CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
         ObjectPooler.ReturnToPool(gameObject);
     }
