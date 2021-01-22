@@ -80,11 +80,6 @@ public class Creep : MonoBehaviour
 
     private void EndPointReached()
     {
-        //Spawner bug: 
-        //The reason why my waves are a little weird, is that the "OnEndReached" SHOULD only be called once per creep. However, it is called
-        //multiple times, my guess is that it happens because it is called in the update frame, and happens (potentially) several times before
-        //the "creep" is disabled 
-
         //This is where we fire the event (see the comment at the beginning of this script)
         if (OnEndReaced != null)
         {
@@ -96,5 +91,9 @@ public class Creep : MonoBehaviour
         distanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
         CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
         ObjectPooler.ReturnToPool(gameObject);
+    }
+    public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
+    {
+        creep.distanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
     }
 }

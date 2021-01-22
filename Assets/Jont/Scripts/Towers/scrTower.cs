@@ -57,9 +57,6 @@ public class scrTower : MonoBehaviour
         targetPos.y = 0; //This is where the magic happens. It disables the y rotation 
         var rotation = Quaternion.LookRotation(targetPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
-        //float angle = Vector3.SignedAngle(transform.forward, targetPos, transform.up); //Tutorial code, have issues with it
-
-        //transform.Rotate(0f, angle, 0f); 
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,19 +67,7 @@ public class scrTower : MonoBehaviour
             _creeps.Add(newCreep);
         }
     }
-    /*
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Creep"))
-        {
-            Creep monitoredCreep = other.GetComponent<Creep>();
-            if (monitoredCreep == null) //Check if the creep has dissapeared
-            {
-                LooseCurrentCreepTarget(monitoredCreep.gameObject); //Remove this from the list
-            }
-        }
-    }
-    */
+    
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Creep"))
