@@ -2,48 +2,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PathCreation; //Needed!
+
 
 public class Creep : MonoBehaviour
 {
     //This is EXTREMELY interesting. It is covered at Part 14, around 3.50 timestamp. 
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
-    private Vector3 creepPossition;
-    private Vector3 direction;
+
+    //From "PathFollower"
+    float distanceTravelled;
+    public PathCreator pathCreator;
+    public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
+
 
     [SerializeField] private float movementSpeed = 3f;
 
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
 
-    public scrWaypoint myWaypoint { get; set; }
-
     public scrCreepHealth _CreepHealth { get; set; }
 
-    public Vector3 currentPointPossition => myWaypoint.GetWaypointPosition(currentWaypointIndex);
-
-    private int currentWaypointIndex;
     private scrCreepHealth CreepHealth;
 
     private void Start()
     {
-        currentWaypointIndex = 0;
+        pathCreator = FindObjectOfType<PathCreator>(); //This may work for now, but there might be issues when I make more paths in the same level...
+        //The reason why is that THIS script in placed on a PREFAB (does not exist in the scene before start). As such, it cannot refere to scene objects
+        //like the path, by simply dragging something from the inspector
+
+        if (pathCreator != null)
+        {
+            transform.position = pathCreator.path.GetPoint(0); //Spawns the creep at the first point
+            // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
+            pathCreator.pathUpdated += OnPathChanged;
+        }
+
+        //currentWaypointIndex = 0;
         _CreepHealth = GetComponent<scrCreepHealth>();
 
         MovementSpeed = movementSpeed; //For modifying the property movementspeed in other scripts
 
         CreepHealth = GetComponent<scrCreepHealth>();
-        creepPossition = transform.position; //Stores the position of the transform
+        //creepPossition = transform.position; //Stores the position of the transform
     }
 
     private void Update()
     {
-        Move();
-        Rotate();
-        if (CurrentPointPositionReached())
+        if (pathCreator != null)
         {
-            //Increment the waypoint index
-            UpdateCurrentPointIndex();
+            distanceTravelled += movementSpeed * Time.deltaTime;
+            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+            transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
         }
+
+        if (distanceTravelled >= pathCreator.path.length)
+        {
+            //Debug.Log("Reached the end"); CONFIRMED THAT THIS TURNS TRUE WHEN THE OBJECT REACHES THE END
+            EndPointReached();
+        }
+    }
+
+    void OnPathChanged()
+    {
+        distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
     }
 
     public void StopMovement()
@@ -56,47 +78,13 @@ public class Creep : MonoBehaviour
         MovementSpeed = movementSpeed;
     }
 
-    private void Move()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, currentPointPossition, MovementSpeed * Time.deltaTime);
-    }
-
-    private void Rotate()
-    {
-        direction = currentPointPossition - creepPossition; //Get the direction we are facing
-        transform.rotation = Quaternion.LookRotation(direction); //apply it to the "lookrotation"
-        //transform.Rotate(direction); 
-    }
-
-    private bool CurrentPointPositionReached()
-    {
-        float distanceToNextPointPosition = (transform.position - currentPointPossition).magnitude;
-        //Check if we have moved to the next points possition
-        if (distanceToNextPointPosition < 0.1f)
-        {
-            creepPossition = transform.position; //Update the possition of the creep
-            return true;
-        }
-
-        return false;
-    }
-
-    //Make sure to only update the waypoint index for as long as there are more waypoints in the list
-    private void UpdateCurrentPointIndex()
-    {
-        int lastWaypointIndex = myWaypoint.Points.Length - 1;
-        if (currentWaypointIndex < lastWaypointIndex)
-        {
-            currentWaypointIndex++;
-        }
-        else // if we have reached the final waypoint
-        {
-            EndPointReached();
-        }
-    }
-
     private void EndPointReached()
     {
+        //Spawner bug: 
+        //The reason why my waves are a little weird, is that the "OnEndReached" SHOULD only be called once per creep. However, it is called
+        //multiple times, my guess is that it happens because it is called in the update frame, and happens (potentially) several times before
+        //the "creep" is disabled 
+
         //This is where we fire the event (see the comment at the beginning of this script)
         if (OnEndReaced != null)
         {
@@ -107,11 +95,5 @@ public class Creep : MonoBehaviour
 
         CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
         ObjectPooler.ReturnToPool(gameObject);
-    }
-
-    public void ResetCreep()
-    {
-        currentWaypointIndex = 0; //Sets the waypoint back to 0, so this enemy won`t go straight for the end checkpoint when it is
-        //Respawned
     }
 }

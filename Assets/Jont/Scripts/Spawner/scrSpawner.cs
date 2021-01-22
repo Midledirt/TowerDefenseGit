@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// This script does not work well. I don`t know the details, but what SEEMS to be hapening is that the "SpawnEnemy()" funciton gets
+/// called several times before the "numberOfEnemiesSpawned" updates. However, I intend to make a completely new spawner and a completely
+/// different way of handeling waves, inspired by but not copying this script. 
+/// </summary>
+
 //Creates an enumerator for switching between spawn modes
 public enum SpawnModes
 {
@@ -36,12 +42,10 @@ public class scrSpawner : MonoBehaviour
     private int numberOfEnemiesSpawned;
     private int creepsRemaining; //How many enemies are still alive
 
-    private scrWaypoint waypoint;
-
     private void Start()
     {
         //This will work for as long as the pooler script is on the same object as the spawner script!
-        waypoint = GetComponent<scrWaypoint>();
+        //waypoint = GetComponent<scrWaypoint>();
 
         creepsRemaining = enemyCount; 
     }
@@ -57,6 +61,7 @@ public class scrSpawner : MonoBehaviour
             mySpawnTimer = GetSpawnDelay();
             if (numberOfEnemiesSpawned < enemyCount)
             {
+
                 numberOfEnemiesSpawned++;
                 SpawnEnemy();
             }
@@ -69,9 +74,10 @@ public class scrSpawner : MonoBehaviour
         GameObject newInstance = GetPooler().GetInstanceFromPool();
 
         Creep creep = newInstance.GetComponent<Creep>();
-        creep.myWaypoint = waypoint;
-        creep.ResetCreep(); //Runs a function that (at the time of writing) simply resets the creep`s end checkpoint back to 0
+        //creep.myWaypoint = waypoint;
+        //creep.ResetCreep(); //Runs a function that (at the time of writing) simply resets the creep`s end checkpoint back to 0
 
+        //Makes the creep spawn at the location of whatever object holds this script
         creep.transform.localPosition = transform.position;
 
         //The new instance is set to unactive by default in the pooler. This will activate it

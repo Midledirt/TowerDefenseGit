@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Creep
+  - Spawner
   layers:
   - Default
   - TransparentFX
