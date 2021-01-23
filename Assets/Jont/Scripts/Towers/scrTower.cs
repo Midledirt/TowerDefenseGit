@@ -46,7 +46,17 @@ public class scrTower : MonoBehaviour
         //Old simple way
         CurrentCreepTarget = _creeps[0]; //IMPORTANT This is what makes us choose the first enemy in the list!
         //New better way, tho this may be a source of errors
-       
+        float currentCreepDistance = _creeps[0].DistanceTravelled;
+        for (int i = 1; i < _creeps.Count; i ++) //Starting by one, makes it so that this list wont return any if we only have one target
+        {
+            if (_creeps[i].DistanceTravelled > currentCreepDistance) //Checks if any of the creeps have a larget currentCreepDistance
+            {
+                //Debug.Log("current creep target has been passed");
+                CurrentCreepTarget = _creeps[i]; //Set it as new target
+                currentCreepDistance = _creeps[i].DistanceTravelled; //Update the currentCreepDistance
+            }
+
+        }
     }
 
     private void RotateTowardsTarget()
