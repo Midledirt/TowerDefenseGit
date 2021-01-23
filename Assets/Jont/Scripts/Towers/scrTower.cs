@@ -26,7 +26,6 @@ public class scrTower : MonoBehaviour
         GetCurrentCreepTarget();
         RotateTowardsTarget();
 
-
         if (CurrentCreepTarget != null) //My own addition YES! With this, my game works as intended (so far) :)
         {
             if (CurrentCreepTarget._CreepHealth.currentHealth <= 0) 
@@ -43,9 +42,7 @@ public class scrTower : MonoBehaviour
             CurrentCreepTarget = null;
             return; //No point in continuing with the logic of this function. Exit
         }
-        //Old simple way
         CurrentCreepTarget = _creeps[0]; //IMPORTANT This is what makes us choose the first enemy in the list!
-        //New better way, tho this may be a source of errors
         float currentCreepDistance = _creeps[0].DistanceTravelled;
         for (int i = 1; i < _creeps.Count; i ++) //Starting by one, makes it so that this list wont return any if we only have one target
         {
@@ -55,7 +52,6 @@ public class scrTower : MonoBehaviour
                 CurrentCreepTarget = _creeps[i]; //Set it as new target
                 currentCreepDistance = _creeps[i].DistanceTravelled; //Update the currentCreepDistance
             }
-
         }
     }
 

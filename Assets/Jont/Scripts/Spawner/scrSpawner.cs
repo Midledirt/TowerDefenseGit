@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// 
+/// This script will be deleteed and changed with the new "scrWaveSpawner"
 /// </summary>
 
 //Creates an enumerator for switching between spawn modes
