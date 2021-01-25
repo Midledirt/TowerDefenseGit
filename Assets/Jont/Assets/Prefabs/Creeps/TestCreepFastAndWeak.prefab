@@ -483,6 +483,7 @@ GameObject:
   - component: {fileID: -3568799875617709746}
   - component: {fileID: 5561459220695453062}
   - component: {fileID: 146614935781967178}
+  - component: {fileID: -2872325584003873357}
   m_Layer: 0
   m_Name: TestCreepFastAndWeak
   m_TagString: Creep
@@ -599,6 +600,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2872325584003873357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929833370194159273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1af0a71bfceb9240a11ffc34b1e4f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creepType: {fileID: 11400000, guid: 18b26ec4095b4c04bbed9684eec03d46, type: 2}
 --- !u!1 &6086736735971155903
 GameObject:
   m_ObjectHideFlags: 0

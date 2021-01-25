@@ -10,8 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class scrCreepHealth : MonoBehaviour
 {
-    //Inherit stats from ScriptableObject
-    [SerializeField] private CreepStatsSO stats;
+    private CreepStatsSO stats;
     //Requires the namespace "System"!
     public static Action<Creep> OnEnemyKilled;
     //IMPORTANT check tutorial episode 19. Timestamp 3.30 ish for HOW TO CHECK FOR SPESIFIC ENEMY ID
@@ -26,7 +25,10 @@ public class scrCreepHealth : MonoBehaviour
     //IMPORTANT, read text at the top
     private Creep _creep;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        stats = GetComponent<scrCreepTypeDefiner>().creepType;
+    }
     void Start()
     {
         CreateHealthbar();

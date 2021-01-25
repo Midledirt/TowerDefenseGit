@@ -7,9 +7,7 @@ using PathCreation; //Needed!
 
 public class Creep : MonoBehaviour
 {
-    //Inherit stats from ScriptableObject
-    [SerializeField] private CreepStatsSO stats;
-
+    private CreepStatsSO stats;
     //This is EXTREMELY interesting. It is covered at Part 14, around 3.50 timestamp. 
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
@@ -19,13 +17,14 @@ public class Creep : MonoBehaviour
     public float DistanceTravelled { get; set; }
     public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
-
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
-
     public scrCreepHealth _CreepHealth { get; set; }
-
     private scrCreepHealth CreepHealth;
 
+    private void Awake()
+    {
+        stats = GetComponent<scrCreepTypeDefiner>().creepType;
+    }
     private void Start()
     {
         pathCreator = FindObjectOfType<PathCreator>(); //This may work for now, but there might be issues when I make more paths in the same level...
