@@ -7,6 +7,9 @@ using PathCreation; //Needed!
 
 public class Creep : MonoBehaviour
 {
+    //Inherit stats from ScriptableObject
+    [SerializeField] private CreepStatsSO stats;
+
     //This is EXTREMELY interesting. It is covered at Part 14, around 3.50 timestamp. 
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
@@ -16,9 +19,6 @@ public class Creep : MonoBehaviour
     public float DistanceTravelled { get; set; }
     public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
-
-
-    [SerializeField] private float movementSpeed = 3f;
 
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
 
@@ -42,7 +42,7 @@ public class Creep : MonoBehaviour
         //currentWaypointIndex = 0;
         _CreepHealth = GetComponent<scrCreepHealth>();
 
-        MovementSpeed = movementSpeed; //For modifying the property movementspeed in other scripts
+        MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
 
         CreepHealth = GetComponent<scrCreepHealth>();
         //creepPossition = transform.position; //Stores the position of the transform
@@ -52,7 +52,7 @@ public class Creep : MonoBehaviour
     {
         if (pathCreator != null)
         {
-            DistanceTravelled += movementSpeed * Time.deltaTime;
+            DistanceTravelled += stats.movementSpeed * Time.deltaTime;
             transform.position = pathCreator.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
             transform.rotation = pathCreator.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
         }
@@ -76,7 +76,7 @@ public class Creep : MonoBehaviour
 
     public void ResumeMovement()
     {
-        MovementSpeed = movementSpeed;
+        MovementSpeed = stats.movementSpeed;
     }
 
     private void EndPointReached()

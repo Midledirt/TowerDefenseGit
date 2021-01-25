@@ -10,6 +10,8 @@ using UnityEngine.UI;
 /// </summary>
 public class scrCreepHealth : MonoBehaviour
 {
+    //Inherit stats from ScriptableObject
+    [SerializeField] private CreepStatsSO stats;
     //Requires the namespace "System"!
     public static Action<Creep> OnEnemyKilled;
     //IMPORTANT check tutorial episode 19. Timestamp 3.30 ish for HOW TO CHECK FOR SPESIFIC ENEMY ID
@@ -17,9 +19,6 @@ public class scrCreepHealth : MonoBehaviour
 
     [SerializeField] private GameObject healthbarPreab;
     [SerializeField] private Transform barPosition;
-
-    [SerializeField] private float initialHealth = 10f;
-    [SerializeField] private float maxHealth = 10f;
 
     public float currentHealth { get; set; }
 
@@ -31,7 +30,7 @@ public class scrCreepHealth : MonoBehaviour
     void Start()
     {
         CreateHealthbar();
-        currentHealth = initialHealth;
+        currentHealth = stats.initialHealth;
 
         //IMPORTANT, read text at the top
         _creep = GetComponent<Creep>();
@@ -44,7 +43,7 @@ public class scrCreepHealth : MonoBehaviour
             DealDamage(5f); //For test purposes
         }
 
-        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHealth / maxHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
         //between the currenthealth and the max health
     }
 
@@ -75,7 +74,7 @@ public class scrCreepHealth : MonoBehaviour
 
     public void ResetHealth()
     {
-        currentHealth = initialHealth; //Reset the health
+        currentHealth = stats.initialHealth; //Reset the health
         healthBar.fillAmount = 1f; //Reset the health bar
     }
 
