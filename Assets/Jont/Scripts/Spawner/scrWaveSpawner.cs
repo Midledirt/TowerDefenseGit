@@ -12,23 +12,21 @@ public class scrWaveSpawner : MonoBehaviour
     {
         foreach (scrWaveSO wave in waveArray)
         {
+            wave.ResetTimers(); //Sets the timers back to the value set in the inspector. Necessary, bacause SOs will save changes made in play mode after
+            //play mode has ended
             wave.InitializeCreeps(); // This should initialize the creep instances in awake, per wave
         }
     }
 
     private void Update()
     {
-        if (timer >= 0)
+        foreach (scrWaveSO wave in waveArray)
         {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
+            wave.IncrementWaveTimer();
+            if (wave.waveTimer <= 0)
             {
-                foreach (scrWaveSO wave in waveArray)
-                {
-                    wave.SetCreepActive(); //Run this function for each wave. //YES! THIS WORKS
-                }
+                wave.SpawnCreep();  //Spawn creeps
             }
         }
-        
     }
 }

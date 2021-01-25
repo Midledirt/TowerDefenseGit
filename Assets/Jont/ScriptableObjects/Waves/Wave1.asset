@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104e74e7ffd1b374eabb0cb8ab9f76a5, type: 3}
   m_Name: Wave1
   m_EditorClassIdentifier: 
+  WaveName: FirstWave
   creepList:
   - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
   - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
   - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  waveTimer: 0
+  setWaveTimer: 10
+  setTimeBetweenCreeps: 2
+  waveTimer: -0.0028113313
+  timeBetweenCreeps: 1.250467
+  referenceList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

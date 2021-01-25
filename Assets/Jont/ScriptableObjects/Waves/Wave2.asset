@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104e74e7ffd1b374eabb0cb8ab9f76a5, type: 3}
   m_Name: Wave2
   m_EditorClassIdentifier: 
+  WaveName: SecondWave
   creepList:
   - {fileID: 5929833370194159273, guid: fcf59b664dc8d1740a4f332866df4f9a, type: 3}
   - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
@@ -19,4 +20,14 @@ MonoBehaviour:
   - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
   - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
   - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
-  waveTimer: 0
+  setWaveTimer: 20
+  setTimeBetweenCreeps: 2
+  waveTimer: -0.002494318
+  timeBetweenCreeps: 1.2842915
+  referenceList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
