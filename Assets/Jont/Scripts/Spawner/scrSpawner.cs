@@ -8,18 +8,18 @@ using System;
 /// </summary>
 
 //Creates an enumerator for switching between spawn modes
-public enum SpawnModes
-{
-    Fixed,
+//public enum SpawnModes
+//{
+    //Fixed,
     //Random
-}
+//}
 
 public class scrSpawner : MonoBehaviour
 {
     public static Action OnWaveCompleted;
 
     [Header("Settings")]
-    [SerializeField] private SpawnModes spawnMode = SpawnModes.Fixed;
+    //[SerializeField] private SpawnModes spawnMode = SpawnModes.Fixed;
     [SerializeField] private int enemyCount = 10;
     [SerializeField] private float delayBtweenWaves = 1f; //How much time there is between each wave of enemies
 

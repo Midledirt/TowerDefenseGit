@@ -540,9 +540,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0480b4824d0754dbdf35c8307354ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: b723de35220406e49b71c46b3a73afb6, type: 2}
-  pathCreator: {fileID: 0}
   endOfPathInstruction: 2
+  middlePath: {fileID: 4478736378732976707, guid: 8a427e4ee6fe77f409dab9046ad8596c, type: 3}
+  leftPath: {fileID: 3508396513418174866, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
+  rightPath: {fileID: 5971935649729849913, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
 --- !u!114 &2953635114359130039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a07186f7a70704a9b9209c775a2798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: b723de35220406e49b71c46b3a73afb6, type: 2}
   healthbarPreab: {fileID: 7922488188229594998, guid: 5eaf7c6918b42fc47878c2418b1773e3, type: 3}
   barPosition: {fileID: 6012740683121589421}
 --- !u!114 &-3568799875617709746

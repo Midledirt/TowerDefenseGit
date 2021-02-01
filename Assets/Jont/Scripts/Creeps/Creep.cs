@@ -15,7 +15,7 @@ public class Creep : MonoBehaviour
     //From "PathFollower"
     //float distanceTravelled;
     public float DistanceTravelled { get; set; }
-    public PathCreator pathCreator;
+    public PathCreator myPath; 
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrCreepHealth _CreepHealth { get; set; }
@@ -27,15 +27,11 @@ public class Creep : MonoBehaviour
     }
     private void Start()
     {
-        pathCreator = FindObjectOfType<PathCreator>(); //This may work for now, but there might be issues when I make more paths in the same level...
-        //The reason why is that THIS script in placed on a PREFAB (does not exist in the scene before start). As such, it cannot refere to scene objects
-        //like the path, by simply dragging something from the inspector
-
-        if (pathCreator != null)
+        if (myPath != null)
         {
-            transform.position = pathCreator.path.GetPoint(0); //Spawns the creep at the first point
+            transform.position = myPath.path.GetPoint(0); //Spawns the creep at the first point
             // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
-            pathCreator.pathUpdated += OnPathChanged;
+            myPath.pathUpdated += OnPathChanged;
         }
 
         //currentWaypointIndex = 0;
@@ -46,26 +42,31 @@ public class Creep : MonoBehaviour
         CreepHealth = GetComponent<scrCreepHealth>();
         //creepPossition = transform.position; //Stores the position of the transform
     }
+    public PathCreator SetPath(PathCreator path)
+    {
+        //Debug.Log("I am assigned a path");
+        return myPath = path.GetComponent<PathCreator>();
+    }
 
     private void Update()
     {
-        if (pathCreator != null)
+        if (myPath != null)
         {
             DistanceTravelled += stats.movementSpeed * Time.deltaTime;
-            transform.position = pathCreator.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
-            transform.rotation = pathCreator.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
-        }
-
-        if (DistanceTravelled >= pathCreator.path.length)
-        {
-            //Debug.Log("Reached the end"); CONFIRMED THAT THIS TURNS TRUE WHEN THE OBJECT REACHES THE END
-            EndPointReached();
+            transform.position = myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
+            transform.rotation = myPath.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
+            
+            if (DistanceTravelled >= myPath.path.length)
+            {
+                //Debug.Log("Reached the end"); CONFIRMED THAT THIS TURNS TRUE WHEN THE OBJECT REACHES THE END
+                EndPointReached();
+            }
         }
     }
 
     void OnPathChanged()
     {
-        DistanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        DistanceTravelled = myPath.path.GetClosestDistanceAlongPath(transform.position);
     }
 
     public void StopMovement()
@@ -87,7 +88,7 @@ public class Creep : MonoBehaviour
         }
         //This following code will do the same thing easier, but the code might be confusing, so I keep the old method active
         //OnEndReaced?.Invoke();
-        transform.position = pathCreator.path.GetPoint(0); //Resets the creep possition
+        transform.position = myPath.path.GetPoint(0); //Resets the creep possition
         DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
         CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
         ObjectPooler.ReturnToPool(gameObject);
