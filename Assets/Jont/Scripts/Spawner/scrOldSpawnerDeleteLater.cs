@@ -14,7 +14,7 @@ using System;
     //Random
 //}
 
-public class scrSpawner : MonoBehaviour
+public class scrOldSpawnerDeleteLater : MonoBehaviour
 {
     public static Action OnWaveCompleted;
 
@@ -107,7 +107,7 @@ public class scrSpawner : MonoBehaviour
 
     private ObjectPooler GetPooler()
     {
-        int currentWave = scrLevelManager.Instance.CurrentWave;
+        int currentWave = scrLevelManager.Instance.CurrentWaveForUI;
         if (currentWave <= 10) // 1 - 10
         {
             return enemyWave10Pooler;

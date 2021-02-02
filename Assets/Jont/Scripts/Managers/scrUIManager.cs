@@ -22,7 +22,7 @@ public class scrUIManager : Singleton<scrUIManager>
     {
         totalCoinsText.text = scrCurrencySystem.Instance.TotalCoins.ToString();
         livesText.text = scrLevelManager.Instance.TotalLives.ToString();
-        currentWaveText.text = $"Wave { scrLevelManager.Instance.CurrentWave}";
+        currentWaveText.text = $"Wave { scrLevelManager.Instance.CurrentWaveForUI}";
     }
 
     public void CloseTowerShopPanel()

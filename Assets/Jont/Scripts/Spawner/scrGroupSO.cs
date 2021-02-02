@@ -22,8 +22,11 @@ public class scrGroupSO : ScriptableObject
     [SerializeField] private int groupPathVar;
     [HideInInspector] public int GroupPath { get; private set; }
 
+    [SerializeField] private int setGroupPlacement;
+    public int GroupWavePlacement { get; set; }
 
-    [HideInInspector] public float waveTimer;
+
+    [HideInInspector] public float groupTimer;
     [HideInInspector] public float timeBetweenCreeps;
     [HideInInspector] public int CreepPossition { get; private set; }
 
@@ -90,17 +93,18 @@ public class scrGroupSO : ScriptableObject
   
     public void ResetVars()
     {
+        GroupWavePlacement = setGroupPlacement;
         actualCreepList = creepList;
         GroupPath = groupPathVar;
-        waveTimer = setWaveTimer;
+        groupTimer = setWaveTimer;
         timeBetweenCreeps = setTimeBetweenCreeps;
     }
 
-    public void IncrementWaveTimer()
+    public void IncrementGroupTimer()
     {
-        if (waveTimer >= 0f)
+        if (groupTimer >= 0f)
         {
-            waveTimer -= Time.deltaTime;
+            groupTimer -= Time.deltaTime;
         }
     }
 }

@@ -25,6 +25,7 @@ MonoBehaviour:
   - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
   setWaveTimer: 1
   setTimeBetweenCreeps: 2
-  groupPathVar: 2
-  waveTimer: -0.0056826435
+  groupPathVar: 0
+  setGroupPlacement: 1
+  waveTimer: -0.003405624
   timeBetweenCreeps: 2
