@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24a38ac39b1ea7542acaa9172f90eb84, type: 3}
-  m_Name: FirstWave
+  m_Name: Wave 2
   m_EditorClassIdentifier: 
-  waveName: FirstWave
-  SetWaveTimer: 0
-  waveTimer: -0.0101007
-  waveNumber: 1
+  waveName: SecondWave
+  waveNumber: 2
+  setWaveTimer: 50
+  waveTimer: -0.0002422249

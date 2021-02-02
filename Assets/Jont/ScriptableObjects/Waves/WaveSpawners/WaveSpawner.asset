@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117b97b6d7c9a16498a7b98d0606519e, type: 3}
+  m_Name: WaveSpawner
+  m_EditorClassIdentifier: 
+  waveArray:
+  - {fileID: 11400000, guid: e2a35960db66fa84799e82fb83b93a22, type: 2}
+  - {fileID: 11400000, guid: 5a5772f8dd645b640a95700747cfd7cf, type: 2}
+  groupArray:
+  - {fileID: 11400000, guid: be9285eb57c1c9d4c9d2f593aaf70e0d, type: 2}
+  - {fileID: 11400000, guid: 3209327e2faabbd4e8ef6d9f74b9f26c, type: 2}
+  - {fileID: 11400000, guid: a48acf115bddf01439f79159353f8763, type: 2}
+  - {fileID: 11400000, guid: fced3b568538f4042b97b68ee89d402b, type: 2}
+  - {fileID: 11400000, guid: 4405b80ba53c64c4e8200e6a4a44e40e, type: 2}
+  - {fileID: 11400000, guid: 702b2b879392a8a479f893a9233547b5, type: 2}
+  middlePath: {fileID: 4478736378732976707, guid: 8a427e4ee6fe77f409dab9046ad8596c, type: 3}
+  leftPath: {fileID: 3508396513418174866, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
+  rightPath: {fileID: 5971935649729849913, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
+  currentWave: 2
+  gameHasStarted: 1

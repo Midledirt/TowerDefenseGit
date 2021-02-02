@@ -6,6 +6,10 @@ using PathCreation;
 [CreateAssetMenu (menuName = "ScriptableObject/GroupSO")]
 public class scrGroupSO : ScriptableObject
 {
+    [Header("Set wave of group")]
+    [Tooltip("Decides what wave this group is placed in")]
+    [Range (1, 10)]
+    [SerializeField] private int setGroupWavePlacement;
     [Header("Group data")]
     [Tooltip("Define the name of the group prefab in the inspector")]
     [SerializeField] private string groupName = "";
@@ -13,8 +17,8 @@ public class scrGroupSO : ScriptableObject
     [Tooltip("Drag creep prefabs you want to instantiate with the group here")]
     [SerializeField] private List<GameObject> creepList;
     [HideInInspector] public List<GameObject> actualCreepList; //Used because this is a scriptable Object, so this var needs to be reset //CAN WE MAKE THIS A LOCAL VARIABLE THAT IS USED FOR CREEP INSTANCES? :o
-    [Tooltip("How many seconds from awake until this group spawns")]
-    [SerializeField] private float setWaveTimer;
+    [Tooltip("How many seconds from the wave starts, until this group spawns")]
+    [SerializeField] private float setGroupTimer;
     [Tooltip("How much time passes between each spawn in the group")]
     [SerializeField] private float setTimeBetweenCreeps;
     [Tooltip("Decide what path the creep will use")]
@@ -22,7 +26,6 @@ public class scrGroupSO : ScriptableObject
     [SerializeField] private int groupPathVar;
     [HideInInspector] public int GroupPath { get; private set; }
 
-    [SerializeField] private int setGroupPlacement;
     public int GroupWavePlacement { get; set; }
 
 
@@ -93,10 +96,10 @@ public class scrGroupSO : ScriptableObject
   
     public void ResetVars()
     {
-        GroupWavePlacement = setGroupPlacement;
+        GroupWavePlacement = setGroupWavePlacement;
         actualCreepList = creepList;
         GroupPath = groupPathVar;
-        groupTimer = setWaveTimer;
+        groupTimer = setGroupTimer;
         timeBetweenCreeps = setTimeBetweenCreeps;
     }
 

@@ -4,21 +4,29 @@ using UnityEngine;
 using System;
 
 public class scrLevelManager : Singleton<scrLevelManager> //This has also been turned into a singleton later, due to the need for a reference in the scrUIManager
-    //script. (by the tutorial, not be)
+                                                          //script. (by the tutorial, not be)
 {
-    [SerializeField] private scrWaveSpawner waveSpawner; //This is only temporary, as this only allow us to use one wave spawner. The logic for handling the waves and updating
-    //them needs to handled by its own class, or by this, as this is a singleton class.
+    [SerializeField] private GameObject callWaveButton;
+    [SerializeField] private GameObject startButton; //Find a better way of referencing this later
+    public event EventHandler OnGameStart;
     [SerializeField] private int lives = 10;
-
     public int TotalLives { get; set; }
     public int CurrentWaveForUI { get; set; }
+    public int CurrentWave { get; set; } //Increment this when any specific wave is over, so that a wave var can be displayed at the screen
 
     private void Start()
     {
         TotalLives = lives;
         CurrentWaveForUI = 0;
+        CurrentWave = 0;
     }
-
+    public void StartTheGame() //MAKE THIS INTO AN EVENT LATER, SO THAT MANY DIFFERENT CLASSES CAN REACT TO IT!
+    {
+        OnGameStart?.Invoke(this, EventArgs.Empty);
+        CurrentWave = 1; //Start the first wave
+        startButton.SetActive(false);
+        Debug.Log("The game has started");
+    }
     private void ReduceLives(Creep creep)
     {
         TotalLives--;
@@ -28,37 +36,19 @@ public class scrLevelManager : Singleton<scrLevelManager> //This has also been t
             //Game over
         }
     }
-
-    private void GameStarted(object sender, System.EventArgs e)
+    public void CallWave()
     {
-        //You might want to run some code here? Keeping this usefull event around for now
+        //CurrentWave = Should equal wave number
+        callWaveButton.gameObject.SetActive(false);
     }
-
-    private void NewWave(object sender, System.EventArgs e)
-    {
-        CurrentWaveForUI += 1;
-    }
-
-    /*private void WaveCompleted()
-    {
-        CurrentWaveForUI++;
-    }*/
-
     private void OnEnable()
     {
         //Subscribe to the event
         Creep.OnEndReaced += ReduceLives;
-        waveSpawner.OnGameStart += GameStarted;
-        waveSpawner.OnNewWave += NewWave;
-        //scrOldSpawnerDeleteLater.OnWaveCompleted += WaveCompleted;
     }
-
     private void OnDisable()
     {
         //Desubscribe from the event
         Creep.OnEndReaced -= ReduceLives;
-        waveSpawner.OnGameStart -= GameStarted;
-        waveSpawner.OnNewWave -= NewWave;
-        //scrOldSpawnerDeleteLater.OnWaveCompleted -= WaveCompleted;
     }
 }

@@ -8,21 +8,14 @@ public class scrWaveSO : ScriptableObject
 {
     [Header("Setup for wave")]
     public string waveName;
-    [Tooltip("How much time it takes for this wave to spawn, after the game starts")]
-    [SerializeField] private int SetWaveTimer;
-    [HideInInspector] public float waveTimer;
     [Tooltip("Referenced by the wave spawner, sets the current number to equal this")]
     public int waveNumber;
-    private int timeToShowCallWaveButton = 15;
+    [Tooltip("Sets how many seconds after game start this wave starts spawning creeps. When spawning a single wave from multiple spawners," +
+        "set the same waves to the same timer. If you don`t want the actual creeps to spawn at the exact same time for each road, then set " +
+        "their group timers to different times instead")]
+    [SerializeField] private int setWaveTimer;
+    [HideInInspector] public float waveTimer;
     public bool WaveHasBeenCalled { get; private set; }
-
-    public void CallButtonAppears(GameObject callWaveButton)
-    {
-        if (waveTimer <= timeToShowCallWaveButton && !callWaveButton.activeSelf) //Will this check that is is also not active?
-        {
-            callWaveButton.gameObject.SetActive(true);
-        }
-    }
 
     public void IncrementWaveTimer()
     {
@@ -32,18 +25,19 @@ public class scrWaveSO : ScriptableObject
         }
         else if (waveTimer < 0f)
         {
+            //Debug.Log("I have counted down to 0");
             WaveHasBeenCalled = true;
         }
     }
     public void ResetWaveSOVars()
     {
-        waveTimer = SetWaveTimer;
+        waveTimer = setWaveTimer;
         WaveHasBeenCalled = false;
     }
 
     public int SetWaveNumber()
     {
         //setCurrentWave = waveNumber;
-        return waveNumber;
+        return waveNumber; //Returns the number of this wave, which is set in the inspector
     }
 }
