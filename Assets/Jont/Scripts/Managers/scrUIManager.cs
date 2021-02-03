@@ -18,7 +18,7 @@ public class scrUIManager : Singleton<scrUIManager>
 
     private scrTowerNode _currentNodeSelected;
 
-    private void Update()
+    private void Update() //Make events out of these for the sake of optimization?
     {
         totalCoinsText.text = scrCurrencySystem.Instance.TotalCoins.ToString();
         livesText.text = scrLevelManager.Instance.TotalLives.ToString();

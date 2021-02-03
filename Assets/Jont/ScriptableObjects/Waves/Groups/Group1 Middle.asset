@@ -13,23 +13,35 @@ MonoBehaviour:
   m_Name: Group1 Middle
   m_EditorClassIdentifier: 
   setGroupWavePlacement: 1
-  groupName: First Wave group middle
+  groupName: Group 1 MIddle
   creepList:
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
-  - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
-  - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
-  - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
-  - {fileID: 5929833370194159273, guid: 19f46458966805f4e95d66f8b2b065b9, type: 3}
-  actualCreepList: []
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 5929833370194159273, guid: fcf59b664dc8d1740a4f332866df4f9a, type: 3}
+  - {fileID: 5929833370194159273, guid: fcf59b664dc8d1740a4f332866df4f9a, type: 3}
+  actualCreepList:
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 5929833370194159273, guid: fcf59b664dc8d1740a4f332866df4f9a, type: 3}
+  - {fileID: 5929833370194159273, guid: fcf59b664dc8d1740a4f332866df4f9a, type: 3}
   setGroupTimer: 1
   setTimeBetweenCreeps: 4
   groupPathVar: 1
-  groupTimer: 0
-  timeBetweenCreeps: 0
+  groupTimer: -0.0042224284
+  timeBetweenCreeps: 4

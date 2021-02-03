@@ -10,7 +10,6 @@ public class scrWaveManager : MonoBehaviour
     public List<scrWaveSpawnerSO> spawners;
     private scrLevelManager levelManager;
     public int CurrentWave { get; private set; }
-    private float currentWaveTimer;
 
 
     private void Awake()
@@ -28,6 +27,7 @@ public class scrWaveManager : MonoBehaviour
         foreach (scrWaveSpawnerSO _spawner in spawners)
         {
             _spawner.UpdateWaveAndGroups();
+            levelManager.CurrentWaveForUI = _spawner.currentWave; //Update the UI
         }
     }
 

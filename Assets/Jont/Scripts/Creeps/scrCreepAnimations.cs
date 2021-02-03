@@ -17,7 +17,7 @@ public class scrCreepAnimations : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>(); //Get the reference to the animator conponent attached to this object
+        animator = GetComponentInChildren<Animator>(); //Get the reference to the animator conponent attached to this object
         _creep = GetComponent<Creep>();
         creepHealth = GetComponent<scrCreepHealth>();
     }

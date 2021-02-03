@@ -15,7 +15,6 @@ public class scrWaveSpawnerSO : ScriptableObject
     [SerializeField] private PathCreator leftPath;
     [Tooltip("Assign the right part of this spawners path")]
     [SerializeField] private PathCreator rightPath;
-
     [HideInInspector] public int currentWave;
     [HideInInspector] public bool gameHasStarted;
 

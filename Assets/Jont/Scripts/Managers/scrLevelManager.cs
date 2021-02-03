@@ -24,6 +24,7 @@ public class scrLevelManager : Singleton<scrLevelManager> //This has also been t
     {
         OnGameStart?.Invoke(this, EventArgs.Empty);
         CurrentWave = 1; //Start the first wave
+        CurrentWaveForUI = 1;
         startButton.SetActive(false);
         Debug.Log("The game has started");
     }

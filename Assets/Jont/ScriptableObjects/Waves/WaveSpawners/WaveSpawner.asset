@@ -22,8 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fced3b568538f4042b97b68ee89d402b, type: 2}
   - {fileID: 11400000, guid: 4405b80ba53c64c4e8200e6a4a44e40e, type: 2}
   - {fileID: 11400000, guid: 702b2b879392a8a479f893a9233547b5, type: 2}
-  middlePath: {fileID: 4478736378732976707, guid: 8a427e4ee6fe77f409dab9046ad8596c, type: 3}
-  leftPath: {fileID: 3508396513418174866, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
-  rightPath: {fileID: 5971935649729849913, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
+  middlePath: {fileID: 6917264112738308621, guid: 5b2642ce515064442b2d5903355e4bc9, type: 3}
+  leftPath: {fileID: 1628470953999550697, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
+  rightPath: {fileID: 5277045050336534000, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
   currentWave: 2
   gameHasStarted: 1
