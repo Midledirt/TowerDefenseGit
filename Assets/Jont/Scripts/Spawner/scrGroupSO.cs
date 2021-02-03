@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
@@ -25,14 +26,10 @@ public class scrGroupSO : ScriptableObject
     [Range(0, 2)]
     [SerializeField] private int groupPathVar;
     [HideInInspector] public int GroupPath { get; private set; }
-
     public int GroupWavePlacement { get; set; }
-
-
     [HideInInspector] public float groupTimer;
     [HideInInspector] public float timeBetweenCreeps;
     [HideInInspector] public int CreepPossition { get; private set; }
-
     private int numberOfCreepsToSpawn; //This is used to keep the spawn function from running once it has spawned all enemies
     private int numberOfCreepsSpawned; //This is used to keep the spawn function from running once it has spawned all enemies
     private GameObject WaveContainer;
@@ -40,7 +37,6 @@ public class scrGroupSO : ScriptableObject
     //referenceList lager jeg fordi at jeg ønsker å bruke de spesefike instansene av Gameobjects som lages i InitialiazeCreeps() senere.
     //Dette er nødvendig fordi "creepList" inneholder kun "prefabs" ikke FAKTISKE GAMEOBJETS. Så det vil ikke hjelpe å "sette dem til active(true)"
     //senere med en "foreach loop", fordi det setter bare "prefabene" (som ikke har blitt spawnet uansett) til true.
-
     public void InitializeCreeps(PathCreator path)
     {
         numberOfCreepsToSpawn = 0; //Remember you always need to reset these numbers when you work with SOs
@@ -64,16 +60,18 @@ public class scrGroupSO : ScriptableObject
             referenceList.Add(newInstance); //Add this newly created instance of a prefab into a list that can be referenced later
             numberOfCreepsToSpawn += 1;
         }
-        
     }
 
     public GameObject ReturnInstanceFromPool()
     {
         for (int i = 0; i < referenceList.Count; i++)
         {
-            if (!referenceList[i].activeInHierarchy)
+            if (referenceList[i].GetComponent<Creep>().hasBeenSpawned == false) //Check that is has not yet been spawned
             {
-                return referenceList[i];
+                if (!referenceList[i].activeInHierarchy) //Check that it is not active in hierarchy
+                {
+                    return referenceList[i];
+                }
             }
         }
         return null; //There are no more gameobjects to spawn
@@ -89,6 +87,7 @@ public class scrGroupSO : ScriptableObject
                 timeBetweenCreeps = setTimeBetweenCreeps;
                 GameObject newInstance = ReturnInstanceFromPool();
                 newInstance.SetActive(true);
+                newInstance.GetComponent<Creep>().hasBeenSpawned = true; //Used to prevent this instance from being respawned by the spawner
                 numberOfCreepsSpawned += 1;
             }
         }

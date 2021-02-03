@@ -51,7 +51,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
             //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
             //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
             TurretOwner.ResetTurretProjectile();
-            ObjectPooler.ReturnToPool(gameObject); //Return this projectile to the pool
+            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
         }
     }
 

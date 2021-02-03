@@ -57,7 +57,7 @@ public class scrCreepAnimations : MonoBehaviour
         _creep.ResumeMovement();
         creepHealth.ResetHealth();
         _creep.ReturnPosition(_creep); //Reset the path variable for the creep (so it does not teleport back onto the same place when it respawns)
-        ObjectPooler.ReturnToPool(_creep.gameObject); //Moved this
+        ObjectPooler.MoveToDeathPool(_creep.gameObject); //Moved this
     }
 
     private void CreepHit(Creep creep)
