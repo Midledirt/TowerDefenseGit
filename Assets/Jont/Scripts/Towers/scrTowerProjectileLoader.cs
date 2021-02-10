@@ -1,38 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 /// <summary>
-/// I mage this its own script. It no longer inherits from "scrTowerMageProjectileLoader". I was having issues, and it may be confusing
-/// to have two script "lanes" that inherits from each other and their internal scripts in the lane. (example of a lane would be "scrArrow"
-/// and this script.) Pluss, this would make it easier to differentiate the archer and mage towers in the future. They are still both "scrTowers"
-/// tho, so it should still be possible to affect them both (ex upgrades) through those shared classes.
+/// This class takes the Objects in the pooler and runs the LoadProjectile function. Essentially, this is the fire mechanism of the tower
+/// It is used (as is) for the "mage tower", and the "scrTowerArrows" also uses this class, as it derives from it.
 /// </summary>
-public class scrTowerArrowsProjectileLoader : MonoBehaviour
+public class scrTowerProjectileLoader : MonoBehaviour
 {
+    [Header("Stats")]
+    [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
+    public TowerProjectileTypeSO stats;     //Inherit stats from SO
     [SerializeField] protected Transform projectileSpawnPos;
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
-    [SerializeField] protected float delayBetweenAttacks = 2f;
-    [SerializeField] protected float damage = 2f;
+    private float delayBetweenAttacks;
 
     public float Damage { get; set; }
 
     protected float _nextAttackTime;
     protected ObjectPooler _pooler;
-    protected scrTower Tower;
-    protected scrArrow currentProjectileLoaded;
+    protected scrTowerTargeting Tower;
+    protected scrProjecties currentProjectileLoaded; //Lets keep this reference
+
+    //public Action OnReleaseProjectile; //Used for non-homing projectiles, to calculate aim
 
     private void Start()
     {
         _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
-        Tower = GetComponent<scrTower>();
+        Tower = GetComponent<scrTowerTargeting>();
 
-        Damage = damage;
+        //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
+        //the stats in AWAKE. Instead, do it in START. This is done to make sure that the stats are initialized before they are called, as other classes AWAKE
+        //might run before this one.
+        //Assign stats
+        delayBetweenAttacks = stats.DelayBetweenAttacks;
+        Damage = stats.ProjectileDamage;
         LoadProjectile();
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
         if (IsTurretEmpty())
         {
@@ -47,6 +54,7 @@ public class scrTowerArrowsProjectileLoader : MonoBehaviour
             {
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
+                currentProjectileLoaded.SetPositionForNonHoming(Tower.CurrentCreepTarget.transform.position);
             }
 
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 
@@ -62,10 +70,10 @@ public class scrTowerArrowsProjectileLoader : MonoBehaviour
         newInstance.transform.SetParent(projectileSpawnPos); //THIS IS NECESSARY TO MAKE THE PROJECTILE INSTANCE FACE THE SAME WAY AS THE TURRET
         //AS IT SPAWNS
 
-        currentProjectileLoaded = newInstance.GetComponent<scrArrow>();
+        currentProjectileLoaded = newInstance.GetComponent<scrProjecties>();
         currentProjectileLoaded.TurretOwner = this; //This is weird, covered in episode 26, around 3.30
         currentProjectileLoaded.ResetProjectile();
-        currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrMainProjectile 
+        currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrProjecties 
         //(or scrArrow projectile, which derrives from this) to equal the "Damage" property in this script.
         newInstance.SetActive(true);
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrTower : MonoBehaviour
+public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
     public scrUppgradeTurrets TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
@@ -13,14 +13,16 @@ public class scrTower : MonoBehaviour
     private bool _gameStarted;
     private List<Creep> _creeps;
 
+    private void Awake()
+    {
+        _creeps = new List<Creep>(); //Initialize the list
+    }
     private void Start()
     {
         _gameStarted = true;
-        _creeps = new List<Creep>(); //Initialize the list
 
         TowerUpgrade = GetComponent<scrUppgradeTurrets>();    
     }
-
     private void Update()
     {
         GetCurrentCreepTarget();
@@ -34,7 +36,6 @@ public class scrTower : MonoBehaviour
             }
         }
     }
-
     private void GetCurrentCreepTarget()
     {
         if (_creeps.Count <= 0)
@@ -54,7 +55,6 @@ public class scrTower : MonoBehaviour
             }
         }
     }
-
     private void RotateTowardsTarget()
     {
         if(CurrentCreepTarget == null)
@@ -68,7 +68,7 @@ public class scrTower : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Add creeps to list
     {
         if (other.CompareTag("Creep")) //Filther for tags
         {
@@ -88,12 +88,11 @@ public class scrTower : MonoBehaviour
             }
         }
     }
-
     private void OnDrawGizmos()
     {
         if (!_gameStarted)
         {
-            GetComponent<SphereCollider>().radius = attackRange * 2.5f; //I am not sure why the sphere collider radius is smaller that the wiresphere
+            GetComponent<SphereCollider>().radius = attackRange; //I am not sure why the sphere collider radius is smaller that the wiresphere
             //Radius, but if i multiply it with 2.5f, its very close to the same size...
         }
 

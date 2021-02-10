@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2980332674761069772}
   - component: {fileID: 314801367259975492}
   - component: {fileID: 4460709036900570552}
-  - component: {fileID: 4562452583401990804}
   - component: {fileID: 4741510063664116122}
   - component: {fileID: 7986470328698725747}
+  - component: {fileID: 8978625272548960774}
   m_Layer: 0
   m_Name: ArrowTest
   m_TagString: Untagged
@@ -84,21 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4562452583401990804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8214625426784486240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e454a4a933572c04f9ace3055302bb15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 20
-  damage: 1
-  MinDistanceToDealDamage: 0.305
 --- !u!65 &4741510063664116122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128,3 +113,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8978625272548960774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8214625426784486240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdc10495e3da7340997e4664ba5cc49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}

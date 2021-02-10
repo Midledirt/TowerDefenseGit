@@ -13,7 +13,7 @@ public class scrTowerNode : MonoBehaviour
 
     //[SerializeField] GameObject attackRangeSprite; //IMPORTANT: DOES NOT WORK RIGHT NOW
 
-    public scrTower Tower { get; set; }
+    public scrTowerTargeting Tower { get; set; }
 
     // private float _rangeSpriteSize; //IMPORTANT: DOES NOT WORK RIGHT NOW
     // private Vector3 _rangeSpriteOriginalSize; //IMPORTANT: DOES NOT WORK RIGHT NOW
@@ -30,7 +30,7 @@ public class scrTowerNode : MonoBehaviour
         SelectTower(); //Runs the select tower ACTION
     }
 
-    public void SetTower(scrTower tower) //This is called by the scrTowerShopManager in the PlaceTower() event
+    public void SetTower(scrTowerTargeting tower) //This is called by the scrTowerShopManager in the PlaceTower() event
     {
         Tower = tower;
     }

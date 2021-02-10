@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117b97b6d7c9a16498a7b98d0606519e, type: 3}
+  m_Name: WaveSpawnerPath2
+  m_EditorClassIdentifier: 
+  waveArray:
+  - {fileID: 11400000, guid: e2a35960db66fa84799e82fb83b93a22, type: 2}
+  - {fileID: 11400000, guid: 5a5772f8dd645b640a95700747cfd7cf, type: 2}
+  groupArray:
+  - {fileID: 11400000, guid: a6bc9a5005d9e124b9d37dcf8f15c11a, type: 2}
+  - {fileID: 11400000, guid: abf409d9498dd464da20d84d838bce3e, type: 2}
+  - {fileID: 11400000, guid: 1cdbea1d8f5dddc4ca601f850936dc51, type: 2}
+  middlePath: {fileID: 1221764889697836092, guid: 086892471b69af948b10daf1b44084d6, type: 3}
+  leftPath: {fileID: 6624649976806491228, guid: edecd7bc6e0f13643b32b8103da1cd7c, type: 3}
+  rightPath: {fileID: 8276247367088044684, guid: 73982ef1391de9344b09cf2aa9b757c5, type: 3}
+  currentWave: 2
+  gameHasStarted: 1

@@ -53,7 +53,7 @@ public class scrTowerShopManager : MonoBehaviour
             towerInstance.transform.localPosition = _currentNodeSelected.transform.position;
             towerInstance.transform.parent = _currentNodeSelected.transform;
 
-            scrTower towerPlaced = towerInstance.GetComponent<scrTower>();
+            scrTowerTargeting towerPlaced = towerInstance.GetComponent<scrTowerTargeting>();
             _currentNodeSelected.SetTower(towerPlaced);
         }
     }

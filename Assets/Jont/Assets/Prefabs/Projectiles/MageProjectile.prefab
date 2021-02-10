@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5647644726636983890}
   - component: {fileID: 5647644726636983893}
   - component: {fileID: 5647644726636983892}
-  - component: {fileID: 144581249350878632}
+  - component: {fileID: 1378488683216241749}
   m_Layer: 0
   m_Name: MageProjectile
   m_TagString: Untagged
@@ -96,7 +96,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &144581249350878632
+--- !u!114 &1378488683216241749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,9 +105,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5647644726636983895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4682dd596638d274c82209292eb16d39, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fdc10495e3da7340997e4664ba5cc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  damage: 5
-  MinDistanceToDealDamage: 0.1
+  stats: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  homingProjectile: 1

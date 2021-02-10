@@ -60,7 +60,7 @@ public class scrUIManager : Singleton<scrUIManager>
     private void UpdateUpgradeText()
     {
         upgradeText.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString(); //So this references the "currentNodeSelected", 
-        //because we clicked on it. Then it accesses the scrTower class connected to the tower on that node. It then cheks for that classes reference
+        //because we clicked on it. Then it accesses the scrTowerTargeting class connected to the tower on that node. It then cheks for that classes reference
         //to the "TowerUpgrade" variable which references the "scrUppgradeTurret" script, where we find the uppgradecost. A long snake of references.
     }
 

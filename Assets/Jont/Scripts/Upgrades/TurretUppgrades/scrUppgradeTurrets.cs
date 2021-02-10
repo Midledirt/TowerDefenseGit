@@ -21,7 +21,7 @@ public class scrUppgradeTurrets : MonoBehaviour
     public int UppgradeCost { get; set; }
 
 
-    private scrTowerMageProjectileLoader _towerProjectileLoader;
+    private scrTowerProjectileLoader _towerProjectileLoader;
     //private scrTowerArrowsProjectileLoader _towerArrowsProjectileLoader; //Adding this does not fix the no damage bug. And it causes a null
     //reference for the mage tower...
 
@@ -29,7 +29,7 @@ public class scrUppgradeTurrets : MonoBehaviour
 
     private void Start()
     {
-        _towerProjectileLoader = GetComponent<scrTowerMageProjectileLoader>(); //Gets the reference
+        _towerProjectileLoader = GetComponent<scrTowerProjectileLoader>(); //Gets the reference
         //_towerArrowsProjectileLoader = GetComponent <scrTowerArrowsProjectileLoader>(); //Gets the reference
 
         UppgradeCost = uppgradeCost;
