@@ -56,7 +56,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         {
             projectileIsFired = true;
             MoveProjectileWithoutHoming();
-            //RotateProjectile();
+            RotateProjectile();
         }
     }
 
@@ -97,9 +97,9 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
     }
     private void RotateProjectile() //This may not work, and may not be needed for my functionallity.
     {
-        Vector3 targetPos = _creepTarget.transform.position - transform.position;
-        float angle = Vector3.SignedAngle(transform.up, targetPos, transform.forward); //This is not tested for 3D objects. Might not work
-        transform.Rotate(0f, angle, 0f);
+        Vector3 _direction = targetPos - transform.position;
+        Quaternion _lookDirection = Quaternion.LookRotation(_direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, _lookDirection, 50f * Time.deltaTime);
     }
     public void SetTarget(Creep creep)
     {
