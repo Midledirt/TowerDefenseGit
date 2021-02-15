@@ -21,7 +21,8 @@ public class scrProjecties : MonoBehaviour
     public float Damage { get; set; } //This damage is assigned from the tower via the scrTowerProjectileLoader Script
 
     private Creep _creepTarget;
-    private Vector3 _targetPossition; //For non-homing projectiles
+    private Vector3 targetPos;
+    [HideInInspector] public bool projectileIsFired; //Used to dissable "homing" when this projectile is launched
 
     private void Awake()
     {
@@ -32,8 +33,9 @@ public class scrProjecties : MonoBehaviour
         //Assign stats
         movementSpeed = stats.MovementSpeed;
         MinDistanceToDealDamage = stats.MinDistanceToDamage;
+        projectileIsFired = false;
     }
-    protected void Update()
+    private void Update()
     //Explanation of virtual and override:
     /*
      * virtual, override, abstract are all used when extending a base class in object oriented programming. They let you redefine how a function or property works when extending a class. I'll use the terms base class and extended class in my explaination.
@@ -48,11 +50,12 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         if (_creepTarget != null && homingProjectile)
         {
             MovePorjectileWithHoming();
-            RotateProjectile(); //This may not be necessary
+            RotateProjectile();
         }
         else if (_creepTarget != null && !homingProjectile)
         {
-            MoveProjectileWithoutHoming(_targetPossition);
+            projectileIsFired = true;
+            MoveProjectileWithoutHoming();
             //RotateProjectile();
         }
     }
@@ -71,39 +74,37 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
             ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
         }
     }
-    private void MoveProjectileWithoutHoming(Vector3 targetPos)
+    private void MoveProjectileWithoutHoming()
     {
-        //Coppied for now
+        //Coppied for now 
         transform.position = Vector3.MoveTowards(transform.position, targetPos, movementSpeed * Time.deltaTime); //Move the projectile
         float distanceToTarget = (targetPos - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
-        //BETWEEN TWO "Vector3" POINTS AS A "float"!
+        ////BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
         {
+            projectileIsFired = false;
             _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
             //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
             //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
             TurretOwner.ResetTurretProjectile();
             ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
         }
+        
     }
-
+    public Vector3 SetHitPossitionForNonHoming(Vector3 _possition)
+    {
+        return targetPos = _possition; //Updates the possition
+    }
     private void RotateProjectile() //This may not work, and may not be needed for my functionallity.
     {
         Vector3 targetPos = _creepTarget.transform.position - transform.position;
         float angle = Vector3.SignedAngle(transform.up, targetPos, transform.forward); //This is not tested for 3D objects. Might not work
         transform.Rotate(0f, angle, 0f);
     }
-
-    public void SetPositionForNonHoming(Vector3 targetPosition)
-    {
-        _targetPossition = targetPosition;
-    }
-
     public void SetTarget(Creep creep)
     {
         _creepTarget = creep;
     }
-
     public void ResetProjectile()
     {
         _creepTarget = null;

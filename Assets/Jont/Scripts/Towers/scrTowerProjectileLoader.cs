@@ -22,11 +22,11 @@ public class scrTowerProjectileLoader : MonoBehaviour
     protected ObjectPooler _pooler;
     protected scrTowerTargeting Tower;
     protected scrProjecties currentProjectileLoaded; //Lets keep this reference
-
-    //public Action OnReleaseProjectile; //Used for non-homing projectiles, to calculate aim
+    private Vector3 nonHomingHitPoint;
 
     private void Start()
     {
+        stats.ResetStats();
         _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
         Tower = GetComponent<scrTowerTargeting>();
 
@@ -39,7 +39,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
         LoadProjectile();
     }
 
-    protected void Update()
+    private void Update()
     {
         if (IsTurretEmpty())
         {
@@ -54,15 +54,20 @@ public class scrTowerProjectileLoader : MonoBehaviour
             {
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
-                currentProjectileLoaded.SetPositionForNonHoming(Tower.CurrentCreepTarget.transform.position);
+                nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //Tror jeg har funnet problemet: Hver gang time.time > _nextAttackTime
+                //blir "nonHomingHitPoint" oppdatert... Derfor har vi en halveis-sluggish homing... 
+                if (!currentProjectileLoaded.projectileIsFired)
+                {
+                    currentProjectileLoaded.projectileIsFired = true;
+                    currentProjectileLoaded.SetHitPossitionForNonHoming(nonHomingHitPoint);
+                }
             }
-
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 
             //delayBetweenAttacks.
         }
     }
 
-    protected virtual void LoadProjectile()
+    private void LoadProjectile()
     {
         GameObject newInstance = _pooler.GetInstanceFromPool();
         newInstance.transform.localPosition = projectileSpawnPos.position;

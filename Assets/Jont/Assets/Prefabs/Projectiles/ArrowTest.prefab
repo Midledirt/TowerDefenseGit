@@ -126,3 +126,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  homingProjectile: 0
