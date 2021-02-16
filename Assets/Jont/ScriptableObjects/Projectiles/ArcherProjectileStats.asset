@@ -15,5 +15,5 @@ MonoBehaviour:
   projectileType: BasicMageBolt
   movementSpeed: 10
   projectileDamage: 1
-  delayBetweenAttacks: 0.01
-  minDistanceToDamage: 0.1
+  delayBetweenAttacks: 0.5
+  minDistanceToDamage: 0.05

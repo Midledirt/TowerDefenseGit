@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This class handles the movement of the mage projectile! Since other projectiles derrives from this, ive decided to call it "scrProjecties".
+/// This class handles the movement of the mage projectile! Since other projectiles derrives from this, ive decided to call it "scrProjectiles".
 /// </summary>
-public class scrProjecties : MonoBehaviour
+public class scrProjectiles : MonoBehaviour
 {
     [Header("Stats")]
     [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
     public TowerProjectileTypeSO stats;     //Inherit stats from SO
     [Tooltip("How fast this projectile moves")]
-    private float movementSpeed;
+    private float movementSpeed; //This might not be needed anymore
+    public float ProjectileMovementSpeed { get; private set; }
     [Tooltip("Defines how close to the target the projectiles needs to be in order to hit it. The larger this radius is, the easier and ealier the collision")]
     [Range(0.1f, 1f)]
     private float MinDistanceToDealDamage;
@@ -26,12 +27,13 @@ public class scrProjecties : MonoBehaviour
 
     private void Awake()
     {
+        ProjectileMovementSpeed = movementSpeed;
         //Reset stats
         stats.ResetStats(); //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
         //the stats in AWAKE. Instead, do it in START. This is done to make sure that the stats are initialized before they are called, as other classes AWAKE
         //might run before this one.
         //Assign stats
-        movementSpeed = stats.MovementSpeed;
+        ProjectileMovementSpeed = stats.MovementSpeed;
         MinDistanceToDealDamage = stats.MinDistanceToDamage;
         projectileIsFired = false;
     }
@@ -62,7 +64,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
 
     private void MovePorjectileWithHoming()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _creepTarget.transform.position, movementSpeed * Time.deltaTime); //Move the projectile
+        transform.position = Vector3.MoveTowards(transform.position, _creepTarget.transform.position, ProjectileMovementSpeed * Time.deltaTime); //Move the projectile
         float distanceToTarget = (_creepTarget.transform.position - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
         //BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
@@ -77,7 +79,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
     private void MoveProjectileWithoutHoming()
     {
         //Coppied for now 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, movementSpeed * Time.deltaTime); //Move the projectile
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, ProjectileMovementSpeed * Time.deltaTime); //Move the projectile
         float distanceToTarget = (targetPos - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
         ////BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close

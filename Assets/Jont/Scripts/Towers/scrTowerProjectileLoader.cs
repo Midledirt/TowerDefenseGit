@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 /// <summary>
 /// This class takes the Objects in the pooler and runs the LoadProjectile function. Essentially, this is the fire mechanism of the tower
 /// It is used (as is) for the "mage tower", and the "scrTowerArrows" also uses this class, as it derives from it.
@@ -15,13 +14,14 @@ public class scrTowerProjectileLoader : MonoBehaviour
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
     private float delayBetweenAttacks;
+    private float towerAimValue = 0f; //his value decides how far ahead the tower will aim in order to hit consistently. Defaults to 1.
 
     public float Damage { get; set; }
 
     protected float _nextAttackTime;
     protected ObjectPooler _pooler;
     protected scrTowerTargeting Tower;
-    protected scrProjecties currentProjectileLoaded; //Lets keep this reference
+    protected scrProjectiles currentProjectileLoaded; //Lets keep this reference
     private Vector3 nonHomingHitPoint;
 
     private void Start()
@@ -41,25 +41,21 @@ public class scrTowerProjectileLoader : MonoBehaviour
 
     private void Update()
     {
-        if (IsTurretEmpty())
-        {
-            LoadProjectile();
-        }
-
         if (Time.time > _nextAttackTime) //Checks that enough time has gone since the game started for the turret to load
         {
+            LoadProjectile();
             if (Tower.CurrentCreepTarget != null && currentProjectileLoaded != null && Tower.CurrentCreepTarget._CreepHealth.currentHealth > 0f)
             //Check that the turret this script is attached to has a target, and that we do have a projectile ready (I think), and that the target of
             //the mage turrets health is greater than 0
             {
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
-                nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //Tror jeg har funnet problemet: Hver gang time.time > _nextAttackTime
-                //blir "nonHomingHitPoint" oppdatert... Derfor har vi en halveis-sluggish homing... 
+                //nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //This might be where i need to do some magic to improve the aim
+                nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed * 2)/(currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed / 2))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
                 if (!currentProjectileLoaded.projectileIsFired)
                 {
                     currentProjectileLoaded.projectileIsFired = true;
-                    currentProjectileLoaded.SetHitPossitionForNonHoming(nonHomingHitPoint);
+                    currentProjectileLoaded.SetHitPossitionForNonHoming(nonHomingHitPoint); //This might be where i need to do some magic to improve the aim
                 }
             }
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 
@@ -75,18 +71,18 @@ public class scrTowerProjectileLoader : MonoBehaviour
         newInstance.transform.SetParent(projectileSpawnPos); //THIS IS NECESSARY TO MAKE THE PROJECTILE INSTANCE FACE THE SAME WAY AS THE TURRET
         //AS IT SPAWNS
 
-        currentProjectileLoaded = newInstance.GetComponent<scrProjecties>();
+        currentProjectileLoaded = newInstance.GetComponent<scrProjectiles>();
         currentProjectileLoaded.TurretOwner = this; //This is weird, covered in episode 26, around 3.30
         currentProjectileLoaded.ResetProjectile();
-        currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrProjecties 
+        currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrProjectiles 
         //(or scrArrow projectile, which derrives from this) to equal the "Damage" property in this script.
         newInstance.SetActive(true);
     }
 
-    private bool IsTurretEmpty()
+    /*private bool IsTurretEmpty()
     {
         return currentProjectileLoaded == null; //Will be set to true, if this condition is met
-    }
+    }*/ //Not in use currently, might delete
     public void ResetTurretProjectile()
     {
         currentProjectileLoaded = null;
