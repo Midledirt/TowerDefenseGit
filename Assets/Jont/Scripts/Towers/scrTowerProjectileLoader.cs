@@ -55,7 +55,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 if (!currentProjectileLoaded.projectileIsFired)
                 {
                     currentProjectileLoaded.projectileIsFired = true;
-                    currentProjectileLoaded.SetHitPossitionForNonHoming(nonHomingHitPoint); //This might be where i need to do some magic to improve the aim
+                    currentProjectileLoaded.SetPossitionsForNonHoming(nonHomingHitPoint); //This might be where i need to do some magic to improve the aim
                 }
             }
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 

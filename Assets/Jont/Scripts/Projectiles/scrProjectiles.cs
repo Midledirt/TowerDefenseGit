@@ -25,6 +25,14 @@ public class scrProjectiles : MonoBehaviour
     private Vector3 targetPos;
     [HideInInspector] public bool projectileIsFired; //Used to dissable "homing" when this projectile is launched
 
+
+    private Vector3 aPos;
+    private Vector3 bPos;
+    private Vector3 cPos;
+    [SerializeField] private Transform ABPos;
+    [SerializeField] private Transform BCPos;
+    //private float interpolateAmount;
+
     private void Awake()
     {
         ProjectileMovementSpeed = movementSpeed;
@@ -36,6 +44,7 @@ public class scrProjectiles : MonoBehaviour
         ProjectileMovementSpeed = stats.MovementSpeed;
         MinDistanceToDealDamage = stats.MinDistanceToDamage;
         projectileIsFired = false;
+        //interpolateAmount = (ProjectileMovementSpeed + Time.deltaTime);
     }
     private void Update()
     //Explanation of virtual and override:
@@ -56,6 +65,15 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         }
         else if (_creepTarget != null && !homingProjectile)
         {
+            //Calculate the possitions before firing the projectile
+            //midPoint = (aPos + cPos) / 2;
+            //Vector3 topPoint = Vector3.Cross(midPoint, Vector3.up);
+
+            
+            //bPos = ((aPos + cPos)) / 2; //The problem i have is this: If i want to set the bPos.y (or time it with something) in order to create an arch,
+            //its value will be calculated every frame, and thus counteract the slerp function. I need to find a way to alter the bPos.y as it is calculated,
+            //and never again...
+
             projectileIsFired = true;
             MoveProjectileWithoutHoming();
             RotateProjectile();
@@ -78,8 +96,19 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
     }
     private void MoveProjectileWithoutHoming()
     {
-        //Coppied for now 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, ProjectileMovementSpeed * Time.deltaTime); //Move the projectile
+        aPos = TurretOwner.transform.position + Vector3.up * 2.5f; //Needs improvement
+        bPos = ((TurretOwner.transform.position + Vector3.up * stats.TopProjectileHight) + targetPos) / 2;
+        cPos = targetPos;
+
+        //New movement
+        ProjectileMovementSpeed = (ProjectileMovementSpeed + Time.deltaTime) % 1f; //THIS NOW WORKS, HOWEVER, THIS LEADS TO THE TOWER LOOPING PROJECTILES,
+        //WHICH NEEDS TO BE FIXED
+        ABPos.position = Vector3.Lerp(aPos, bPos, ProjectileMovementSpeed); //Move from A to B
+
+        BCPos.position = Vector3.Lerp(bPos, cPos, ProjectileMovementSpeed); //Move from B to C 
+
+        transform.position = Vector3.Lerp(ABPos.position, BCPos.position, ProjectileMovementSpeed); //Move the projectile
+
         float distanceToTarget = (targetPos - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
         ////BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
@@ -93,15 +122,21 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         }
         
     }
-    public Vector3 SetHitPossitionForNonHoming(Vector3 _possition)
+    public Vector3 SetPossitionsForNonHoming(Vector3 _possition)
     {
         return targetPos = _possition; //Updates the possition
     }
-    private void RotateProjectile() //This may not work, and may not be needed for my functionallity.
+    private void RotateProjectile() //This may not work, and may not be needed for my functionallity. //NEEDS MORE WORK
     {
-        Vector3 _direction = targetPos - transform.position;
-        Quaternion _lookDirection = Quaternion.LookRotation(_direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, _lookDirection, 50f * Time.deltaTime);
+        Vector3 _riseDirection = bPos - transform.position; //For pointing upwards initially
+        Vector3 _fallDirection = targetPos - transform.position; //For pointing downwards
+        Quaternion _initialLookDirection = Quaternion.LookRotation(_riseDirection);
+        Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
+        if (transform.position.y >= stats.TopProjectileHight)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 10f * Time.deltaTime);
+        }
+        transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 50f * Time.deltaTime);
     }
     public void SetTarget(Creep creep)
     {
@@ -112,4 +147,18 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         _creepTarget = null;
         transform.localRotation = Quaternion.identity;
     }
+    /*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(aPos,1f);
+
+        Gizmos.DrawWireSphere(cPos,1f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(bPos, 1f);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(ABPos.position, 1f);
+        Gizmos.DrawWireSphere(BCPos.position, 1f);
+    }*/
 }

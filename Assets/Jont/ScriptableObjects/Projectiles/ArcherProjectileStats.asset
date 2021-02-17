@@ -17,3 +17,4 @@ MonoBehaviour:
   projectileDamage: 1
   delayBetweenAttacks: 0.5
   minDistanceToDamage: 0.05
+  topProjectileHight: 10
