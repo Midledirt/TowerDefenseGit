@@ -22,7 +22,10 @@ public class scrTowerProjectileLoader : MonoBehaviour
     protected ObjectPooler _pooler;
     protected scrTowerTargeting Tower;
     protected scrProjectiles currentProjectileLoaded; //Lets keep this reference
-    private Vector3 nonHomingHitPoint;
+    private Vector3 nonHomingHitPoint; //The point that towers without homing will aim at in order to hit the target
+    [Tooltip("Decides how fast a creep must be moving before there is a chance for missfire")]
+    [Range (1f, 10f)]
+    [SerializeField] private float projectileMissfireTreshold;
 
     private void Start()
     {
@@ -50,10 +53,16 @@ public class scrTowerProjectileLoader : MonoBehaviour
             {
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
-                //nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //This might be where i need to do some magic to improve the aim
                 if (Tower.CurrentCreepTarget.MovementSpeed >= 3f) //For targeting most enemies
                 {
                     nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                    if (Tower.CurrentCreepTarget.MovementSpeed > projectileMissfireTreshold)
+                    {
+                        if (GetRandomNumber(0, 6) > 4) //Gives us a 1/6 chance that a projectile will missfire
+                        {
+                            nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed) + 2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + GetRandomNumber(towerAimValue * -1, towerAimValue * 1.5f), Tower.CurrentCreepTarget.endOfPathInstruction);
+                        }
+                    }
                 }
                 if (Tower.CurrentCreepTarget.MovementSpeed < 3f) //For targeting really slow enemies
                 {
@@ -62,6 +71,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 //PROBLEM: "nonHomingHitPoint" can take a value that is greater than path length. This can be avoided through level design though.
                 //The value abowe "nonHomingHitPoint" needs to take into acount that the movement speed of the projectile is modified in the scrProjectile script. As such, 
                 //I will probably need to do a lot of testing in order to find the correct value
+
                 if (!currentProjectileLoaded.projectileIsFired)
                 {
                     currentProjectileLoaded.projectileIsFired = true;
@@ -72,7 +82,10 @@ public class scrTowerProjectileLoader : MonoBehaviour
             //delayBetweenAttacks.
         }
     }
-
+    private float GetRandomNumber(float minValue, float maxValue)
+    {
+        return Random.Range(minValue, maxValue);
+    }
     private void LoadProjectile()
     {
         GameObject newInstance = _pooler.GetInstanceFromPool();
@@ -88,11 +101,6 @@ public class scrTowerProjectileLoader : MonoBehaviour
         //(or scrArrow projectile, which derrives from this) to equal the "Damage" property in this script.
         newInstance.SetActive(true);
     }
-
-    /*private bool IsTurretEmpty()
-    {
-        return currentProjectileLoaded == null; //Will be set to true, if this condition is met
-    }*/ //Not in use currently, might delete
     public void ResetTurretProjectile()
     {
         currentProjectileLoaded = null;

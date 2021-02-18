@@ -137,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   projectileSpawnPos: {fileID: 993413580399118220}
+  projectileMissfireTreshold: 4.5
 --- !u!114 &1050789343673941394
 MonoBehaviour:
   m_ObjectHideFlags: 0
