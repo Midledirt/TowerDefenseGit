@@ -45,7 +45,6 @@ public class scrProjectiles : MonoBehaviour
         ProjectileMovementSpeed = stats.MovementSpeed;
         MinDistanceToDealDamage = stats.MinDistanceToDamage;
         projectileIsFired = false;
-        //interpolateAmount = (ProjectileMovementSpeed + Time.deltaTime);
     }
     private void Update()
     //Explanation of virtual and override:
@@ -62,19 +61,10 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         if (_creepTarget != null && homingProjectile)
         {
             MovePorjectileWithHoming();
-            RotateProjectile();
+            //RotateProjectile();
         }
         else if (_creepTarget != null && !homingProjectile)
         {
-            //Calculate the possitions before firing the projectile
-            //midPoint = (aPos + cPos) / 2;
-            //Vector3 topPoint = Vector3.Cross(midPoint, Vector3.up);
-
-            
-            //bPos = ((aPos + cPos)) / 2; //The problem i have is this: If i want to set the bPos.y (or time it with something) in order to create an arch,
-            //its value will be calculated every frame, and thus counteract the slerp function. I need to find a way to alter the bPos.y as it is calculated,
-            //and never again...
-
             projectileIsFired = true;
             MoveProjectileWithoutHoming();
             RotateProjectile();
@@ -136,12 +126,17 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         Vector3 _riseDirection = bPos - transform.position; //For pointing upwards initially
         Vector3 _fallDirection = targetPos - transform.position; //For pointing downwards
         Quaternion _initialLookDirection = Quaternion.LookRotation(_riseDirection);
-        //Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
-        //if (transform.position.y >= stats.TopProjectileHight)
-        //{
-            //transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 30f * Time.deltaTime);
-        //}
-        transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 30f * Time.deltaTime);
+        Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
+
+
+        if (!projectileIsFired) //Look upwards
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 100f * Time.deltaTime);
+        }
+        else if (projectileIsFired)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 5f * Time.deltaTime);
+        }
     }
     public void SetTarget(Creep creep)
     {
@@ -152,7 +147,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         _creepTarget = null;
         transform.localRotation = Quaternion.identity;
     }
-    
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -165,5 +160,5 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(ABPos.position, 1f);
         Gizmos.DrawWireSphere(BCPos.position, 1f);
-    }
+    }*/
 }

@@ -51,11 +51,11 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
                 //nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //This might be where i need to do some magic to improve the aim
-                if (Tower.CurrentCreepTarget.MovementSpeed >= 3f) //Targeting most enemies
+                if (Tower.CurrentCreepTarget.MovementSpeed >= 3f) //For targeting most enemies
                 {
                     nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
                 }
-                if (Tower.CurrentCreepTarget.MovementSpeed < 3f) //Targeting really slow enemies
+                if (Tower.CurrentCreepTarget.MovementSpeed < 3f) //For targeting really slow enemies
                 {
                     nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed)+2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
                 }

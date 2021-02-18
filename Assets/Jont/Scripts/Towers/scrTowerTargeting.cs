@@ -90,9 +90,10 @@ public class scrTowerTargeting : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         if (!_gameStarted)
         {
-            GetComponent<SphereCollider>().radius = attackRange; //I am not sure why the sphere collider radius is smaller that the wiresphere
+            GetComponent<SphereCollider>().radius = attackRange * 2.5f; //I am not sure why the sphere collider radius is smaller that the wiresphere
             //Radius, but if i multiply it with 2.5f, its very close to the same size...
         }
 
