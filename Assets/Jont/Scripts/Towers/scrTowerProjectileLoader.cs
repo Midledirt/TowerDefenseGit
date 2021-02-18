@@ -14,7 +14,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
     private float delayBetweenAttacks;
-    private float towerAimValue = 0f; //his value decides how far ahead the tower will aim in order to hit consistently. Defaults to 1.
+    private float towerAimValue = 10f; //his value decides how far ahead the tower will aim in order to hit consistently. Defaults to 10.
 
     public float Damage { get; set; }
 
@@ -51,7 +51,17 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 currentProjectileLoaded.transform.parent = null; //"Release" the projectile
                 currentProjectileLoaded.SetTarget(Tower.CurrentCreepTarget);
                 //nonHomingHitPoint = Tower.CurrentCreepTarget.transform.position; //This might be where i need to do some magic to improve the aim
-                nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed * 2)/(currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed / 2))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                if (Tower.CurrentCreepTarget.MovementSpeed >= 3f) //Targeting most enemies
+                {
+                    nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                }
+                if (Tower.CurrentCreepTarget.MovementSpeed < 3f) //Targeting really slow enemies
+                {
+                    nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed)+2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                }
+                //PROBLEM: "nonHomingHitPoint" can take a value that is greater than path length. This can be avoided through level design though.
+                //The value abowe "nonHomingHitPoint" needs to take into acount that the movement speed of the projectile is modified in the scrProjectile script. As such, 
+                //I will probably need to do a lot of testing in order to find the correct value
                 if (!currentProjectileLoaded.projectileIsFired)
                 {
                     currentProjectileLoaded.projectileIsFired = true;

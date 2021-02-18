@@ -16,5 +16,5 @@ MonoBehaviour:
   movementSpeed: 10
   projectileDamage: 1
   delayBetweenAttacks: 0.5
-  minDistanceToDamage: 0.05
+  minDistanceToDamage: 0.2
   topProjectileHight: 10

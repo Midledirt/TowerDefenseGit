@@ -25,7 +25,7 @@ public class scrProjectiles : MonoBehaviour
     private Vector3 targetPos;
     [HideInInspector] public bool projectileIsFired; //Used to dissable "homing" when this projectile is launched
 
-
+    private float t;
     private Vector3 aPos;
     private Vector3 bPos;
     private Vector3 cPos;
@@ -35,6 +35,7 @@ public class scrProjectiles : MonoBehaviour
 
     private void Awake()
     {
+        t = 0f;
         ProjectileMovementSpeed = movementSpeed;
         //Reset stats
         stats.ResetStats(); //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
@@ -96,29 +97,33 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
     }
     private void MoveProjectileWithoutHoming()
     {
+        if (t < 1f)
+        {
+            t += (Time.deltaTime * ProjectileMovementSpeed) / 10;
+        }
+        if (t >= 1f)
+        {
+            projectileIsFired = false;
+            TurretOwner.ResetTurretProjectile();
+            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
+            t = 0f;
+        }
         aPos = TurretOwner.transform.position + Vector3.up * 2.5f; //Needs improvement
         bPos = ((TurretOwner.transform.position + Vector3.up * stats.TopProjectileHight) + targetPos) / 2;
         cPos = targetPos;
-
         //New movement
-        ProjectileMovementSpeed = (ProjectileMovementSpeed + Time.deltaTime) % 1f; //THIS NOW WORKS, HOWEVER, THIS LEADS TO THE TOWER LOOPING PROJECTILES,
-        //WHICH NEEDS TO BE FIXED
-        ABPos.position = Vector3.Lerp(aPos, bPos, ProjectileMovementSpeed); //Move from A to B
 
-        BCPos.position = Vector3.Lerp(bPos, cPos, ProjectileMovementSpeed); //Move from B to C 
+        ABPos.position = Vector3.Lerp(aPos, bPos, t); //Move from A to B
 
-        transform.position = Vector3.Lerp(ABPos.position, BCPos.position, ProjectileMovementSpeed); //Move the projectile
+        BCPos.position = Vector3.Lerp(bPos, cPos, t); //Move from B to C 
 
-        float distanceToTarget = (targetPos - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
+        transform.position = Vector3.Lerp(ABPos.position, BCPos.position, t); //Move the projectile
+
+        float distanceToTarget = (cPos - transform.position).magnitude; //IMPORTANT AND USEFULL. THIS IS HOW YOU CAN GET A DISTANCE
         ////BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
         {
-            projectileIsFired = false;
             _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
-            //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
-            //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
-            TurretOwner.ResetTurretProjectile();
-            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
         }
         
     }
@@ -131,12 +136,12 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         Vector3 _riseDirection = bPos - transform.position; //For pointing upwards initially
         Vector3 _fallDirection = targetPos - transform.position; //For pointing downwards
         Quaternion _initialLookDirection = Quaternion.LookRotation(_riseDirection);
-        Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
-        if (transform.position.y >= stats.TopProjectileHight)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 10f * Time.deltaTime);
-        }
-        transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 50f * Time.deltaTime);
+        //Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
+        //if (transform.position.y >= stats.TopProjectileHight)
+        //{
+            //transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 30f * Time.deltaTime);
+        //}
+        transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 30f * Time.deltaTime);
     }
     public void SetTarget(Creep creep)
     {
@@ -147,7 +152,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         _creepTarget = null;
         transform.localRotation = Quaternion.identity;
     }
-    /*
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -160,5 +165,5 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(ABPos.position, 1f);
         Gizmos.DrawWireSphere(BCPos.position, 1f);
-    }*/
+    }
 }
