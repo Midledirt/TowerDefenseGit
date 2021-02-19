@@ -16,11 +16,10 @@ public class scrProjectiles : MonoBehaviour
     [Tooltip("Defines how close to the target the projectiles needs to be in order to hit it. The larger this radius is, the easier and ealier the collision")]
     [Range(0.1f, 1f)]
     private float MinDistanceToDealDamage;
-    public bool homingProjectile = false;
-
+    [Tooltip("Decides if this projectile will home in on enemies, or be aimed")]
+    [SerializeField] private bool homingProjectile = false;
     public scrTowerProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
     public float Damage { get; set; } //This damage is assigned from the tower via the scrTowerProjectileLoader Script
-
     private Creep _creepTarget;
     private Vector3 targetPos;
     [HideInInspector] public bool projectileIsFired; //Used to dissable "homing" when this projectile is launched
@@ -29,12 +28,14 @@ public class scrProjectiles : MonoBehaviour
     private Vector3 aPos;
     private Vector3 bPos;
     private Vector3 cPos;
-    [SerializeField] private Transform ABPos;
-    [SerializeField] private Transform BCPos;
+    private Transform ABPos;
+    private Transform BCPos;
     //private float interpolateAmount;
 
     private void Awake()
     {
+        ABPos = transform.Find("ABPos");
+        BCPos = transform.Find("BCPos");
         t = 0f;
         ProjectileMovementSpeed = movementSpeed;
         //Reset stats

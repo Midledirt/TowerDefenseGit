@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f43c45ed5ac62814a83285997048caa8, type: 3}
-  m_Name: MageProjectileStats
+  m_Name: BasicArcherProjectileStats
   m_EditorClassIdentifier: 
   projectileType: BasicMageBolt
   movementSpeed: 10
-  projectileDamage: 3
-  delayBetweenAttacks: 1
-  minDistanceToDamage: 0.1
-  topProjectileHight: 0
+  projectileDamage: 1
+  delayBetweenAttacks: 0.5
+  minDistanceToDamage: 0.2
+  topProjectileHight: 10

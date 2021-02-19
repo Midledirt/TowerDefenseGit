@@ -7,7 +7,7 @@ using UnityEngine;
 /// to take from that video.
 /// </summary>
 
-public class scrUppgradeTurrets : MonoBehaviour
+public class scrUppgradeTowers : MonoBehaviour
 {
     [SerializeField] private int uppgradeCost;
     [SerializeField] private int upgradeCostIncremental;
@@ -20,17 +20,13 @@ public class scrUppgradeTurrets : MonoBehaviour
     public float SellPercentage { get; set; }
     public int UppgradeCost { get; set; }
 
-
-    private scrTowerProjectileLoader _towerProjectileLoader;
-    //private scrTowerArrowsProjectileLoader _towerArrowsProjectileLoader; //Adding this does not fix the no damage bug. And it causes a null
-    //reference for the mage tower...
-
-
+    //private scrTowerUpgradeHandler _upgradeHandler;
+    private scrTowerProjectileLoader _towerProjectileLoader; //OLD DELETE WHEN MY NEW UPGRADE SYSTEM WORKS PROPERLY
 
     private void Start()
     {
-        _towerProjectileLoader = GetComponent<scrTowerProjectileLoader>(); //Gets the reference
-        //_towerArrowsProjectileLoader = GetComponent <scrTowerArrowsProjectileLoader>(); //Gets the reference
+        _towerProjectileLoader = GetComponent<scrTowerProjectileLoader>(); //Gets the reference   //OLD DELETE WHEN MY NEW UPGRADE SYSTEM WORKS PROPERLY
+        //_upgradeHandler = GetComponent<scrTowerUpgradeHandler>();
 
         UppgradeCost = uppgradeCost;
 
@@ -43,7 +39,6 @@ public class scrUppgradeTurrets : MonoBehaviour
             //So we do not need a reference (I think)
         {
             _towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
-            //_towerArrowsProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
         }
     }

@@ -8,6 +8,7 @@ public class scrUIManager : Singleton<scrUIManager>
     [Header("Panels")]
     [SerializeField] private GameObject towerShopPanel;    
     [SerializeField] private GameObject nodeUIPanel;
+    [SerializeField] private GameObject RallyPointButton; //My own addition
 
     [Header("Text")] 
     [SerializeField] private TextMeshProUGUI upgradeText;
@@ -28,12 +29,14 @@ public class scrUIManager : Singleton<scrUIManager>
     public void CloseTowerShopPanel()
     {
         towerShopPanel.SetActive(false);
+        RallyPointButton.SetActive(false);
     }
 
     public void CloseNodeUIPanel()
     {
         //This is where the tutorial runs the "scrTowerNode" CloseAttackRangeSprite(). //IMPORTANT: DOES NOT WORK RIGHT NOW
         nodeUIPanel.SetActive(false);
+        RallyPointButton.SetActive(false);
     }
 
     public void UpgradeTurret()
@@ -55,6 +58,7 @@ public class scrUIManager : Singleton<scrUIManager>
         nodeUIPanel.SetActive(true);
         UpdateUpgradeText();
         UpdateSellValue();
+        RallyPointButton.SetActive(true);
     }
 
     private void UpdateUpgradeText()

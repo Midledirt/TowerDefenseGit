@@ -5,7 +5,7 @@ using UnityEngine;
 public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
-    public scrUppgradeTurrets TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
+    public scrUppgradeTowers TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
     public Creep CurrentCreepTarget { get; set; }
     //public float AttackRange => attackRange; //This is used in the "scrTowerNode" script. It is used to make sprite that illustrates the
     //attack range scale with the actual attack range //IMPORTANT: DOES NOT WORK RIGHT NOW
@@ -21,7 +21,7 @@ public class scrTowerTargeting : MonoBehaviour
     {
         _gameStarted = true;
 
-        TowerUpgrade = GetComponent<scrUppgradeTurrets>();    
+        TowerUpgrade = GetComponent<scrUppgradeTowers>();    
     }
     private void Update()
     {

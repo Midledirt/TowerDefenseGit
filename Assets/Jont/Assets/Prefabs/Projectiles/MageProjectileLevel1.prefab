@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5647644726636983892}
   - component: {fileID: 1378488683216241749}
   m_Layer: 0
-  m_Name: MageProjectile
+  m_Name: MageProjectileLevel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,5 +173,3 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   homingProjectile: 1
   projectileIsFired: 0
-  ABPos: {fileID: 4891526804298624188}
-  BCPos: {fileID: 3225682630462066087}
