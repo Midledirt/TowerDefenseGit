@@ -41,7 +41,7 @@ public class scrUIManager : Singleton<scrUIManager>
 
     public void UpgradeTurret()
     {
-        _currentNodeSelected.Tower.TowerUpgrade.UpgradeTurret();
+        _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower();
         UpdateUpgradeText();
         UpdateSellValue();
     }

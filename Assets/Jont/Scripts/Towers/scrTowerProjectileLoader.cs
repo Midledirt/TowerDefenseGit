@@ -15,7 +15,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
     [Range(0.1f, 10f)]
     private float delayBetweenAttacks;
     private float towerAimValue = 10f; //his value decides how far ahead the tower will aim in order to hit consistently. Defaults to 10.
-
+    private scrProjectileLevelTracker projectileLevelTracker;
     public float Damage { get; set; }
 
     protected float _nextAttackTime;
@@ -27,10 +27,19 @@ public class scrTowerProjectileLoader : MonoBehaviour
     [Range (1f, 10f)]
     [SerializeField] private float projectileMissfireTreshold;
 
+    private int projectileLevel;
+
+    private void Awake()
+    {
+        projectileLevelTracker = GetComponent<scrProjectileLevelTracker>(); //Get the instance on the gameobject
+        _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
+
+    }
+
     private void Start()
     {
+        projectileLevel = 1;
         stats.ResetStats();
-        _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
         Tower = GetComponent<scrTowerTargeting>();
 
         //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
@@ -41,7 +50,6 @@ public class scrTowerProjectileLoader : MonoBehaviour
         Damage = stats.ProjectileDamage;
         LoadProjectile();
     }
-
     private void Update()
     {
         if (Time.time > _nextAttackTime) //Checks that enough time has gone since the game started for the turret to load
@@ -82,6 +90,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
             //delayBetweenAttacks.
         }
     }
+    
     private float GetRandomNumber(float minValue, float maxValue)
     {
         return Random.Range(minValue, maxValue);

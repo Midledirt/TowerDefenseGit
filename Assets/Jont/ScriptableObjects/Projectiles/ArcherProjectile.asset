@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f43c45ed5ac62814a83285997048caa8, type: 3}
-  m_Name: BasicArcherProjectileStats
+  m_Name: ArcherProjectile
   m_EditorClassIdentifier: 
-  projectileType: BasicMageBolt
+  projectileType: Arrow
   movementSpeed: 10
   projectileDamage: 1
   delayBetweenAttacks: 0.5

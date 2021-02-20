@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 8869608008729189934}
   - component: {fileID: 8869608008729189935}
   - component: {fileID: 6676365224917668049}
+  - component: {fileID: 5231017928356259823}
   m_Layer: 0
   m_Name: DefenderTower
   m_TagString: Untagged
@@ -172,3 +173,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 3
+--- !u!114 &5231017928356259823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869608008729189939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8311cd99f3201e3438900337360b650d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

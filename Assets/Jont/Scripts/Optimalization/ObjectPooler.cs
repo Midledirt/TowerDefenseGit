@@ -18,6 +18,10 @@ public class ObjectPooler : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
     [SerializeField] private int poolSize = 10;
+    [Header("Set projectile spawner")]
+    [Tooltip("Set this to true, if this pooler is spawning projectiles")]
+    [SerializeField] private bool isProjectileSpawner = false;
+    private scrTowerLevelTracker towerLevelTracker; 
 
     private List<GameObject> pool;
 
@@ -30,6 +34,11 @@ public class ObjectPooler : MonoBehaviour
         pool = new List<GameObject>();
 
         poolContainer = new GameObject($"Pool of {prefab.name}");
+
+        towerLevelTracker = GetComponent<scrTowerLevelTracker>(); //Get the instance on this object
+    }
+    private void Start()
+    {
 
         //Run the createPooler method from below, based on the poolsize
         CreatePooler();
@@ -47,6 +56,10 @@ public class ObjectPooler : MonoBehaviour
     private GameObject CreateInstance()
     {
         GameObject newInstance = Instantiate(prefab);
+        if (isProjectileSpawner)
+        {
+            newInstance.GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
+        }
 
         //Set the parent to be the pool container
         newInstance.transform.SetParent(poolContainer.transform);
@@ -54,8 +67,6 @@ public class ObjectPooler : MonoBehaviour
         newInstance.SetActive(false);
         return newInstance;
     }
-
-
     public GameObject GetInstanceFromPool()
     {
         for (int i = 0; i < pool.Count; i++)
@@ -78,6 +89,16 @@ public class ObjectPooler : MonoBehaviour
         //I do it this way, because if a object is returned to the hierarchy after its death(or reaching the end of the path) the spawner might prioritize
         //respawning it instead of spawning the next gameobject instance. This screws up my group spawner.
         instance.SetActive(false);
+    }
+    public void TowerUpgraded()
+    {
+        if (isProjectileSpawner)
+        {
+            foreach(GameObject _projectile in pool)
+            {
+                _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
+            }
+        }
     }
 
     public static IEnumerator ReturnToPoolWithDelay(GameObject instance, float delay)
