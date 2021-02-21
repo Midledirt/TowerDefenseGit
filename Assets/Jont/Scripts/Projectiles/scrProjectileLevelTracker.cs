@@ -4,68 +4,147 @@ using UnityEngine;
 
 public class scrProjectileLevelTracker : MonoBehaviour
 {
-    [SerializeField] public GameObject projectileLevel1;
-    [SerializeField] public GameObject projectileLevel2;
-    [SerializeField] public GameObject projectileLevel3;
-    [SerializeField] public GameObject projectileLevel4;
+    [Header ("Initial prefab for projectile")]
+    [SerializeField] public GameObject projectileInitialPrefab;
+    [Header("Prefabs for upgrade path 1")]
+    [SerializeField] public GameObject projectileLevel2Version1;
+    [SerializeField] public GameObject projectileLevel3Version1;
+    [SerializeField] public GameObject projectileLevel4Version1;
+    [Header("Prefabs for upgrade path 2")]
+    [SerializeField] public GameObject projectileLevel2Version2;
+    [SerializeField] public GameObject projectileLevel3Version2;
+    [SerializeField] public GameObject projectileLevel4Version2;
+    [Header("Prefabs for upgrade path 3")]
+    [SerializeField] public GameObject projectileLevel2Version3;
+    [SerializeField] public GameObject projectileLevel3Version3;
+    [SerializeField] public GameObject projectileLevel4Version3;
     private int projectileLevel;
     private int projectileMaxLevel;
-    
-    //[SerializeField] public GameObject ProjectileLevel1 { get; private set; }
-    //[SerializeField] public GameObject ProjectileLevel2 { get; private set; }
-    //[SerializeField] public GameObject ProjectileLevel3 { get; private set; }
-    //[SerializeField] public GameObject ProjectileLevel4 { get; private set; }
+
+    public int ProjectileVersion { get; private set; }
+
 
     private void Awake()
     {
+        ProjectileVersion = 0;
         projectileLevel = 1;
         projectileMaxLevel = 4;
         ResetProjectileLevel();
-
-        //ProjectileLevel1 = projectileLevel1;
-        //ProjectileLevel2 = projectileLevel2;
-        //ProjectileLevel3 = projectileLevel3;
-        //ProjectileLevel4 = projectileLevel4;
     }
 
     public void ResetProjectileLevel()
     {
-        projectileLevel1.SetActive(true);
-        projectileLevel2.SetActive(false);
-        projectileLevel3.SetActive(false);
-        projectileLevel4.SetActive(false);
+        projectileInitialPrefab.SetActive(true);
+        projectileLevel2Version1.SetActive(false);
+        projectileLevel3Version1.SetActive(false);
+        projectileLevel4Version1.SetActive(false);
+        projectileLevel2Version2.SetActive(false);
+        projectileLevel3Version2.SetActive(false);
+        projectileLevel4Version2.SetActive(false);
+        projectileLevel2Version3.SetActive(false);
+        projectileLevel3Version3.SetActive(false);
+        projectileLevel4Version3.SetActive(false);
+    }
+    public void SetProjectilePath(int _path)
+    {
+        ProjectileVersion = _path;
     }
     public void SetProjectileLevel(int _projectileLevel)
     {
         projectileLevel = _projectileLevel;
-        if (projectileLevel < projectileMaxLevel)
+        if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 1)
+        {
+            switch (projectileLevel)
+            {
+                case 1:
+                    projectileInitialPrefab.gameObject.SetActive(true);
+                    projectileLevel2Version1.gameObject.SetActive(false);
+                    projectileLevel3Version1.gameObject.SetActive(false);
+                    projectileLevel4Version1.gameObject.SetActive(false);
+                    return;
+                case 2:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version1.gameObject.SetActive(true);
+                    projectileLevel3Version1.gameObject.SetActive(false);
+                    projectileLevel4Version1.gameObject.SetActive(false);
+                    return;
+                case 3:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version1.gameObject.SetActive(false);
+                    projectileLevel3Version1.gameObject.SetActive(true);
+                    projectileLevel4Version1.gameObject.SetActive(false);
+                    return;
+                case 4:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version1.gameObject.SetActive(false);
+                    projectileLevel3Version1.gameObject.SetActive(false);
+                    projectileLevel4Version1.gameObject.SetActive(true);
+                    return;
+                default:
+                    Debug.LogError("The projectileLevel variable in scrTpwerProjectileLoader is set to an incorrect value");
+                    return;
+            }
+        }if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 2)
         {
             switch (projectileLevel)
             {
 
                 case 1:
-                    projectileLevel1.gameObject.SetActive(true);
-                    projectileLevel2.gameObject.SetActive(false);
-                    projectileLevel3.gameObject.SetActive(false);
-                    projectileLevel4.gameObject.SetActive(false);
+                    projectileInitialPrefab.gameObject.SetActive(true);
+                    projectileLevel2Version2.gameObject.SetActive(false);
+                    projectileLevel3Version2.gameObject.SetActive(false);
+                    projectileLevel4Version2.gameObject.SetActive(false);
                     return;
                 case 2:
-                    projectileLevel1.gameObject.SetActive(false);
-                    projectileLevel2.gameObject.SetActive(true);
-                    projectileLevel3.gameObject.SetActive(false);
-                    projectileLevel4.gameObject.SetActive(false);
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version2.gameObject.SetActive(true);
+                    projectileLevel3Version2.gameObject.SetActive(false);
+                    projectileLevel4Version2.gameObject.SetActive(false);
                     return;
                 case 3:
-                    projectileLevel1.gameObject.SetActive(false);
-                    projectileLevel2.gameObject.SetActive(false);
-                    projectileLevel3.gameObject.SetActive(true);
-                    projectileLevel4.gameObject.SetActive(false);
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version2.gameObject.SetActive(false);
+                    projectileLevel3Version2.gameObject.SetActive(true);
+                    projectileLevel4Version2.gameObject.SetActive(false);
                     return;
                 case 4:
-                    projectileLevel1.gameObject.SetActive(false);
-                    projectileLevel2.gameObject.SetActive(false);
-                    projectileLevel3.gameObject.SetActive(false);
-                    projectileLevel4.gameObject.SetActive(true);
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version2.gameObject.SetActive(false);
+                    projectileLevel3Version2.gameObject.SetActive(false);
+                    projectileLevel4Version2.gameObject.SetActive(true);
+                    return;
+                default:
+                    Debug.LogError("The projectileLevel variable in scrTpwerProjectileLoader is set to an incorrect value");
+                    return;
+            }
+        }if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 3)
+        {
+            switch (projectileLevel)
+            {
+
+                case 1:
+                    projectileInitialPrefab.gameObject.SetActive(true);
+                    projectileLevel2Version3.gameObject.SetActive(false);
+                    projectileLevel3Version3.gameObject.SetActive(false);
+                    projectileLevel4Version3.gameObject.SetActive(false);
+                    return;
+                case 2:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version3.gameObject.SetActive(true);
+                    projectileLevel3Version3.gameObject.SetActive(false);
+                    projectileLevel4Version3.gameObject.SetActive(false);
+                    return;
+                case 3:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version3.gameObject.SetActive(false);
+                    projectileLevel3Version3.gameObject.SetActive(true);
+                    projectileLevel4Version3.gameObject.SetActive(false);
+                    return;
+                case 4:
+                    projectileInitialPrefab.gameObject.SetActive(false);
+                    projectileLevel2Version3.gameObject.SetActive(false);
+                    projectileLevel3Version3.gameObject.SetActive(false);
+                    projectileLevel4Version3.gameObject.SetActive(true);
                     return;
                 default:
                     Debug.LogError("The projectileLevel variable in scrTpwerProjectileLoader is set to an incorrect value");

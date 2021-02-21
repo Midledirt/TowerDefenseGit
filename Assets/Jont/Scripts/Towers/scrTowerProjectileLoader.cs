@@ -9,7 +9,10 @@ public class scrTowerProjectileLoader : MonoBehaviour
 {
     [Header("Stats")]
     [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
-    public TowerProjectileTypeSO stats;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion2;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion3;     //Inherit stats from SO
+    public TowerProjectileTypeSO assignedStats;     //Inherit stats from SO
     [SerializeField] protected Transform projectileSpawnPos;
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
@@ -31,20 +34,21 @@ public class scrTowerProjectileLoader : MonoBehaviour
     {
         projectileLevelTracker = GetComponent<scrProjectileLevelTracker>(); //Get the instance on the gameobject
         _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
+        assignedStats = statsVersion1; //Initializes the stats as that of the default verson
 
     }
 
     private void Start()
     {
-        stats.ResetStats();
+        assignedStats.ResetStats();
         Tower = GetComponent<scrTowerTargeting>();
 
         //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
         //the stats in AWAKE. Instead, do it in START. This is done to make sure that the stats are initialized before they are called, as other classes AWAKE
         //might run before this one.
         //Assign stats
-        delayBetweenAttacks = stats.DelayBetweenAttacks;
-        Damage = stats.ProjectileDamage;
+        delayBetweenAttacks = assignedStats.DelayBetweenAttacks;
+        Damage = assignedStats.ProjectileDamage;
         LoadProjectile();
     }
     private void Update()
@@ -87,7 +91,6 @@ public class scrTowerProjectileLoader : MonoBehaviour
                                                                //delayBetweenAttacks.
         }
     }
-    
     private float GetRandomNumber(float minValue, float maxValue)
     {
         return Random.Range(minValue, maxValue);
@@ -109,5 +112,27 @@ public class scrTowerProjectileLoader : MonoBehaviour
     public void ResetTurretProjectile()
     {
         currentProjectileLoaded = null;
+    }
+    public void UpdateProjectileLoaderStats(int _UpgradePath)
+    {
+        //Assign the stats
+        switch(_UpgradePath)
+        {
+            case 0:
+                assignedStats = statsVersion1; //Set the stats to equal tower path 1
+                return;
+            case 1:
+                assignedStats = statsVersion1; //Set the stats tp equal tower path 1
+                return;
+            case 2:
+                assignedStats = statsVersion2; //Set the stats to equal tower path 2
+                return;
+            case 3:
+                assignedStats = statsVersion3; //Set the stats to equal tower path 3
+                return;
+        }
+        //Update the stats
+        Damage = assignedStats.ProjectileDamage;
+        delayBetweenAttacks = assignedStats.DelayBetweenAttacks;
     }
 }

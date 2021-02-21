@@ -9,7 +9,10 @@ public class scrProjectiles : MonoBehaviour
 {
     [Header("Stats")]
     [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
-    public TowerProjectileTypeSO stats;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion2;     //Inherit stats from SO
+    public TowerProjectileTypeSO statsVersion3;     //Inherit stats from SO
+    private TowerProjectileTypeSO statsAssignedVersion; //Set in script
     [Tooltip("How fast this projectile moves")]
     private float movementSpeed; //This might not be needed anymore
     public float ProjectileMovementSpeed { get; private set; }
@@ -34,17 +37,18 @@ public class scrProjectiles : MonoBehaviour
 
     private void Awake()
     {
+        statsAssignedVersion = statsVersion1;
         ABPos = transform.Find("ABPos");
         BCPos = transform.Find("BCPos");
         t = 0f;
         ProjectileMovementSpeed = movementSpeed;
         //Reset stats
-        stats.ResetStats(); //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
+        statsAssignedVersion.ResetStats(); //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
         //the stats in AWAKE. Instead, do it in START. This is done to make sure that the stats are initialized before they are called, as other classes AWAKE
         //might run before this one.
         //Assign stats
-        ProjectileMovementSpeed = stats.MovementSpeed;
-        MinDistanceToDealDamage = stats.MinDistanceToDamage;
+        ProjectileMovementSpeed = statsAssignedVersion.MovementSpeed;
+        MinDistanceToDealDamage = statsAssignedVersion.MinDistanceToDamage;
         projectileIsFired = false;
     }
     private void Update()
@@ -100,7 +104,7 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
             t = 0f;
         }
         aPos = TurretOwner.transform.position + Vector3.up * 2.5f; //Needs improvement
-        bPos = ((TurretOwner.transform.position + Vector3.up * stats.TopProjectileHight) + targetPos) / 2;
+        bPos = ((TurretOwner.transform.position + Vector3.up * statsAssignedVersion.TopProjectileHight) + targetPos) / 2;
         cPos = targetPos;
         //New movement
 
@@ -148,18 +152,26 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         _creepTarget = null;
         transform.localRotation = Quaternion.identity;
     }
-    /*
-    private void OnDrawGizmos()
+    public void UpdateProjectileStats(int towerUpgradePath)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(aPos,1f);
-
-        Gizmos.DrawWireSphere(cPos,1f);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(bPos, 1f);
-
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(ABPos.position, 1f);
-        Gizmos.DrawWireSphere(BCPos.position, 1f);
-    }*/
+        //Assign stats
+        switch(towerUpgradePath)
+        {
+            case 0:
+                statsAssignedVersion = statsVersion1; //Set the initial stat version
+                return;
+            case 1:
+                statsAssignedVersion = statsVersion1; //If tower upgrade path 1 is chosen
+                return;
+            case 2:
+                statsAssignedVersion = statsVersion2; //If tower upgrade path 2 is chosen
+                return;
+            case 3:
+                statsAssignedVersion = statsVersion3; //If tower upgrade path 3 is chosen
+                return;
+        }
+        //Update stats
+        ProjectileMovementSpeed = statsAssignedVersion.MovementSpeed;
+        MinDistanceToDealDamage = statsAssignedVersion.MinDistanceToDamage;
+    }
 }
