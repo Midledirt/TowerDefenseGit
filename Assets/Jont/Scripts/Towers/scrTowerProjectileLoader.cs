@@ -27,8 +27,6 @@ public class scrTowerProjectileLoader : MonoBehaviour
     [Range (1f, 10f)]
     [SerializeField] private float projectileMissfireTreshold;
 
-    private int projectileLevel;
-
     private void Awake()
     {
         projectileLevelTracker = GetComponent<scrProjectileLevelTracker>(); //Get the instance on the gameobject
@@ -38,7 +36,6 @@ public class scrTowerProjectileLoader : MonoBehaviour
 
     private void Start()
     {
-        projectileLevel = 1;
         stats.ResetStats();
         Tower = GetComponent<scrTowerTargeting>();
 
@@ -52,7 +49,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
     }
     private void Update()
     {
-        if (Time.time > _nextAttackTime) //Checks that enough time has gone since the game started for the turret to load
+        if (Time.time > _nextAttackTime && Tower.CurrentCreepTarget != null) //Checks that enough time has gone since the game started for the turret to load
         {
             LoadProjectile();
             if (Tower.CurrentCreepTarget != null && currentProjectileLoaded != null && Tower.CurrentCreepTarget._CreepHealth.currentHealth > 0f)
@@ -87,7 +84,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 }
             }
             _nextAttackTime = Time.time + delayBetweenAttacks; //This will always increment the amount of time that has gone with the 
-            //delayBetweenAttacks.
+                                                               //delayBetweenAttacks.
         }
     }
     
@@ -97,18 +94,17 @@ public class scrTowerProjectileLoader : MonoBehaviour
     }
     private void LoadProjectile()
     {
-        GameObject newInstance = _pooler.GetInstanceFromPool();
-        newInstance.transform.localPosition = projectileSpawnPos.position;
+        GameObject newInstance = _pooler.GetInstanceFromPool(); //Removes an instance from the pool
+        newInstance.transform.localPosition = projectileSpawnPos.position; //Gives it this spawning possition
 
         newInstance.transform.SetParent(projectileSpawnPos); //THIS IS NECESSARY TO MAKE THE PROJECTILE INSTANCE FACE THE SAME WAY AS THE TURRET
         //AS IT SPAWNS
 
-        currentProjectileLoaded = newInstance.GetComponent<scrProjectiles>();
+        currentProjectileLoaded = newInstance.GetComponent<scrProjectiles>(); //Assignes it as the "currentprojectileloaded"
         currentProjectileLoaded.TurretOwner = this; //This is weird, covered in episode 26, around 3.30
-        currentProjectileLoaded.ResetProjectile();
+        currentProjectileLoaded.ResetProjectile(); //Removes any prior creep target, and resets the rotation
         currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrProjectiles 
-        //(or scrArrow projectile, which derrives from this) to equal the "Damage" property in this script.
-        newInstance.SetActive(true);
+        newInstance.SetActive(true); //Activates it
     }
     public void ResetTurretProjectile()
     {
