@@ -28,7 +28,7 @@ public class scrUppgradeTowers : MonoBehaviour
     private void Awake()
     {
         towerCurrentLevel = 1;
-        projectilePool = GetComponent<ObjectPooler>();
+        projectilePool = GetComponent<ObjectPooler>(); //Gets the instance on this tower
     }
 
     private void Start()
@@ -46,14 +46,13 @@ public class scrUppgradeTowers : MonoBehaviour
         if (scrCurrencySystem.Instance.TotalCoins >= UppgradeCost && towerCurrentLevel < 4) //Check that we have enough coins. scrCurrenctySystem is a Singleton btw
             //So we do not need a reference (I think)
         {
-            projectilePool.TowerUpgraded(); //AS OF RIGHT NOW: This will set both level AND upgrade path each time. Change this when you decide how to assign level
-            //through buttons
             _towerProjectileLoader.UpdateProjectileLoaderStats(towerLevelTracker.TowerUpgradePath); //Set the upgrade path for the tower
             _towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             //THE ABOWE LINE NEEDS TO BE CHANGED SO THAT IT DEPENDS ON THE CURRENT UPGRADE VERSION OF THE TOWER
 
             towerCurrentLevel += 1; //Increases the level of the tower
             towerLevelTracker.UpgradeTowerWithLevel(towerCurrentLevel); //Set the level the tower and projectiles will be at
+            projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectiles
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
         }
     }

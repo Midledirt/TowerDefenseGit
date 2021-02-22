@@ -113,7 +113,7 @@ public class scrUIManager : Singleton<scrUIManager>
         UpdateUpgradeText();
         UpdateSellValue();
         TowerPathSelectionPanel.SetActive(false);
-        Debug.Log(_currentNodeSelected.TowerLevelTracker.TowerUpgradePath);
+        Debug.Log("Tower Path set to: " + _currentNodeSelected.TowerLevelTracker.TowerUpgradePath);
     }
 
     private void OnEnable()

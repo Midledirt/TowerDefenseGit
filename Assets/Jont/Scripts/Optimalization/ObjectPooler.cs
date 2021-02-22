@@ -76,6 +76,10 @@ public class ObjectPooler : MonoBehaviour
             //Return any instances that are NOT active in the heirarchy
             if (!pool[i].activeInHierarchy)
             {
+                //Update and return the instance
+                pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
+                pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+                pool[i].GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
                 return pool[i];
             }
         }
@@ -92,14 +96,14 @@ public class ObjectPooler : MonoBehaviour
         //respawning it instead of spawning the next gameobject instance. This screws up my group spawner.
         instance.SetActive(false);
     }
-    public void TowerUpgraded()
+    public void TowerUpgraded(int _towerPath)
     {
         if (isProjectileSpawner)
         {
             foreach(GameObject _projectile in pool)
             {
                 _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
-                _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+                _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectilePath(_towerPath); //Sets the upgrade path for projectile
                 _projectile.GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
             }
         }
