@@ -20,7 +20,7 @@ public class scrTowerLevelTracker : MonoBehaviour
     [SerializeField] private GameObject towerLevel4Version3;
     private int maxTowerLevel = 4;
     private int currentTowerLevel;
-    public int TowerUpgradePath { get; set; } //FOR THIS TO WORK, THIS VALUE NEEDS TO BE ASSIGNED USING AN UPGRADE BUTTON
+    public int TowerUpgradePath { get; set; } //Tested that this number works
     public int CurrentTowerLevel { get; private set; }
 
     private void Awake()
@@ -45,7 +45,7 @@ public class scrTowerLevelTracker : MonoBehaviour
     public void UpgradeTowerWithLevel(int _currentLevel)
     {
         CurrentTowerLevel = _currentLevel; //Update the current level from other scripts
-        if (currentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 1)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 1)
         {
             switch(CurrentTowerLevel) //Set the current prefab to active, others to unactive
             {
@@ -73,7 +73,7 @@ public class scrTowerLevelTracker : MonoBehaviour
 
             }
         }
-        if (currentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 2)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 2)
         {
             switch (CurrentTowerLevel) //Set the current prefab to active, others to unactive
             {
@@ -101,7 +101,7 @@ public class scrTowerLevelTracker : MonoBehaviour
 
             }
         }
-        if (currentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 3)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 3)
         {
             switch (CurrentTowerLevel) //Set the current prefab to active, others to unactive
             {

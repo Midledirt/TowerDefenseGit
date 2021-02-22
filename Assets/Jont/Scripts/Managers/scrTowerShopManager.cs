@@ -53,9 +53,10 @@ public class scrTowerShopManager : MonoBehaviour
             towerInstance.transform.localPosition = _currentNodeSelected.transform.position;
             towerInstance.transform.parent = _currentNodeSelected.transform;
 
-            scrTowerTargeting towerPlaced = towerInstance.GetComponent<scrTowerTargeting>(); //This needs to be altered, because my defender towers do not have
-            //a towre
+            scrTowerTargeting towerPlaced = towerInstance.GetComponent<scrTowerTargeting>();
+            scrTowerLevelTracker towerPlacedLevelTracker = towerInstance.GetComponent<scrTowerLevelTracker>();
             _currentNodeSelected.SetTower(towerPlaced);
+            _currentNodeSelected.SetTowerLevelTracker(towerPlacedLevelTracker);
         }
     }
 

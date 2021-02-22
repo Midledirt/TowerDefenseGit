@@ -9,6 +9,7 @@ public class scrUIManager : Singleton<scrUIManager>
     [SerializeField] private GameObject towerShopPanel;    
     [SerializeField] private GameObject nodeUIPanel;
     [SerializeField] private GameObject RallyPointButton; //My own addition
+    [SerializeField] private GameObject TowerPathSelectionPanel; //My own addition
 
     [Header("Text")] 
     [SerializeField] private TextMeshProUGUI upgradeText;
@@ -41,9 +42,16 @@ public class scrUIManager : Singleton<scrUIManager>
 
     public void UpgradeTurret()
     {
-        _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower();
-        UpdateUpgradeText();
-        UpdateSellValue();
+        if (_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel == 1) //Checks if the tower is at level one
+        {
+            TowerPathSelectionPanel.SetActive(true);
+        }
+        else if(_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel !=1)
+        {
+            _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower(); //This is how we comunicate with the tower from this script
+            UpdateUpgradeText();
+            UpdateSellValue();
+        }
     }
 
     public void SellTower()
@@ -53,12 +61,12 @@ public class scrUIManager : Singleton<scrUIManager>
         nodeUIPanel.SetActive(false); //Close the UI Panel after we sell the tower
     }
 
-    private void ShouNodeUI() //Function that shows the UIPanel when run
+    private void ShouUpgradePanel() //Function that shows the UIPanel when run
     {
-        nodeUIPanel.SetActive(true);
+        nodeUIPanel.SetActive(true); //Senere vil jeg ha en animasjon som får det til å ploppe opp og ned
         UpdateUpgradeText();
         UpdateSellValue();
-        RallyPointButton.SetActive(true);
+        RallyPointButton.SetActive(true); //Make this dependent on a bool that cheks if the tower has "defenders"
     }
 
     private void UpdateUpgradeText()
@@ -83,8 +91,29 @@ public class scrUIManager : Singleton<scrUIManager>
         }
         else
         {
-            ShouNodeUI(); //If there is a tower on the node, show the NodeUIpanel
+            ShouUpgradePanel(); //If there is a tower on the node, show the NodeUIpanel
         }
+    }
+    public void SelectPath1()
+    {
+        PathSelected(1);
+    }
+    public void SelectPath2()
+    {
+        PathSelected(2);
+    }
+    public void SelectPath3()
+    {
+        PathSelected(3);
+    }
+    public void PathSelected(int _path)
+    {
+        _currentNodeSelected.TowerLevelTracker.TowerUpgradePath = _path; //Sets the path for the tower to _path
+        _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower(); //This is how we comunicate with the tower from this script
+        UpdateUpgradeText();
+        UpdateSellValue();
+        TowerPathSelectionPanel.SetActive(false);
+        Debug.Log(_currentNodeSelected.TowerLevelTracker.TowerUpgradePath);
     }
 
     private void OnEnable()

@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 2922998071432970726}
   - component: {fileID: 1361647702147769926}
   m_Layer: 0
-  m_Name: MageProjectileLevel1
+  m_Name: MageProjectileInitial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,7 +490,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdc10495e3da7340997e4664ba5cc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  statsVersion1: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  statsVersion2: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  statsVersion3: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   homingProjectile: 1
   projectileIsFired: 0
 --- !u!114 &-5687864364116122766
@@ -505,7 +507,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799e77249b562ce48b76b9c748ad9363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileLevel1: {fileID: 4672567880029326914}
-  projectileLevel2: {fileID: 5158929382906265300}
-  projectileLevel3: {fileID: 2579885921500547723}
-  projectileLevel4: {fileID: 44870461005930237}
+  projectileInitialPrefab: {fileID: 4672567880029326914}
+  projectileLevel2Version1: {fileID: 5158929382906265300}
+  projectileLevel3Version1: {fileID: 2579885921500547723}
+  projectileLevel4Version1: {fileID: 44870461005930237}
+  projectileLevel2Version2: {fileID: 5158929382906265300}
+  projectileLevel3Version2: {fileID: 2579885921500547723}
+  projectileLevel4Version2: {fileID: 44870461005930237}
+  projectileLevel2Version3: {fileID: 5158929382906265300}
+  projectileLevel3Version3: {fileID: 2579885921500547723}
+  projectileLevel4Version3: {fileID: 44870461005930237}

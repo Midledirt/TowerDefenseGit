@@ -12,7 +12,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
     public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
     public TowerProjectileTypeSO statsVersion2;     //Inherit stats from SO
     public TowerProjectileTypeSO statsVersion3;     //Inherit stats from SO
-    public TowerProjectileTypeSO assignedStats;     //Inherit stats from SO
+    private TowerProjectileTypeSO assignedStats;     //Inherit stats from abowe stats
     [SerializeField] protected Transform projectileSpawnPos;
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
