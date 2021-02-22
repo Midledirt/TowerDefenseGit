@@ -45,26 +45,17 @@ public class scrTowerLevelTracker : MonoBehaviour
     public void UpgradeTowerWithLevel(int _currentLevel)
     {
         CurrentTowerLevel = _currentLevel; //Update the current level from other scripts
-        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 1)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel <= maxTowerLevel && TowerUpgradePath == 1)
         {
-            switch(CurrentTowerLevel) //Set the current prefab to active, others to unactive
+            switch(CurrentTowerLevel) //Set the next part of the tower to active
             {
                 case 2:
-                    InitialTowerPrefab.gameObject.SetActive(false);
                     towerLevel2Version1.gameObject.SetActive(true);
-                    towerLevel3Version1.gameObject.SetActive(false);
-                    towerLevel4Version1.gameObject.SetActive(false);
                     return;
                 case 3:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version1.gameObject.SetActive(false);
                     towerLevel3Version1.gameObject.SetActive(true);
-                    towerLevel4Version1.gameObject.SetActive(false);
                     return;
                 case 4:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version1.gameObject.SetActive(false);
-                    towerLevel3Version1.gameObject.SetActive(false);
                     towerLevel4Version1.gameObject.SetActive(true);
                     return;
                 default:
@@ -73,26 +64,17 @@ public class scrTowerLevelTracker : MonoBehaviour
 
             }
         }
-        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 2)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel <= maxTowerLevel && TowerUpgradePath == 2)
         {
-            switch (CurrentTowerLevel) //Set the current prefab to active, others to unactive
+            switch (CurrentTowerLevel) //Set the next part of the tower to active
             {
                 case 2:
-                    InitialTowerPrefab.gameObject.SetActive(false);
                     towerLevel2Version2.gameObject.SetActive(true);
-                    towerLevel3Version2.gameObject.SetActive(false);
-                    towerLevel4Version2.gameObject.SetActive(false);
                     return;
                 case 3:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version2.gameObject.SetActive(false);
                     towerLevel3Version2.gameObject.SetActive(true);
-                    towerLevel4Version2.gameObject.SetActive(false);
                     return;
                 case 4:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version2.gameObject.SetActive(false);
-                    towerLevel3Version2.gameObject.SetActive(false);
                     towerLevel4Version2.gameObject.SetActive(true);
                     return;
                 default:
@@ -101,26 +83,17 @@ public class scrTowerLevelTracker : MonoBehaviour
 
             }
         }
-        if (CurrentTowerLevel > 1 && CurrentTowerLevel < maxTowerLevel && TowerUpgradePath == 3)
+        if (CurrentTowerLevel > 1 && CurrentTowerLevel <= maxTowerLevel && TowerUpgradePath == 3)
         {
             switch (CurrentTowerLevel) //Set the current prefab to active, others to unactive
             {
                 case 2:
-                    InitialTowerPrefab.gameObject.SetActive(false);
                     towerLevel2Version3.gameObject.SetActive(true);
-                    towerLevel3Version3.gameObject.SetActive(false);
-                    towerLevel4Version3.gameObject.SetActive(false);
                     return;
                 case 3:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version3.gameObject.SetActive(false);
                     towerLevel3Version3.gameObject.SetActive(true);
-                    towerLevel4Version3.gameObject.SetActive(false);
                     return;
                 case 4:
-                    InitialTowerPrefab.gameObject.SetActive(false);
-                    towerLevel2Version3.gameObject.SetActive(false);
-                    towerLevel3Version3.gameObject.SetActive(false);
                     towerLevel4Version3.gameObject.SetActive(true);
                     return;
                 default:

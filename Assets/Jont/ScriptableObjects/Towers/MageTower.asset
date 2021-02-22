@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35cbc3915ebf0184593603e0b5c9638a, type: 3}
   m_Name: MageTower
   m_EditorClassIdentifier: 
-  TowerPrefab: {fileID: 1050789343673941399, guid: 93fed53aac3ba274b8d07bd6f871ddb1, type: 3}
+  TowerPrefab: {fileID: 1050789343673941399, guid: 7e0a6637574949048924d4bc9b711965, type: 3}
   TowerShopCost: 15
   TowerShopSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}

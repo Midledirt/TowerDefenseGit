@@ -40,7 +40,7 @@ public class scrUIManager : Singleton<scrUIManager>
         RallyPointButton.SetActive(false);
     }
 
-    public void UpgradeTurret()
+    public void UpgradeTower()
     {
         if (_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel == 1) //Checks if the tower is at level one
         {
@@ -61,7 +61,7 @@ public class scrUIManager : Singleton<scrUIManager>
         nodeUIPanel.SetActive(false); //Close the UI Panel after we sell the tower
     }
 
-    private void ShouUpgradePanel() //Function that shows the UIPanel when run
+    private void ShouWUpgradePanel() //Function that shows the UIPanel when run
     {
         nodeUIPanel.SetActive(true); //Senere vil jeg ha en animasjon som får det til å ploppe opp og ned
         UpdateUpgradeText();
@@ -91,7 +91,7 @@ public class scrUIManager : Singleton<scrUIManager>
         }
         else
         {
-            ShouUpgradePanel(); //If there is a tower on the node, show the NodeUIpanel
+            ShouWUpgradePanel(); //If there is a tower on the node, show the NodeUIpanel
         }
     }
     public void SelectPath1()

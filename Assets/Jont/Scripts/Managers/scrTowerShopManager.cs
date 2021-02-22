@@ -49,7 +49,7 @@ public class scrTowerShopManager : MonoBehaviour
     {
         if(_currentNodeSelected != null)
         {
-            GameObject towerInstance = Instantiate(towerLoaded.TowerPrefab);
+            GameObject towerInstance = Instantiate(towerLoaded.TowerPrefab); //Get tower from tower pool instead
             towerInstance.transform.localPosition = _currentNodeSelected.transform.position;
             towerInstance.transform.parent = _currentNodeSelected.transform;
 
