@@ -39,5 +39,5 @@ MonoBehaviour:
   setGroupTimer: 2
   setTimeBetweenCreeps: 4
   groupPathVar: 0
-  groupTimer: -0.0065252623
+  groupTimer: -0.00090595335
   timeBetweenCreeps: 4

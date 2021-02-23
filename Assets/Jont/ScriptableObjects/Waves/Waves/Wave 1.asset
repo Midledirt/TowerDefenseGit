@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveName: First Wave
   waveNumber: 1
-  setWaveTimer: 1
-  waveTimer: 0
+  setWaveTimer: 0
+  waveTimer: -0.011101
