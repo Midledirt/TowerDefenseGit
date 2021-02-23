@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// This class handles the movement of the mage projectile! Since other projectiles derrives from this, ive decided to call it "scrProjectiles".
 /// </summary>
 public class scrProjectiles : MonoBehaviour
 {
+    //Delete the following BEFORE launch
+    public static Action<Creep, float> OnCreepHit; //This is only used for bug testing (displaying damage numbers)
+    //Delete what is abowe, BEFORE launch
     [Header("Stats")]
     [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
     public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
@@ -33,7 +37,6 @@ public class scrProjectiles : MonoBehaviour
     private Vector3 cPos;
     private Transform ABPos;
     private Transform BCPos;
-    //private float interpolateAmount;
 
     private void Awake()
     {
@@ -52,16 +55,6 @@ public class scrProjectiles : MonoBehaviour
         projectileIsFired = false;
     }
     private void Update()
-    //Explanation of virtual and override:
-    /*
-     * virtual, override, abstract are all used when extending a base class in object oriented programming. They let you redefine how a function or property works when extending a class. I'll use the terms base class and extended class in my explaination.
-
-virtual and abstract are used in the base class. virtual means, use the extended class's version if it has one otherwise use this base class's version. abstract means the extended class MUST have a new version.
-
-override is the extended classes way of saying, "Hey, I'm making a new version of this function/property! Don't use the base class's version."
-
-Eg: I have a abstract base "Potion" class that has an abstract Use() function. If I make a "Health Potion" class that extends "Potion" then I can override Use() to heal the player. 
-     */
     {
         if (_creepTarget != null && homingProjectile)
         {
@@ -83,6 +76,8 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         //BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
         {
+            OnCreepHit?.Invoke(_creepTarget, Damage);//DELETE this later, as it is ONLY used for displaying DAMAGE NUMBERS
+
             _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
             //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
             //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
@@ -95,13 +90,6 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         if (t < 1f)
         {
             t += (Time.deltaTime * ProjectileMovementSpeed) / 10;
-        }
-        if (t >= 1f)
-        {
-            projectileIsFired = false;
-            TurretOwner.ResetTurretProjectile();
-            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
-            t = 0f;
         }
         aPos = TurretOwner.transform.position + Vector3.up * 2.5f; //Needs improvement
         bPos = ((TurretOwner.transform.position + Vector3.up * statsAssignedVersion.TopProjectileHight) + targetPos) / 2;
@@ -118,7 +106,12 @@ Eg: I have a abstract base "Potion" class that has an abstract Use() function. I
         ////BETWEEN TWO "Vector3" POINTS AS A "float"!
         if (distanceToTarget < MinDistanceToDealDamage) //Check if the projectile is close
         {
+            projectileIsFired = false;
+            TurretOwner.ResetTurretProjectile();
+            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
             _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
+            t = 0f;
+            OnCreepHit?.Invoke(_creepTarget, Damage);//DELETE this later, as it is ONLY used for displaying DAMAGE NUMBERS
         }
         
     }

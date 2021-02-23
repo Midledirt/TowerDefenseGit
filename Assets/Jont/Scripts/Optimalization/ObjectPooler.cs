@@ -76,10 +76,13 @@ public class ObjectPooler : MonoBehaviour
             //Return any instances that are NOT active in the heirarchy
             if (!pool[i].activeInHierarchy)
             {
-                //Update and return the instance
-                pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
-                pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
-                pool[i].GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
+                if (isProjectileSpawner)
+                {
+                    //Update and return the instance
+                    pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
+                    pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+                    pool[i].GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
+                }
                 return pool[i];
             }
         }
@@ -108,7 +111,10 @@ public class ObjectPooler : MonoBehaviour
             }
         }
     }
-
+    public static void ReturnToPool(GameObject instance)
+    {
+        instance.SetActive(false);
+    }
     public static IEnumerator ReturnToPoolWithDelay(GameObject instance, float delay)
     {
         yield return new WaitForSeconds(delay);

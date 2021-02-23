@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 /// <summary>
 /// This class handles the healt amount for creeps
 /// It communicates with other classes using (?) "properties".
@@ -18,7 +19,6 @@ public class scrCreepHealth : MonoBehaviour
 
     [SerializeField] private GameObject healthbarPreab;
     [SerializeField] private Transform barPosition;
-
     public float currentHealth { get; set; }
 
     private Image healthBar;
@@ -40,10 +40,10 @@ public class scrCreepHealth : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            DealDamage(5f); //For test purposes
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    DealDamage(5f); //For test purposes
+        //}
 
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
         //between the currenthealth and the max health
@@ -73,13 +73,11 @@ public class scrCreepHealth : MonoBehaviour
             OnEnemyBlocked?.Invoke(_creep);
         }
     }
-
     public void ResetHealth()
     {
         currentHealth = stats.initialHealth; //Reset the health
         healthBar.fillAmount = 1f; //Reset the health bar
     }
-
     private void creepDies()
     {
         OnEnemyKilled?.Invoke(_creep); //Invokes the on enemy killed. Why is there a questionmark afteher it tho... The questionmark makes this

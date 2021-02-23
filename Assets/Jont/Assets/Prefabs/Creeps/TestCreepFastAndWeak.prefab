@@ -342,6 +342,36 @@ Transform:
   m_Father: {fileID: 6413355275610127379}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4810808306291666760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3090214013789962876}
+  m_Layer: 0
+  m_Name: TextDamagePosition(deleteThis)
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3090214013789962876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810808306291666760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6413355275610127379}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5366783154296788609
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,9 +511,10 @@ GameObject:
   - component: {fileID: 1346459625}
   - component: {fileID: 2953635114359130039}
   - component: {fileID: -3568799875617709746}
+  - component: {fileID: -2872325584003873357}
   - component: {fileID: 5561459220695453062}
   - component: {fileID: 146614935781967178}
-  - component: {fileID: -2872325584003873357}
+  - component: {fileID: -119321054072905213}
   m_Layer: 0
   m_Name: TestCreepFastAndWeak
   m_TagString: Creep
@@ -506,6 +537,7 @@ Transform:
   - {fileID: 5170793009143032786}
   - {fileID: 1415503647}
   - {fileID: 6012740683121589421}
+  - {fileID: 3090214013789962876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -540,10 +572,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0480b4824d0754dbdf35c8307354ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myPath: {fileID: 0}
   endOfPathInstruction: 2
-  middlePath: {fileID: 4478736378732976707, guid: 8a427e4ee6fe77f409dab9046ad8596c, type: 3}
-  leftPath: {fileID: 3508396513418174866, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
-  rightPath: {fileID: 5971935649729849913, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
+  hasBeenSpawned: 0
 --- !u!114 &2953635114359130039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +601,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c127038bc0f2e514296b8ba297a7040c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2872325584003873357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929833370194159273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1af0a71bfceb9240a11ffc34b1e4f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creepType: {fileID: 11400000, guid: 18b26ec4095b4c04bbed9684eec03d46, type: 2}
 --- !u!136 &5561459220695453062
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -600,7 +644,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-2872325584003873357
+--- !u!114 &-119321054072905213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -609,10 +653,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5929833370194159273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1af0a71bfceb9240a11ffc34b1e4f00, type: 3}
+  m_Script: {fileID: 11500000, guid: 869fb8e9ad4e1324d92b02161923a9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creepType: {fileID: 11400000, guid: 18b26ec4095b4c04bbed9684eec03d46, type: 2}
+  textDamageSpawnPossition: {fileID: 3090214013789962876}
 --- !u!1 &6086736735971155903
 GameObject:
   m_ObjectHideFlags: 0
