@@ -9,16 +9,13 @@ public class scrTowerProjectileLoader : MonoBehaviour
 {
     [Header("Stats")]
     [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
-    public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
-    public TowerProjectileTypeSO statsVersion2;     //Inherit stats from SO
-    public TowerProjectileTypeSO statsVersion3;     //Inherit stats from SO
     private TowerProjectileTypeSO assignedStats;     //Inherit stats from abowe stats
     [SerializeField] protected Transform projectileSpawnPos;
     [Tooltip("This is effectivly the reload time for this tower")]
     [Range(0.1f, 10f)]
     private float delayBetweenAttacks;
     private float towerAimValue = 10f; //his value decides how far ahead the tower will aim in order to hit consistently. Defaults to 10.
-    private scrProjectileLevelTracker projectileLevelTracker;
+    private scrTowerProjectileStatsRecorder projectileStatsTracker;
     public float Damage { get; set; }
 
     protected float _nextAttackTime;
@@ -32,10 +29,9 @@ public class scrTowerProjectileLoader : MonoBehaviour
 
     private void Awake()
     {
-        projectileLevelTracker = GetComponent<scrProjectileLevelTracker>(); //Get the instance on the gameobject
+        projectileStatsTracker = GetComponent<scrTowerProjectileStatsRecorder>();
         _pooler = GetComponent<ObjectPooler>(); //Gets the specific instance of a pooler script attached to THIS GAMEOBJECT
-        assignedStats = statsVersion1; //Initializes the stats as that of the default verson
-
+        assignedStats = projectileStatsTracker.SetInitialStasts(); //Initializes the stats as that of the default verson
     }
 
     private void Start()
@@ -109,30 +105,16 @@ public class scrTowerProjectileLoader : MonoBehaviour
         currentProjectileLoaded.Damage = Damage; //Sets the "Damage" property in the scrProjectiles 
         newInstance.SetActive(true); //Activates it
     }
+
+    public void UpdateProjectileStats(int _towerPath, int _towerLevel)
+    {
+        assignedStats = projectileStatsTracker.UpgradeProjectileStats(_towerPath, _towerLevel); //Gets the projectile stats from the projectile tracker
+        delayBetweenAttacks = assignedStats.DelayBetweenAttacks;
+        Damage = assignedStats.ProjectileDamage;
+        assignedStats.ResetStats(); //Makes sure the stats are kept to assigned values
+    }
     public void ResetTurretProjectile()
     {
         currentProjectileLoaded = null;
-    }
-    public void UpdateProjectileLoaderStats(int _UpgradePath)
-    {
-        //Assign the stats
-        switch(_UpgradePath)
-        {
-            case 0:
-                assignedStats = statsVersion1; //Set the stats to equal tower path 1
-                return;
-            case 1:
-                assignedStats = statsVersion1; //Set the stats tp equal tower path 1
-                return;
-            case 2:
-                assignedStats = statsVersion2; //Set the stats to equal tower path 2
-                return;
-            case 3:
-                assignedStats = statsVersion3; //Set the stats to equal tower path 3
-                return;
-        }
-        //Update the stats
-        Damage = assignedStats.ProjectileDamage;
-        delayBetweenAttacks = assignedStats.DelayBetweenAttacks;
     }
 }

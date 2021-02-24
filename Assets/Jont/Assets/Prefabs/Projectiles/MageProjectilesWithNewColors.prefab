@@ -610,7 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8258794984391042122}
   - component: {fileID: 3954002727025228255}
-  - component: {fileID: 176367536819925061}
+  - component: {fileID: 6687977831204999943}
   m_Layer: 0
   m_Name: MageProjectilesWithNewColors
   m_TagString: Untagged
@@ -657,11 +657,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsVersion1: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
-  statsVersion2: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  statsVersion2: {fileID: 11400000, guid: 4294030815064e04a89578a096ee75a6, type: 2}
   statsVersion3: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   homingProjectile: 1
   projectileIsFired: 0
---- !u!114 &176367536819925061
+--- !u!114 &6687977831204999943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -670,7 +670,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7631475965720528353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799e77249b562ce48b76b9c748ad9363, type: 3}
+  m_Script: {fileID: 11500000, guid: 563ac41c82ab0004ca2405cc3bba27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileInitialPrefab: {fileID: 8339113531559566709}

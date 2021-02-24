@@ -54,7 +54,7 @@ public class scrTowerShopManager : MonoBehaviour
             towerInstance.transform.parent = _currentNodeSelected.transform;
 
             scrTowerTargeting towerPlaced = towerInstance.GetComponent<scrTowerTargeting>();
-            scrTowerLevelTracker towerPlacedLevelTracker = towerInstance.GetComponent<scrTowerLevelTracker>();
+            scrTowerPrefabTracker towerPlacedLevelTracker = towerInstance.GetComponent<scrTowerPrefabTracker>();
             _currentNodeSelected.SetTower(towerPlaced);
             _currentNodeSelected.SetTowerLevelTracker(towerPlacedLevelTracker);
         }

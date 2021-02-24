@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrProjectileLevelTracker : MonoBehaviour
+public class scrProjectilePrefabTracker : MonoBehaviour
 {
     [Header ("Initial prefab for projectile")]
     [SerializeField] public GameObject projectileInitialPrefab;

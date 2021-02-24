@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrTowerLevelTracker : MonoBehaviour
+public class scrTowerPrefabTracker : MonoBehaviour
 {
     [Header("The initial prefab of the tower")]
     [SerializeField] private GameObject InitialTowerPrefab;

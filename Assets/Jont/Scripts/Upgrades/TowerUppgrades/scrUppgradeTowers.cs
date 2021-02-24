@@ -20,7 +20,7 @@ public class scrUppgradeTowers : MonoBehaviour
 
     public float SellPercentage { get; set; }
     public int UppgradeCost { get; set; }
-    private scrTowerLevelTracker towerLevelTracker;
+    private scrTowerPrefabTracker towerLevelTracker;
     private scrTowerProjectileLoader _towerProjectileLoader;
     private ObjectPooler projectilePool;
     private int towerCurrentLevel;
@@ -34,7 +34,7 @@ public class scrUppgradeTowers : MonoBehaviour
     private void Start()
     {
         _towerProjectileLoader = GetComponent<scrTowerProjectileLoader>(); //get the instance!
-        towerLevelTracker = GetComponent<scrTowerLevelTracker>(); //Get the instance!
+        towerLevelTracker = GetComponent<scrTowerPrefabTracker>(); //Get the instance!
 
         UppgradeCost = uppgradeCost;
 
@@ -46,13 +46,12 @@ public class scrUppgradeTowers : MonoBehaviour
         if (scrCurrencySystem.Instance.TotalCoins >= UppgradeCost && towerCurrentLevel < 4) //Check that we have enough coins. scrCurrenctySystem is a Singleton btw
             //So we do not need a reference (I think)
         {
-            _towerProjectileLoader.UpdateProjectileLoaderStats(towerLevelTracker.TowerUpgradePath); //Set the upgrade path for the tower
-            _towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
-            //THE ABOWE LINE NEEDS TO BE CHANGED SO THAT IT DEPENDS ON THE CURRENT UPGRADE VERSION OF THE TOWER
 
+            //_towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             towerCurrentLevel += 1; //Increases the level of the tower
             towerLevelTracker.UpgradeTowerWithLevel(towerCurrentLevel); //Set the level the tower and projectiles will be at
-            projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectiles
+            projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectile prefab
+            _towerProjectileLoader.UpdateProjectileStats(towerLevelTracker.TowerUpgradePath, towerCurrentLevel); //Update the projectile stats
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
         }
     }

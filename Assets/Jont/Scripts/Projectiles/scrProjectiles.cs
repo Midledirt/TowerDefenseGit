@@ -12,17 +12,15 @@ public class scrProjectiles : MonoBehaviour
     public static Action<Creep, float> OnCreepHit; //This is only used for bug testing (displaying damage numbers)
     //Delete what is abowe, BEFORE launch
     [Header("Stats")]
-    [Tooltip("Assign the projectile type with the stats you want for this prefab. This must be done for BOTH tower and projectile prefab!")]
-    public TowerProjectileTypeSO statsVersion1;     //Inherit stats from SO
-    public TowerProjectileTypeSO statsVersion2;     //Inherit stats from SO
-    public TowerProjectileTypeSO statsVersion3;     //Inherit stats from SO
-    private TowerProjectileTypeSO statsAssignedVersion; //Set in script
-    [Tooltip("How fast this projectile moves")]
-    private float movementSpeed; //This might not be needed anymore
+    [Tooltip("Set how fast the projectile will move")]
+    [SerializeField] private float projectileMovementSpeed = 10;
     public float ProjectileMovementSpeed { get; private set; }
     [Tooltip("Defines how close to the target the projectiles needs to be in order to hit it. The larger this radius is, the easier and ealier the collision")]
     [Range(0.1f, 1f)]
+    [SerializeField] private float minDistanceToDealDamage = 0.1f;
     private float MinDistanceToDealDamage;
+    [Tooltip("How high the arch for this projectile is.")]
+    [SerializeField] private float topProjectileHight = 10f;
     [Tooltip("Decides if this projectile will home in on enemies, or be aimed")]
     [SerializeField] private bool homingProjectile = false;
     public scrTowerProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
@@ -40,18 +38,12 @@ public class scrProjectiles : MonoBehaviour
 
     private void Awake()
     {
-        statsAssignedVersion = statsVersion1;
         ABPos = transform.Find("ABPos");
         BCPos = transform.Find("BCPos");
         t = 0f;
-        ProjectileMovementSpeed = movementSpeed;
-        //Reset stats
-        statsAssignedVersion.ResetStats(); //IMPORTANT: Other scripts will acess the properties in stats. They do not need to run this method, HOWEVER, they cannot acces 
-        //the stats in AWAKE. Instead, do it in START. This is done to make sure that the stats are initialized before they are called, as other classes AWAKE
-        //might run before this one.
         //Assign stats
-        ProjectileMovementSpeed = statsAssignedVersion.MovementSpeed;
-        MinDistanceToDealDamage = statsAssignedVersion.MinDistanceToDamage;
+        ProjectileMovementSpeed = projectileMovementSpeed;
+        MinDistanceToDealDamage = minDistanceToDealDamage;
         projectileIsFired = false;
     }
     private void Update()
@@ -92,7 +84,7 @@ public class scrProjectiles : MonoBehaviour
             t += (Time.deltaTime * ProjectileMovementSpeed) / 10;
         }
         aPos = TurretOwner.transform.position + Vector3.up * 2.5f; //Needs improvement
-        bPos = ((TurretOwner.transform.position + Vector3.up * statsAssignedVersion.TopProjectileHight) + targetPos) / 2;
+        bPos = ((TurretOwner.transform.position + Vector3.up * topProjectileHight) + targetPos) / 2;
         cPos = targetPos;
         //New movement
 
@@ -144,27 +136,5 @@ public class scrProjectiles : MonoBehaviour
     {
         _creepTarget = null;
         transform.localRotation = Quaternion.identity;
-    }
-    public void UpdateProjectileStats(int towerUpgradePath)
-    {
-        //Assign stats
-        switch(towerUpgradePath)
-        {
-            case 0:
-                statsAssignedVersion = statsVersion1; //Set the initial stat version
-                return;
-            case 1:
-                statsAssignedVersion = statsVersion1; //If tower upgrade path 1 is chosen
-                return;
-            case 2:
-                statsAssignedVersion = statsVersion2; //If tower upgrade path 2 is chosen
-                return;
-            case 3:
-                statsAssignedVersion = statsVersion3; //If tower upgrade path 3 is chosen
-                return;
-        }
-        //Update stats
-        ProjectileMovementSpeed = statsAssignedVersion.MovementSpeed;
-        MinDistanceToDealDamage = statsAssignedVersion.MinDistanceToDamage;
     }
 }

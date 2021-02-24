@@ -537,7 +537,8 @@ GameObject:
   - component: {fileID: 2156339796716720343}
   - component: {fileID: 2156339796716720299}
   - component: {fileID: 4867927097262472080}
-  - component: {fileID: 2134767577047663284}
+  - component: {fileID: 1098619665613102571}
+  - component: {fileID: -2523251652938981875}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -638,12 +639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2141bdffb016a4aa5838ff9b1703e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsVersion1: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
-  statsVersion2: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
-  statsVersion3: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
   projectileSpawnPos: {fileID: 2156339795450348439}
   projectileMissfireTreshold: 4.5
---- !u!114 &2134767577047663284
+--- !u!114 &1098619665613102571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -652,7 +650,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2156339796716720337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8311cd99f3201e3438900337360b650d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1842a3cf94cdbc446b3c8290ae04977b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InitialTowerPrefab: {fileID: 2156339796302153936}
@@ -665,6 +663,28 @@ MonoBehaviour:
   towerLevel2Version3: {fileID: 6017823758883405473}
   towerLevel3Version3: {fileID: 475698610191279013}
   towerLevel4Version3: {fileID: 1199462305773524417}
+--- !u!114 &-2523251652938981875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156339796716720337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ace8ad32492044a3cc2f53b3f63c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialProjectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path1Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  Path1Level3Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path1Level4Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path2Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  Path2Level3Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path2Level4Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path3Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  Path3Level3Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+  Path3Level4Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
 --- !u!1 &2156339797014155316
 GameObject:
   m_ObjectHideFlags: 0

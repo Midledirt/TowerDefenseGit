@@ -21,7 +21,7 @@ public class ObjectPooler : MonoBehaviour
     [Header("Set projectile spawner")]
     [Tooltip("Set this to true, if this pooler is spawning projectiles")]
     [SerializeField] private bool isProjectileSpawner = false;
-    private scrTowerLevelTracker towerLevelTracker; 
+    private scrTowerPrefabTracker towerLevelTracker; 
 
     private List<GameObject> pool;
 
@@ -35,7 +35,7 @@ public class ObjectPooler : MonoBehaviour
 
         poolContainer = new GameObject($"Pool of {prefab.name}");
 
-        towerLevelTracker = GetComponent<scrTowerLevelTracker>(); //Get the instance on this object
+        towerLevelTracker = GetComponent<scrTowerPrefabTracker>(); //Get the instance on this object
     }
     private void Start()
     {
@@ -58,9 +58,8 @@ public class ObjectPooler : MonoBehaviour
         GameObject newInstance = Instantiate(prefab);
         if (isProjectileSpawner)
         {
-            newInstance.GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
-            newInstance.GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
-            newInstance.GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
+            newInstance.GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
+            newInstance.GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
         }
 
         //Set the parent to be the pool container
@@ -79,9 +78,8 @@ public class ObjectPooler : MonoBehaviour
                 if (isProjectileSpawner)
                 {
                     //Update and return the instance
-                    pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
-                    pool[i].GetComponent<scrProjectileLevelTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
-                    pool[i].GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
+                    pool[i].GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
+                    pool[i].GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
                 }
                 return pool[i];
             }
@@ -105,9 +103,8 @@ public class ObjectPooler : MonoBehaviour
         {
             foreach(GameObject _projectile in pool)
             {
-                _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
-                _projectile.GetComponent<scrProjectileLevelTracker>().SetProjectilePath(_towerPath); //Sets the upgrade path for projectile
-                _projectile.GetComponent<scrProjectiles>().UpdateProjectileStats(towerLevelTracker.TowerUpgradePath); //Sets the stats for the projectile
+                _projectile.GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
+                _projectile.GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(_towerPath); //Sets the upgrade path for projectile
             }
         }
     }

@@ -81,6 +81,6 @@ public class scrCreepHealth : MonoBehaviour
     private void creepDies()
     {
         OnEnemyKilled?.Invoke(_creep); //Invokes the on enemy killed. Why is there a questionmark afteher it tho... The questionmark makes this
-        //an "if" statement, is what I believe So: If (OnEnemyKilled == true) i suppose
+        //The questionmark checks wether or not this has a null reference. Has it happened? Ok then invoke. 
     }
 }

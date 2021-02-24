@@ -265,7 +265,8 @@ GameObject:
   - component: {fileID: 1050789343673941395}
   - component: {fileID: 1050789343673941394}
   - component: {fileID: 1050789343673941404}
-  - component: {fileID: -4142014530739543253}
+  - component: {fileID: 200677141760156877}
+  - component: {fileID: -2134827058748554245}
   m_Layer: 0
   m_Name: MageTowerBetterUpgradeSystem
   m_TagString: Untagged
@@ -335,9 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2141bdffb016a4aa5838ff9b1703e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsVersion1: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
-  statsVersion2: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
-  statsVersion3: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   projectileSpawnPos: {fileID: 993413580399118220}
   projectileMissfireTreshold: 4.5
 --- !u!114 &1050789343673941394
@@ -371,7 +369,7 @@ MonoBehaviour:
   upgradeCostIncremental: 20
   damageIncremental: 2
   sellPercentage: 0.75
---- !u!114 &-4142014530739543253
+--- !u!114 &200677141760156877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -380,7 +378,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1050789343673941399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8311cd99f3201e3438900337360b650d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1842a3cf94cdbc446b3c8290ae04977b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InitialTowerPrefab: {fileID: 7494357477575318217}
@@ -393,6 +391,28 @@ MonoBehaviour:
   towerLevel2Version3: {fileID: 5106328934690885280}
   towerLevel3Version3: {fileID: 7439645699335466511}
   towerLevel4Version3: {fileID: 7646401310819554896}
+--- !u!114 &-2134827058748554245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050789343673941399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ace8ad32492044a3cc2f53b3f63c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialProjectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path1Level2Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path1Level3Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path1Level4Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path2Level2Projectile: {fileID: 11400000, guid: bdb441c983bc55d4a8313834c5de17f5, type: 2}
+  Path2Level3Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path2Level4Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path3Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  Path3Level3Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+  Path3Level4Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
 --- !u!1 &1512717400103562181
 GameObject:
   m_ObjectHideFlags: 0

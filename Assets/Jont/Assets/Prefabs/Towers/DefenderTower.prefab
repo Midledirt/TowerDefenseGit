@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8869608008729189934}
   - component: {fileID: 8869608008729189935}
   - component: {fileID: 6676365224917668049}
-  - component: {fileID: 5231017928356259823}
+  - component: {fileID: 5445338451896795075}
   m_Layer: 0
   m_Name: DefenderTower
   m_TagString: Untagged
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 5929833370194159273, guid: daff67e6e81c87247830a2e1e53151c9, type: 3}
   poolSize: 3
+  isProjectileSpawner: 0
 --- !u!114 &8869608008729189935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 3
---- !u!114 &5231017928356259823
+--- !u!114 &5445338451896795075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,6 +183,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8869608008729189939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8311cd99f3201e3438900337360b650d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1842a3cf94cdbc446b3c8290ae04977b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialTowerPrefab: {fileID: 0}
+  towerLevel2Version1: {fileID: 0}
+  towerLevel3Version1: {fileID: 0}
+  towerLevel4Version1: {fileID: 0}
+  towerLevel2Version2: {fileID: 0}
+  towerLevel3Version2: {fileID: 0}
+  towerLevel4Version2: {fileID: 0}
+  towerLevel2Version3: {fileID: 0}
+  towerLevel3Version3: {fileID: 0}
+  towerLevel4Version3: {fileID: 0}

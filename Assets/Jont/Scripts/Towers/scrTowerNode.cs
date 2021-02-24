@@ -12,14 +12,14 @@ public class scrTowerNode : MonoBehaviour
     //"scrUIManager" class.
 
     public scrTowerTargeting Tower { get; set; }
-    public scrTowerLevelTracker TowerLevelTracker { get; set; }
+    public scrTowerPrefabTracker TowerLevelTracker { get; set; }
 
     public void WhenClicked() //This fires when the mouse has clicked on this object
     {
         //print("I am clicked, I am: " + this.gameObject.name); //For testing, tested to work fine!
         SelectTower(); //Runs the select tower ACTION
     }
-    public void SetTowerLevelTracker(scrTowerLevelTracker _towerLevelTracker)
+    public void SetTowerLevelTracker(scrTowerPrefabTracker _towerLevelTracker)
     {
         TowerLevelTracker = _towerLevelTracker;
     }
