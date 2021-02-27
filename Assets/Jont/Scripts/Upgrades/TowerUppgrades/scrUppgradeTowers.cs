@@ -25,8 +25,18 @@ public class scrUppgradeTowers : MonoBehaviour
     private ObjectPooler projectilePool;
     private int towerCurrentLevel;
 
+    [SerializeField] private int path1cost;
+    [SerializeField] private int path2cost;
+    [SerializeField] private int path3cost;
+    public int Path1Cost { get; private set; }
+    public int Path2Cost { get; private set; }
+    public int Path3Cost { get; private set; }
+
     private void Awake()
     {
+        Path1Cost = path1cost;
+        Path2Cost = path2cost;
+        Path3Cost = path3cost;
         towerCurrentLevel = 1;
         projectilePool = GetComponent<ObjectPooler>(); //Gets the instance on this tower
     }
@@ -40,19 +50,40 @@ public class scrUppgradeTowers : MonoBehaviour
 
         SellPercentage = sellPercentage;
     }
+    public void AssignPathFromButtonPress(int path)
+    {
+        switch(path)
+        {
+            case 1:
+                UppgradeCost = path1cost;
+                return;
+            case 2:
+                UppgradeCost = path2cost;
+                return;
+            case 3:
+                UppgradeCost = path3cost;
+                return;
+            default:
+                Debug.LogError("The getPathFromButtonPress function in scrUppgradeTowers is assigned an invalid value");
+                return;
+        }
+    }
 
     public void UpgradeTower()
     {
-        if (scrCurrencySystem.Instance.TotalCoins >= UppgradeCost && towerCurrentLevel < 4) //Check that we have enough coins. scrCurrenctySystem is a Singleton btw
-            //So we do not need a reference (I think)
+        //Path selection
+        if(scrCurrencySystem.Instance.TotalCoins >= UppgradeCost && towerCurrentLevel < 4)
         {
-
             //_towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             towerCurrentLevel += 1; //Increases the level of the tower
             towerLevelTracker.UpgradeTowerWithLevel(towerCurrentLevel); //Set the level the tower and projectiles will be at
             projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectile prefab
             _towerProjectileLoader.UpdateProjectileStats(towerLevelTracker.TowerUpgradePath, towerCurrentLevel); //Update the projectile stats
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
+        }
+        else if (scrCurrencySystem.Instance.TotalCoins < UppgradeCost)
+        {
+            Debug.Log("Not enough money");
         }
     }
 
@@ -65,6 +96,6 @@ public class scrUppgradeTowers : MonoBehaviour
     private void UpdateUppgrade()
     {
         scrCurrencySystem.Instance.SpendCoins(UppgradeCost); //Spend the coins
-        UppgradeCost += upgradeCostIncremental; //Increase the cost for the next time
+        //UppgradeCost += upgradeCostIncremental; //Increase the cost for the next time
     }
 }

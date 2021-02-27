@@ -627,6 +627,9 @@ MonoBehaviour:
   upgradeCostIncremental: 15
   damageIncremental: 1
   sellPercentage: 0.75
+  path1cost: 100
+  path2cost: 150
+  path3cost: 1000
 --- !u!114 &4867927097262472080
 MonoBehaviour:
   m_ObjectHideFlags: 0

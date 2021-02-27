@@ -10,9 +10,17 @@ public class scrUIManager : Singleton<scrUIManager>
     [SerializeField] private GameObject nodeUIPanel;
     [SerializeField] private GameObject RallyPointButton; //My own addition
     [SerializeField] private GameObject TowerPathSelectionPanel; //My own addition
+    [SerializeField] private GameObject TowerUpgradePanel; //My own addition
+    [SerializeField] private GameObject TowerSpecializationUpgradesPanel; //My own addition
 
-    [Header("Text")] 
-    [SerializeField] private TextMeshProUGUI upgradeText;
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI upgradeTextForPathSelectionPanelPath1;
+    [SerializeField] private TextMeshProUGUI upgradeTextForPathSelectionPanelPath2;
+    [SerializeField] private TextMeshProUGUI upgradeTextForPathSelectionPanelPath3;
+    [SerializeField] private TextMeshProUGUI upgradeTextForUpgradePanel;
+    [SerializeField] private TextMeshProUGUI upgradeTextForSpesializationSelectionPanelSpez1;
+    [SerializeField] private TextMeshProUGUI upgradeTextForSpesializationSelectionPanelSpez2;
+    [SerializeField] private TextMeshProUGUI upgradeTextForSpesializationSelectionPanelSpez3;
     [SerializeField] private TextMeshProUGUI sellText;
     [SerializeField] private TextMeshProUGUI totalCoinsText;
     [SerializeField] private TextMeshProUGUI livesText;
@@ -38,20 +46,38 @@ public class scrUIManager : Singleton<scrUIManager>
         //This is where the tutorial runs the "scrTowerNode" CloseAttackRangeSprite(). //IMPORTANT: DOES NOT WORK RIGHT NOW
         nodeUIPanel.SetActive(false);
         RallyPointButton.SetActive(false);
+        CloseOpenPanels(); //Close open panels
     }
 
-    public void UpgradeTower()
+    public void OpenUpgradeMenu()
     {
+        CloseOpenPanels(); //Close open panels
         if (_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel == 1) //Checks if the tower is at level one
         {
             TowerPathSelectionPanel.SetActive(true);
+            UpgradeMenuOpened();
         }
-        else if(_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel !=1)
+        if(_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel !=1 && _currentNodeSelected.TowerLevelTracker.CurrentTowerLevel < 4)
         {
-            _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower(); //This is how we comunicate with the tower from this script
-            UpdateUpgradeText();
-            UpdateSellValue();
+            TowerUpgradePanel.SetActive(true);
+            UpgradeMenuOpened();
         }
+        else if(_currentNodeSelected.TowerLevelTracker.CurrentTowerLevel == 4)
+        {
+            TowerSpecializationUpgradesPanel.SetActive(true);
+            UpgradeMenuOpened();
+        }
+    }
+    private void CloseOpenPanels()
+    {
+        TowerPathSelectionPanel.SetActive(false);
+        TowerUpgradePanel.SetActive(false);
+        TowerSpecializationUpgradesPanel.SetActive(false);
+    }
+    private void UpgradeMenuOpened()
+    {
+        UpdateUpgradeText();
+        UpdateSellValue();
     }
 
     public void SellTower()
@@ -71,9 +97,15 @@ public class scrUIManager : Singleton<scrUIManager>
 
     private void UpdateUpgradeText()
     {
-        upgradeText.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString(); //So this references the "currentNodeSelected", 
+        upgradeTextForPathSelectionPanelPath1.text = _currentNodeSelected.Tower.TowerUpgrade.Path1Cost.ToString(); //So this references the "currentNodeSelected", 
         //because we clicked on it. Then it accesses the scrTowerTargeting class connected to the tower on that node. It then cheks for that classes reference
         //to the "TowerUpgrade" variable which references the "scrUppgradeTurret" script, where we find the uppgradecost. A long snake of references.
+        upgradeTextForPathSelectionPanelPath2.text = _currentNodeSelected.Tower.TowerUpgrade.Path2Cost.ToString();
+        upgradeTextForPathSelectionPanelPath3.text = _currentNodeSelected.Tower.TowerUpgrade.Path3Cost.ToString();
+        upgradeTextForUpgradePanel.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString();
+        upgradeTextForSpesializationSelectionPanelSpez1.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString();
+        upgradeTextForSpesializationSelectionPanelSpez2.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString();
+        upgradeTextForSpesializationSelectionPanelSpez3.text = _currentNodeSelected.Tower.TowerUpgrade.UppgradeCost.ToString();
     }
 
     private void UpdateSellValue()
@@ -96,15 +128,27 @@ public class scrUIManager : Singleton<scrUIManager>
     }
     public void SelectPath1()
     {
-        PathSelected(1);
+        if (scrCurrencySystem.Instance.TotalCoins > _currentNodeSelected.Tower.TowerUpgrade.Path1Cost)
+        {
+            _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
+            PathSelected(1);
+        }
     }
     public void SelectPath2()
     {
-        PathSelected(2);
+        if (scrCurrencySystem.Instance.TotalCoins > _currentNodeSelected.Tower.TowerUpgrade.Path2Cost)
+        {
+            _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
+            PathSelected(2);
+        }
     }
     public void SelectPath3()
     {
-        PathSelected(3);
+        if (scrCurrencySystem.Instance.TotalCoins > _currentNodeSelected.Tower.TowerUpgrade.Path3Cost)
+        {
+            _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
+            PathSelected(3);
+        }
     }
     public void PathSelected(int _path)
     {
@@ -114,6 +158,13 @@ public class scrUIManager : Singleton<scrUIManager>
         UpdateSellValue();
         TowerPathSelectionPanel.SetActive(false);
         Debug.Log("Tower Path set to: " + _currentNodeSelected.TowerLevelTracker.TowerUpgradePath);
+    }
+    public void UpgradeTower()
+    {
+        _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower(); //This is how we comunicate with the tower from this script
+        UpdateUpgradeText();
+        UpdateSellValue();
+        TowerUpgradePanel.SetActive(false);
     }
 
     private void OnEnable()
