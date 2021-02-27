@@ -95,7 +95,27 @@ public class scrUppgradeTowers : MonoBehaviour
 
     private void UpdateUppgrade()
     {
-        scrCurrencySystem.Instance.SpendCoins(UppgradeCost); //Spend the coins
+        //scrCurrencySystem.Instance.SpendCoins(UppgradeCost); //Spend the coins
         //UppgradeCost += upgradeCostIncremental; //Increase the cost for the next time
+        int selectedTowerPath = towerLevelTracker.TowerUpgradePath;
+        switch(selectedTowerPath)
+        {
+            case 1:
+                UppgradeCost = (path1cost += upgradeCostIncremental);
+                scrCurrencySystem.Instance.SpendCoins(UppgradeCost);
+                return;
+            case 2:
+                UppgradeCost = (path2cost += upgradeCostIncremental);
+                scrCurrencySystem.Instance.SpendCoins(UppgradeCost);
+                return;
+            case 3:
+                UppgradeCost = (path3cost += upgradeCostIncremental);
+                scrCurrencySystem.Instance.SpendCoins(UppgradeCost);
+                return;
+            default:
+                UppgradeCost = path1cost;
+                Debug.LogError("The selectedTowerPath local var in the UpdateUpgrade function in the scrUpgradeTowers script is assigned an incorrect value");
+                return;
+        }
     }
 }
