@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 1050789343673941404}
   - component: {fileID: 200677141760156877}
   - component: {fileID: -2134827058748554245}
+  - component: {fileID: 3080842262357602896}
   m_Layer: 0
   m_Name: MageTowerBetterUpgradeSystem
   m_TagString: Untagged
@@ -324,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 5
+  towerHasDefenders: 0
 --- !u!114 &1050789343673941395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +418,20 @@ MonoBehaviour:
   Path3Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   Path3Level3Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
   Path3Level4Projectile: {fileID: 11400000, guid: e1c6807e86be9234f947c2e7c39e8a39, type: 2}
+--- !u!114 &3080842262357602896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050789343673941399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f66c3701e2f564f92b98233730aba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rallyPointPrefab: {fileID: 8198359425438993464, guid: 45e51000e1aa5bf48a5df408aabaad1c, type: 3}
+  towerRallyRange: 3.24
 --- !u!1 &1512717400103562181
 GameObject:
   m_ObjectHideFlags: 0

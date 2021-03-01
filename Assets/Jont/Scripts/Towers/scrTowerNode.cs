@@ -10,14 +10,20 @@ public class scrTowerNode : MonoBehaviour
     public static Action OnTowerSold; //This needs no specific reference, unlike the Action above, because "we don`t care which node sold the
     //turret, we just want to lose the "_currentNodeSelected" reference." "_currentNodeSelected" will reference this script, from the 
     //"scrUIManager" class.
-
+    public scrTowerRallypointPos TowerRallypointPos { get; set; }
     public scrTowerTargeting Tower { get; set; }
     public scrTowerPrefabTracker TowerLevelTracker { get; set; }
+    //THE REASON WHY THIS SCRIPT HOLDS SO MANY REFERENCES TO OTHER SCRIPTS is that du to the public action abowe, this script can be used to get specific
+    //references to the different instances of scripts on the tower
 
     public void WhenClicked() //This fires when the mouse has clicked on this object
     {
         //print("I am clicked, I am: " + this.gameObject.name); //For testing, tested to work fine!
         SelectTower(); //Runs the select tower ACTION
+    }
+    public void SetRallyPointReference(scrTowerRallypointPos _rallypointInstance)
+    {
+        TowerRallypointPos = _rallypointInstance;
     }
     public void SetTowerLevelTracker(scrTowerPrefabTracker _towerLevelTracker)
     {

@@ -7606,7 +7606,7 @@ MonoBehaviour:
   clickableLayer:
     serializedVersion: 2
     m_Bits: 512
-  TestObject: {fileID: 5929833370194159273, guid: daff67e6e81c87247830a2e1e53151c9, type: 3}
+  GroundHeight: {fileID: 729930606}
 --- !u!1 &2097454276
 GameObject:
   m_ObjectHideFlags: 0

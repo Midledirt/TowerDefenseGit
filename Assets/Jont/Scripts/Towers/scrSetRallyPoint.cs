@@ -5,13 +5,15 @@ using UnityEngine;
 public class scrSetRallyPoint : MonoBehaviour
 {
     [SerializeField] private LayerMask clickableLayer; //Allows us to filther using layers
-    [SerializeField] private GameObject TestObject;
+    //[SerializeField] private GameObject TestObject;
+    [Header("Assign ground")]
+    [Tooltip("Assign the ground object so the rally point gets a Y height")]
+    [SerializeField] private GameObject GroundHeight;
     private Camera mainCamera;
-
     private bool recordingMousePos = false;
     private RaycastHit hit;
-    private Vector3 rallyPoint;
-
+    private Vector3 rallyPointPossition;
+    private scrTowerNode _currentNodeSelected;
     private void Start()
     {
         mainCamera = Camera.main;
@@ -21,7 +23,7 @@ public class scrSetRallyPoint : MonoBehaviour
     {
         if (recordingMousePos) // 2. Vi starter å recorde posisjonen til musen
         {
-            GetMousePosition(rallyPoint);
+            GetMousePosition(rallyPointPossition);
             if (Input.GetMouseButtonDown(0) && recordingMousePos)  //3. Vi slutter å recorde possisjonen til musen, men først...
             {
                 SetTheRallyPoint(); //4. Oppdaterer vi rally point possisjonen med posisjonen til musen.
@@ -29,16 +31,15 @@ public class scrSetRallyPoint : MonoBehaviour
             }
         }
     }
-    public void StartRecordingMousePos() // 1. Denne blir called fra knapp
+    public void StartRecordingMousePos() // 1. Denne blir called fra rally point knapp
     {
         recordingMousePos = true;
     }
-
     private void SetTheRallyPoint()
     {
-        rallyPoint = hit.point;
-        rallyPoint.y = 0.5f; //This is not final...
-        Instantiate(TestObject, rallyPoint, Quaternion.identity); // For å teste
+        rallyPointPossition = hit.point;
+        rallyPointPossition.y = GroundHeight.transform.position.y;
+        _currentNodeSelected.TowerRallypointPos.SetRallypointPos(rallyPointPossition);         //No issues here, tested!
     }
 
     private Vector3 GetMousePosition(Vector3 position)
@@ -50,5 +51,18 @@ public class scrSetRallyPoint : MonoBehaviour
         }
         //print("Got no position for the mouse");
         return new Vector3(0, 0, 0);
+    }
+    private void NodeSelected(scrTowerNode nodeSelected) //gets the reference
+    {
+        _currentNodeSelected = nodeSelected;
+       //get reference to a tower rallypoint button
+    }
+    private void OnEnable()
+    {
+        scrTowerNode.OnNodeSelected += NodeSelected;
+    }
+    private void OnDisable()
+    {
+        scrTowerNode.OnNodeSelected -= NodeSelected;
     }
 }

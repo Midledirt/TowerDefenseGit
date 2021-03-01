@@ -7,6 +7,12 @@ public class scrTowerTargeting : MonoBehaviour
     [SerializeField] private float attackRange = 3f;
     public scrUppgradeTowers TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
     public Creep CurrentCreepTarget { get; set; }
+
+    [Header("Tower has defenders?")]
+    [Tooltip("Decides wheter or not this tower type has defenders by default")]
+    [SerializeField] private bool towerHasDefenders = false;
+    public bool TowerHasDefenders { get; private set; }
+
     //public float AttackRange => attackRange; //This is used in the "scrTowerNode" script. It is used to make sprite that illustrates the
     //attack range scale with the actual attack range //IMPORTANT: DOES NOT WORK RIGHT NOW
 
@@ -19,6 +25,7 @@ public class scrTowerTargeting : MonoBehaviour
     }
     private void Start()
     {
+        TowerHasDefenders = towerHasDefenders; //Do not place this in awake. Or you might get a null reference
         _gameStarted = true;
 
         TowerUpgrade = GetComponent<scrUppgradeTowers>();    

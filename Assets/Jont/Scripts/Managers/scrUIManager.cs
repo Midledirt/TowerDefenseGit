@@ -38,7 +38,7 @@ public class scrUIManager : Singleton<scrUIManager>
     public void CloseTowerShopPanel()
     {
         towerShopPanel.SetActive(false);
-        RallyPointButton.SetActive(false);
+        RallyPointButton.SetActive(false); //Opens the rally point button, ONLY if the tower has defenders
     }
 
     public void CloseNodeUIPanel()
@@ -92,7 +92,10 @@ public class scrUIManager : Singleton<scrUIManager>
         nodeUIPanel.SetActive(true); //Senere vil jeg ha en animasjon som får det til å ploppe opp og ned
         UpdateUpgradeText();
         UpdateSellValue();
-        RallyPointButton.SetActive(true); //Make this dependent on a bool that cheks if the tower has "defenders"
+        if (_currentNodeSelected != null && _currentNodeSelected.Tower.TowerHasDefenders == true)
+        {
+            RallyPointButton.SetActive(true); //Make this dependent on a bool that cheks if the tower has "defenders"
+        }
     }
 
     private void UpdateUpgradeText()
@@ -114,7 +117,7 @@ public class scrUIManager : Singleton<scrUIManager>
         sellText.text = sellAmount.ToString(); //Show the value in the text
     }
 
-    private void NodeSelected(scrTowerNode nodeSelected)
+    private void NodeSelected(scrTowerNode nodeSelected) //gets the reference
     {
         _currentNodeSelected = nodeSelected; //If the node is empty, show the tower shop UI
         if (_currentNodeSelected.NodeIsEmpty())

@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 4867927097262472080}
   - component: {fileID: 1098619665613102571}
   - component: {fileID: -2523251652938981875}
+  - component: {fileID: -4503383637879192549}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -596,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 5
+  towerHasDefenders: 1
 --- !u!114 &2156339796716720343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +690,20 @@ MonoBehaviour:
   Path3Level2Projectile: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
   Path3Level3Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
   Path3Level4Projectile: {fileID: 11400000, guid: d8f1e52308282c34aba07a9c5ca18efd, type: 2}
+--- !u!114 &-4503383637879192549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156339796716720337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f66c3701e2f564f92b98233730aba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rallyPointPrefab: {fileID: 8198359425438993464, guid: 45e51000e1aa5bf48a5df408aabaad1c, type: 3}
+  towerRallyRange: 3.3
 --- !u!1 &2156339797014155316
 GameObject:
   m_ObjectHideFlags: 0

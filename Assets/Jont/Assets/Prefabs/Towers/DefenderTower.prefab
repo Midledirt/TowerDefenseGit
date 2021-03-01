@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8869608008729189935}
   - component: {fileID: 6676365224917668049}
   - component: {fileID: 5445338451896795075}
+  - component: {fileID: -1066563302664421111}
   m_Layer: 0
   m_Name: DefenderTower
   m_TagString: Untagged
@@ -161,6 +162,9 @@ MonoBehaviour:
   upgradeCostIncremental: 0
   damageIncremental: 0
   sellPercentage: 1
+  path1cost: 0
+  path2cost: 0
+  path3cost: 0
 --- !u!114 &6676365224917668049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 3
+  towerHasDefenders: 1
 --- !u!114 &5445338451896795075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,3 +201,17 @@ MonoBehaviour:
   towerLevel2Version3: {fileID: 0}
   towerLevel3Version3: {fileID: 0}
   towerLevel4Version3: {fileID: 0}
+--- !u!114 &-1066563302664421111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869608008729189939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f66c3701e2f564f92b98233730aba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rallyPointPrefab: {fileID: 8198359425438993464, guid: 45e51000e1aa5bf48a5df408aabaad1c, type: 3}
+  towerRallyRange: 3.55
