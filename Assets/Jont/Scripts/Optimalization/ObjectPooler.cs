@@ -21,6 +21,7 @@ public class ObjectPooler : MonoBehaviour
     [Header("Set projectile spawner")]
     [Tooltip("Set this to true, if this pooler is spawning projectiles")]
     [SerializeField] private bool isProjectileSpawner = false;
+    [SerializeField] private bool isDefenderSpawner = false;
     private scrTowerPrefabTracker towerLevelTracker; 
 
     private List<GameObject> pool;
@@ -84,7 +85,6 @@ public class ObjectPooler : MonoBehaviour
                 return pool[i];
             }
         }
-
         //And if there are no non-active instances, create one instead
         return CreateInstance();
     }
@@ -92,9 +92,6 @@ public class ObjectPooler : MonoBehaviour
     //Static lets us use this without a reference
     public static void MoveToDeathPool(GameObject instance)
     {
-        //Destroy(instance); //I don`t know if this might be a bad way of handling it. Is this resources intensive or error prone?
-        //I do it this way, because if a object is returned to the hierarchy after its death(or reaching the end of the path) the spawner might prioritize
-        //respawning it instead of spawning the next gameobject instance. This screws up my group spawner.
         instance.SetActive(false);
     }
     public void TowerUpgraded(int _towerPath)

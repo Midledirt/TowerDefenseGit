@@ -77,8 +77,14 @@ public class scrUppgradeTowers : MonoBehaviour
             //_towerProjectileLoader.Damage += damageIncremental; //Adds to the damage, this is only how ill do it for this very first prototype
             towerCurrentLevel += 1; //Increases the level of the tower
             towerLevelTracker.UpgradeTowerWithLevel(towerCurrentLevel); //Set the level the tower and projectiles will be at
-            projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectile prefab
-            _towerProjectileLoader.UpdateProjectileStats(towerLevelTracker.TowerUpgradePath, towerCurrentLevel); //Update the projectile stats
+            if (projectilePool != null) //In case this is a defender tower
+            {
+                projectilePool.TowerUpgraded(towerLevelTracker.TowerUpgradePath); //Update the projectile prefab
+            }
+            if (_towerProjectileLoader != null) //In case this is a defender tower
+            {
+                _towerProjectileLoader.UpdateProjectileStats(towerLevelTracker.TowerUpgradePath, towerCurrentLevel); //Update the projectile stats
+            }
             UpdateUppgrade(); //Spends the coins, and increments the cost of upgrading
         }
         else if (scrCurrencySystem.Instance.TotalCoins < UppgradeCost)
