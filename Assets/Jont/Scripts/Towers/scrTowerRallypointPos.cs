@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class scrTowerRallypointPos : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class scrTowerRallypointPos : MonoBehaviour
     [Header("Rally range")]
     [Range(2f, 5f)]
     [SerializeField] private float towerRallyRange; //Should inherit from a "towerStatsSO" in the future
-    public GameObject rallyPoint { get; set; }
+    public Action<Vector3> OnSetRallyPoint;
+    public GameObject rallyPoint { get; private set; }
     private scrTowerTargeting towerParent;
     private float distanceFromTowerToRallypoint;
     BoundingSphere attackRange;
@@ -38,7 +40,8 @@ public class scrTowerRallypointPos : MonoBehaviour
         {
             latestViablePossition = possition; //Update latestViablePossition
             rallyPoint.transform.position = possition; //Move the rallypoint
-            defenders.orderDefendersToMoveTowardsTarget();
+            //defenders.orderDefendersToMoveTowardsTarget();
+            OnSetRallyPoint?.Invoke(possition);
             //print("Inside circle");
         }
         else

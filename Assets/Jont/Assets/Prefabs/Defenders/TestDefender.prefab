@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 6812373770785586828}
   - component: {fileID: 5561459220695453062}
   - component: {fileID: 146614935781967178}
+  - component: {fileID: -1360573340334036910}
   m_Layer: 0
   m_Name: TestDefender
   m_TagString: Untagged
@@ -554,6 +555,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-1360573340334036910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929833370194159273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6276d1bb05806143945bb0b23ddbb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defenderMovementSpeed: 5
 --- !u!1 &6086736735971155903
 GameObject:
   m_ObjectHideFlags: 0
