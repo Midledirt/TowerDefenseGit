@@ -10,26 +10,34 @@ public class scrTowerRallypointPos : MonoBehaviour
     [Header("Rally range")]
     [Range(2f, 5f)]
     [SerializeField] private float towerRallyRange; //Should inherit from a "towerStatsSO" in the future
-    public Action<Vector3> OnSetRallyPoint;
+    public Action<Vector3, Vector3, Vector3> OnSetRallyPoint; //Contains information for the three transform possitions of the rally points
     public GameObject rallyPoint { get; private set; }
+    public Transform RallyPointAPos { get; private set; }
+    public Transform RallyPointBPos { get; private set; }
+    public Transform RallyPointCPos { get; private set; }
+
     private scrTowerTargeting towerParent;
     private float distanceFromTowerToRallypoint;
     BoundingSphere attackRange;
     private Vector3 latestViablePossition;
-    //Delete this after making action
-    scrDefenderSpawner defenders;
 
     private void Awake()
     {
         towerParent = GetComponent<scrTowerTargeting>();
         attackRange = new BoundingSphere(towerParent.transform.position, towerRallyRange);
-        defenders = GetComponent<scrDefenderSpawner>();
     }
     private void Start()
     {
-        if (towerParent != null && towerParent.TowerHasDefenders == true) //Move this to awake later
+        if (towerParent != null && towerParent.TowerHasDefenders == true) //Move this to awake later?
         {
             rallyPoint = Instantiate(rallyPointPrefab, transform.position, Quaternion.identity, towerParent.transform);
+        }
+        if (rallyPoint != null) //Check for null reference
+        {
+            RallyPointAPos = rallyPoint.transform.Find("PossitionA");
+            RallyPointBPos = rallyPoint.transform.Find("PossitionB");
+            RallyPointCPos = rallyPoint.transform.Find("PossitionC");
+            //Debug.Log("Assigned rallyPoint points");
         }
     }
  
@@ -41,7 +49,7 @@ public class scrTowerRallypointPos : MonoBehaviour
             latestViablePossition = possition; //Update latestViablePossition
             rallyPoint.transform.position = possition; //Move the rallypoint
             //defenders.orderDefendersToMoveTowardsTarget();
-            OnSetRallyPoint?.Invoke(possition);
+            OnSetRallyPoint?.Invoke(RallyPointAPos.transform.position, RallyPointBPos.transform.position, RallyPointCPos.transform.position);
             //print("Inside circle");
         }
         else

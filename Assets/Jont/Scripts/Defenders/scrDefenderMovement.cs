@@ -19,7 +19,7 @@ public class scrDefenderMovement : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, rallyPointPossition, defenderMovementSpeed * Time.deltaTime);
     }
-    private void rotateTowardsTarget(Vector3 rallyPointPossition)
+    private void rotateTowardsTarget(Vector3 rallyPointPossition) //Simplify this code
     {
         Vector3 lookDirection = rallyPointPossition - transform.position;
         Quaternion direction = Quaternion.LookRotation(lookDirection);

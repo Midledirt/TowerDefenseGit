@@ -18,6 +18,7 @@ public class ObjectPooler : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
     [SerializeField] private int poolSize = 10;
+    public int poolSizeCount { get; private set; } //My own addition. Used to spawn defenders
     [Header("Set projectile spawner")]
     [Tooltip("Set this to true, if this pooler is spawning projectiles")]
     [SerializeField] private bool isProjectileSpawner = false;
@@ -37,6 +38,7 @@ public class ObjectPooler : MonoBehaviour
         poolContainer = new GameObject($"Pool of {prefab.name}");
 
         towerLevelTracker = GetComponent<scrTowerPrefabTracker>(); //Get the instance on this object
+        poolSizeCount = poolSize;
     }
     private void Start()
     {
