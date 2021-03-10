@@ -4,39 +4,31 @@ using UnityEngine;
 
 public class Defender : MonoBehaviour
 {
-    [SerializeField] private float respawnTimer = 2f;
     scrCreepHealth defenderHealth;
-    private bool defenderIsDead;
+    [Tooltip("Drag the body of the defender itself into this slot")]
+    [SerializeField] private GameObject defenderBody;
+    [SerializeField] private float respawnTimer = 2f;
 
     private void Awake()
     {
         defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
-        defenderIsDead = false;
     }
     private void DefenderKilled(Defender _defender)
     {
-        Debug.Log("I died");
-        defenderIsDead = true;
-        transform.gameObject.SetActive(false); //Set the gameobject to unactive
-        defenderHealth.ResetHealth(); //Reset its health
-        StartRespawnTimer(respawnTimer);
+        Debug.Log("I died"); 
+        defenderBody.SetActive(false); //Set the gameobject to unactive
+        RespawnDefender(respawnTimer);
+        StartCoroutine(RespawnDefender(respawnTimer));
         //Reset the defender position.
         //Respawn after timer
     }
-    private void StartRespawnTimer(float _respawnTimer) //This wont work because this function will not run whilst the defender is dead. Perhaps I should make
-        //a new script on the defender tower for handling this? A script that has constant reference for ALL the defenders
+    private IEnumerator RespawnDefender(float _respawnTimer)
     {
-        if (defenderIsDead)
-        {
-            _respawnTimer -= Time.deltaTime;
-            if (respawnTimer <= 0)
-            {
-                respawnTimer = 0;
-                transform.gameObject.SetActive(true);
-                defenderIsDead = false;
-            }
-        }
+        yield return new WaitForSeconds(_respawnTimer);
+        defenderHealth.ResetHealth(); //Reset its health
+        defenderBody.SetActive(true);
     }
+    
     private void OnEnable()
     {
         scrCreepHealth.OnDefenderKilled += DefenderKilled;

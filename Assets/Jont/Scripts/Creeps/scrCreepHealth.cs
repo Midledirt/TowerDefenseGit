@@ -20,6 +20,7 @@ public class scrCreepHealth : MonoBehaviour
 
     [SerializeField] private GameObject healthbarPreab;
     [SerializeField] private Transform barPosition;
+    public GameObject InstantiatedHealthBar { get; private set; }
     public float currentHealth { get; set; }
 
     private Image healthBar;
@@ -54,10 +55,10 @@ public class scrCreepHealth : MonoBehaviour
 
     private void CreateHealthbar()
     {
-        GameObject newBar = Instantiate(healthbarPreab, barPosition.position, Quaternion.identity); //Instantiate healthbar
-        newBar.transform.SetParent(transform); //Parent this bar to the enemy instance
+        InstantiatedHealthBar = Instantiate(healthbarPreab, barPosition.position, Quaternion.identity); //Instantiate healthbar
+        InstantiatedHealthBar.transform.SetParent(transform); //Parent this bar to the enemy instance
 
-        scrEnemyHealthContainer container = newBar.GetComponent<scrEnemyHealthContainer>(); //Assigns the healthbar image sprite of the 
+        scrEnemyHealthContainer container = InstantiatedHealthBar.GetComponent<scrEnemyHealthContainer>(); //Assigns the healthbar image sprite of the 
         //scrEnemyHealthContainer script to this variable named container... I think.
 
         healthBar = container.MyFillAmount; //Assigns it to the health bar var
@@ -68,6 +69,7 @@ public class scrCreepHealth : MonoBehaviour
         currentHealth -= damageRecieved; //Take damage
         if (currentHealth <= 0)
         {
+            InstantiatedHealthBar.SetActive(false); //Hide the healthbar when the defender dies
             currentHealth = 0;
             if(_creep != null)
             {
@@ -85,6 +87,7 @@ public class scrCreepHealth : MonoBehaviour
     }
     public void ResetHealth()
     {
+        InstantiatedHealthBar.SetActive(true); //Turn the healthbar back on as the defender respawns
         currentHealth = stats.initialHealth; //Reset the health
         healthBar.fillAmount = 1f; //Reset the health bar
     }

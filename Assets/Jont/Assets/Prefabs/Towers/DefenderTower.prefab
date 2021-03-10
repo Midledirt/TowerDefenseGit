@@ -951,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481ccefd12e267546aadfd43dcc359dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5929833370194159273, guid: daff67e6e81c87247830a2e1e53151c9, type: 3}
+  prefab: {fileID: 3848894563981429664, guid: ac28736de33f0834697edddd51ac67d4, type: 3}
   poolSize: 3
   isProjectileSpawner: 0
   isDefenderSpawner: 1
@@ -967,3 +967,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af845d7f4addcc428b57b591310d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnTimer: 2

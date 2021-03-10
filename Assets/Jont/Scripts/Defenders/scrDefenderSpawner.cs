@@ -9,6 +9,7 @@ public class scrDefenderSpawner : MonoBehaviour
     //private scrTowerRallypointPos rallyPointPos;
     private List<GameObject> defenders;
     scrTowerRallypointPos rallyPointUpdater;
+    [SerializeField] private float respawnTimer = 2f;
 
     private void Awake()
     {
@@ -76,7 +77,6 @@ public class scrDefenderSpawner : MonoBehaviour
             //moveTowardsTarget();
         }
     }
-
     private void OnEnable()
     {
         rallyPointUpdater.OnSetRallyPoint += orderDefendersToMoveTowardsTarget;
@@ -84,6 +84,5 @@ public class scrDefenderSpawner : MonoBehaviour
     private void OnDisable()
     {
         rallyPointUpdater.OnSetRallyPoint -= orderDefendersToMoveTowardsTarget;
-
     }
 }
