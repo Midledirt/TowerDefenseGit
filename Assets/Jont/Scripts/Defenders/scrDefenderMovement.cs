@@ -13,7 +13,10 @@ public class scrDefenderMovement : MonoBehaviour
     private void Update()
     {
         moveTowardsTarget(rallyPointPos);
-        rotateTowardsTarget(rallyPointPos);
+        if (transform.position != rallyPointPos)
+        {
+            rotateTowardsTarget(rallyPointPos);
+        }
     }
     private void moveTowardsTarget(Vector3 rallyPointPossition)//Movement function for defenders
     {

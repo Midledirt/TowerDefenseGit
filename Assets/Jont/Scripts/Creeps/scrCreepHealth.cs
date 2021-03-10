@@ -14,6 +14,7 @@ public class scrCreepHealth : MonoBehaviour
     private CreepStatsSO stats;
     //Requires the namespace "System"!
     public static Action<Creep> OnEnemyKilled;
+    public static Action<Defender> OnDefenderKilled;
     //IMPORTANT check tutorial episode 19. Timestamp 3.30 ish for HOW TO CHECK FOR SPESIFIC ENEMY ID
     public static Action<Creep> OnEnemyBlocked; //In stead of "on enemy hit"
 
@@ -24,6 +25,7 @@ public class scrCreepHealth : MonoBehaviour
     private Image healthBar;
     //IMPORTANT, read text at the top
     private Creep _creep;
+    private Defender _defender;
 
     private void Awake()
     {
@@ -36,14 +38,15 @@ public class scrCreepHealth : MonoBehaviour
 
         //IMPORTANT, read text at the top
         _creep = GetComponent<Creep>();
+        _defender = GetComponent<Defender>();
     }
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    DealDamage(5f); //For test purposes
-        //}
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            DealDamage(5f); //For test purposes
+        }
 
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
         //between the currenthealth and the max health
@@ -66,7 +69,14 @@ public class scrCreepHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            creepDies(); //Kill the creep
+            if(_creep != null)
+            {
+                creepDies(); //Kill the creep
+            }
+            if(_defender != null)
+            {
+                defenderDies(); //Kill the defender (if this is a defender)
+            }
         }
         else //Remove this entire else statement later, when the animation is updated to trigger whilst enemy is in combat
         {
@@ -82,5 +92,10 @@ public class scrCreepHealth : MonoBehaviour
     {
         OnEnemyKilled?.Invoke(_creep); //Invokes the on enemy killed. Why is there a questionmark afteher it tho... The questionmark makes this
         //The questionmark checks wether or not this has a null reference. Has it happened? Ok then invoke. 
+    }
+    private void defenderDies() //Making a specific death action for defenders, just in case.
+    {
+        OnDefenderKilled?.Invoke(_defender);
+        //Need to define what defender unique script that is litsening to this. And then start a respawning function
     }
 }

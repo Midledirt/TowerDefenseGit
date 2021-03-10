@@ -119,11 +119,11 @@ public class scrProjectiles : MonoBehaviour
         Quaternion _fallLookDirection = Quaternion.LookRotation(_fallDirection);
 
 
-        if (!projectileIsFired) //Look upwards
+        if (!projectileIsFired) //Projectile faces upwards
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, _initialLookDirection, 100f * Time.deltaTime);
         }
-        else if (projectileIsFired)
+        else if (projectileIsFired) //Projectile faces downwards
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, _fallLookDirection, 5f * Time.deltaTime);
         }
