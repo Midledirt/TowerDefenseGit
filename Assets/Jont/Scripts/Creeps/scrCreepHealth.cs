@@ -37,7 +37,8 @@ public class scrCreepHealth : MonoBehaviour
         CreateHealthbar();
         currentHealth = stats.initialHealth;
 
-        //IMPORTANT, read text at the top
+        //This could be written better i suppose, using virtual classes or such. I might go back and make that change later, if I deem it necessary
+        //or feel like I would like the practise. 4 now tho, lets focus on getting this done at my current level of understanding.
         _creep = GetComponent<Creep>();
         _defender = GetComponent<Defender>();
     }
@@ -99,6 +100,5 @@ public class scrCreepHealth : MonoBehaviour
     private void defenderDies() //Making a specific death action for defenders, just in case.
     {
         OnDefenderKilled?.Invoke(_defender);
-        //Need to define what defender unique script that is litsening to this. And then start a respawning function
     }
 }

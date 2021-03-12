@@ -12,8 +12,6 @@ public class scrCreepAnimations : MonoBehaviour
     private Creep _creep;
     private scrCreepHealth creepHealth;
     
-    
-    
     // Start is called before the first frame update
     void Start()
     {

@@ -64,7 +64,7 @@ public class scrTowerTargeting : MonoBehaviour
     }
     private void RotateTowardsTarget()
     {
-        if(CurrentCreepTarget == null)
+        if(CurrentCreepTarget == null || TowerHasDefenders == true) //Stop defender towers from rotating
         {
             return; // Stop the code
         }

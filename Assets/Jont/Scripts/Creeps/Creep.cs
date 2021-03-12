@@ -54,7 +54,7 @@ public class Creep : MonoBehaviour
     {
         if (myPath != null)
         {
-            DistanceTravelled += stats.movementSpeed * Time.deltaTime;
+            DistanceTravelled += MovementSpeed * Time.deltaTime;
             transform.position = myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
             transform.rotation = myPath.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
             
@@ -65,17 +65,15 @@ public class Creep : MonoBehaviour
             }
         }
     }
-
     void OnPathChanged()
     {
         DistanceTravelled = myPath.path.GetClosestDistanceAlongPath(transform.position);
     }
-
-    public void StopMovement()
+    public void StopMovement() //Why does this nor work? Is it overwritten each frame somewhere?
     {
+        //print("Movement is stopped");
         MovementSpeed = 0f;
     }
-
     public void ResumeMovement()
     {
         MovementSpeed = stats.movementSpeed;

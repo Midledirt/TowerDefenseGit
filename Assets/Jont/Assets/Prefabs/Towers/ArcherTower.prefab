@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 5
-  towerHasDefenders: 1
+  towerHasDefenders: 0
 --- !u!114 &2156339796716720343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +613,7 @@ MonoBehaviour:
   prefab: {fileID: 9133463270804130689, guid: ce3980edc36607e43b720e4cbaca1b1c, type: 3}
   poolSize: 20
   isProjectileSpawner: 1
+  isDefenderSpawner: 0
 --- !u!114 &2156339796716720299
 MonoBehaviour:
   m_ObjectHideFlags: 0
