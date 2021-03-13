@@ -26,7 +26,7 @@ public class scrDefenderMovement : MonoBehaviour
         if(defender.IsEngagedWithCreep && defender.currentCreepTargetPos != null)
         {
             moveTowardsTarget(defender.currentCreepTargetPos);
-            rotateTowardsTarget(defender.currentCreepTargetPos);
+            //rotateTowardsTarget(defender.currentCreepTargetPos);
         }
 
     }

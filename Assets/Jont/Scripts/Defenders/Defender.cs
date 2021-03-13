@@ -67,7 +67,7 @@ public class Defender : MonoBehaviour
             return;
         }
         //Move towards the target
-    }
+    }    
     //Manage the creep target
     private Creep SelectingTarget()
     {
@@ -81,7 +81,7 @@ public class Defender : MonoBehaviour
         targetHealth = _creepList[0].GetComponent<scrCreepHealth>();
         if(targetHealth.currentHealth <= 0) //Checks that the current target has died
         {
-            for (int i = 1; i < _creepList.Count; i++)
+            for (int i = 0; i < _creepList.Count; i++)
             {
                 if (_creepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)
                 {
@@ -97,14 +97,20 @@ public class Defender : MonoBehaviour
     }
     private void EnemyKilled(Creep _creep) //This is used to make sure the reference of the current creep is lost when it dies
     {
+        if(_creepList.Contains(_creep)) //Make sure to remove it from the creep list, even if it is not the current target
+        {
+            Debug.Log("I died, not the target");
+            _creepList.Remove(_creep);
+        }
         if(defenderCreepTarget == _creep)
         {
+            Debug.Log("I died, current target");
             defenderCreepTarget = null;
         }
     }
     private void DefenderKilled(Defender _defender)
     {
-        Debug.Log("I died"); 
+        //Debug.Log("I died"); 
         defenderBody.SetActive(false); //Set the gameobject to unactive
         RespawnDefender(respawnTimer);
         StartCoroutine(RespawnDefender(respawnTimer));
