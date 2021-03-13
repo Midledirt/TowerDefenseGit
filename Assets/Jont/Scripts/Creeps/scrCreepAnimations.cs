@@ -52,10 +52,7 @@ public class scrCreepAnimations : MonoBehaviour
         yield return new WaitForSeconds(GetCurrentAnimationLength() + 0.5f); //I think this one is faulty because if the creep is currently in the
         //"take damage" animation, and this is called, the "yield return..." will return the length of the current (ATTACK) animation, and so the
         //next ("DIE") animation will be cut short.
-        _creep.ResumeMovement();
-        creepHealth.ResetHealth();
-        _creep.ReturnPosition(_creep); //Reset the path variable for the creep (so it does not teleport back onto the same place when it respawns)
-        ObjectPooler.MoveToDeathPool(_creep.gameObject); //Moved this
+        ObjectPooler.SetObjectToInactive(_creep.gameObject); //Only sets the gameobject to "not active".
     }
 
     private void CreepHit(Creep creep)

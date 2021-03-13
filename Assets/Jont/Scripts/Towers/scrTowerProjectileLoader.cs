@@ -52,7 +52,7 @@ public class scrTowerProjectileLoader : MonoBehaviour
         if (Time.time > _nextAttackTime && Tower.CurrentCreepTarget != null) //Checks that enough time has gone since the game started for the turret to load
         {
             LoadProjectile();
-            if (Tower.CurrentCreepTarget != null && currentProjectileLoaded != null && Tower.CurrentCreepTarget._CreepHealth.currentHealth > 0f)
+            if (Tower.CurrentCreepTarget != null && currentProjectileLoaded != null && Tower.CurrentCreepTarget._CreepHealth.CurrentHealth > 0f)
             //Check that the turret this script is attached to has a target, and that we do have a projectile ready (I think), and that the target of
             //the mage turrets health is greater than 0
             {

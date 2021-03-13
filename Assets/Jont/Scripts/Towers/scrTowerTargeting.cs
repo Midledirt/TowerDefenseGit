@@ -6,7 +6,7 @@ public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
     public scrUppgradeTowers TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
-    public Creep CurrentCreepTarget { get; set; }
+    public Creep CurrentCreepTarget { get; private set; }
 
     [Header("Tower has defenders?")]
     [Tooltip("Decides wheter or not this tower type has defenders by default")]
@@ -35,9 +35,9 @@ public class scrTowerTargeting : MonoBehaviour
         GetCurrentCreepTarget();
         RotateTowardsTarget();
 
-        if (CurrentCreepTarget != null) //My own addition YES! With this, my game works as intended (so far) :)
+        if (CurrentCreepTarget != null)
         {
-            if (CurrentCreepTarget._CreepHealth.currentHealth <= 0) 
+            if (CurrentCreepTarget._CreepHealth.CurrentHealth <= 0) 
             {
                 _creeps.Remove(CurrentCreepTarget);
             }

@@ -21,7 +21,7 @@ public class scrCreepHealth : MonoBehaviour
     [SerializeField] private GameObject healthbarPreab;
     [SerializeField] private Transform barPosition;
     public GameObject InstantiatedHealthBar { get; private set; }
-    public float currentHealth { get; set; }
+    public float CurrentHealth { get; private set; }
 
     private Image healthBar;
     //IMPORTANT, read text at the top
@@ -35,7 +35,7 @@ public class scrCreepHealth : MonoBehaviour
     void Start()
     {
         CreateHealthbar();
-        currentHealth = stats.initialHealth;
+        CurrentHealth = stats.initialHealth;
 
         //This could be written better i suppose, using virtual classes or such. I might go back and make that change later, if I deem it necessary
         //or feel like I would like the practise. 4 now tho, lets focus on getting this done at my current level of understanding.
@@ -50,7 +50,7 @@ public class scrCreepHealth : MonoBehaviour
             DealDamage(5f); //For test purposes
         }
 
-        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, CurrentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
         //between the currenthealth and the max health
     }
 
@@ -67,11 +67,11 @@ public class scrCreepHealth : MonoBehaviour
 
     public void DealDamage(float damageRecieved)
     {
-        currentHealth -= damageRecieved; //Take damage
-        if (currentHealth <= 0)
+        CurrentHealth -= damageRecieved; //Take damage
+        if (CurrentHealth <= 0)
         {
             InstantiatedHealthBar.SetActive(false); //Hide the healthbar when the defender dies
-            currentHealth = 0;
+            CurrentHealth = 0;
             if(_creep != null)
             {
                 creepDies(); //Kill the creep
@@ -89,7 +89,7 @@ public class scrCreepHealth : MonoBehaviour
     public void ResetHealth()
     {
         InstantiatedHealthBar.SetActive(true); //Turn the healthbar back on as the defender respawns
-        currentHealth = stats.initialHealth; //Reset the health
+        CurrentHealth = stats.initialHealth; //Reset the health
         healthBar.fillAmount = 1f; //Reset the health bar
     }
     private void creepDies()

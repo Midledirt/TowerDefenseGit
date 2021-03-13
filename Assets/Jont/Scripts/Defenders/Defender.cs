@@ -10,7 +10,7 @@ public class Defender : MonoBehaviour
     [SerializeField] private float respawnTimer = 2f;
     public bool IsEngagedWithCreep { get; private set; } //Used by movement script
     private List<Creep> _creepList;
-    private Creep defenderCreepTarget;
+    public Creep DefenderCreepTarget { get; private set; }
     private scrCreepHealth targetHealth;
     public Vector3 currentCreepTargetPos { get; private set; }
 
@@ -41,9 +41,9 @@ public class Defender : MonoBehaviour
             Creep theCreep = other.GetComponent<Creep>();
             if(_creepList.Contains(theCreep))
             {
-                if(defenderCreepTarget == theCreep)
+                if(DefenderCreepTarget == theCreep)
                 {
-                    defenderCreepTarget = null; //Loose this reference if this creep just moved outside of range
+                    DefenderCreepTarget = null; //Loose this reference if this creep just moved outside of range
                 }
                 _creepList.Remove(theCreep);
             }
@@ -60,7 +60,7 @@ public class Defender : MonoBehaviour
         currentCreepTargetPos = _target.transform.position; //Used by "scrDefenderMovement" for moving towards the target
         _target.CreepIsTargetedByDefender(true); //Stops creep movement
         IsEngagedWithCreep = true;
-        if (targetHealth.currentHealth <= 0) //Makes the defender ignore a dead creep
+        if (targetHealth.CurrentHealth <= 0) //Makes the defender ignore a dead creep
         {
             _target.CreepIsTargetedByDefender(false);
             IsEngagedWithCreep = false; //This bool is used by the "scrDefenderMovement" script, to decide what to move towards
@@ -73,26 +73,26 @@ public class Defender : MonoBehaviour
     {
         if(_creepList.Count <= 0)
         {
-            defenderCreepTarget = null;
-            return defenderCreepTarget; //Returns null, there are no creeps close
+            DefenderCreepTarget = null;
+            return DefenderCreepTarget; //Returns null, there are no creeps close
         }
-        defenderCreepTarget = _creepList[0]; //Assign the first target as the default target
+        DefenderCreepTarget = _creepList[0]; //Assign the first target as the default target
         float defenderCreepTargetDistanceTraveled = _creepList[0].DistanceTravelled;
         targetHealth = _creepList[0].GetComponent<scrCreepHealth>();
-        if(targetHealth.currentHealth <= 0) //Checks that the current target has died
+        if(targetHealth.CurrentHealth <= 0) //Checks that the current target has died
         {
             for (int i = 0; i < _creepList.Count; i++)
             {
                 if (_creepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)
                 {
-                    defenderCreepTarget = _creepList[i];
+                    DefenderCreepTarget = _creepList[i];
                     defenderCreepTargetDistanceTraveled = _creepList[i].DistanceTravelled;
                     targetHealth = _creepList[i].GetComponent<scrCreepHealth>();
                 }
             }
-            return defenderCreepTarget; //Returns the current living target
+            return DefenderCreepTarget; //Returns the current living target
         }
-        return defenderCreepTarget;
+        return DefenderCreepTarget;
 
     }
     private void EnemyKilled(Creep _creep) //This is used to make sure the reference of the current creep is lost when it dies
@@ -102,10 +102,10 @@ public class Defender : MonoBehaviour
             Debug.Log("I died, not the target");
             _creepList.Remove(_creep);
         }
-        if(defenderCreepTarget == _creep)
+        if(DefenderCreepTarget == _creep)
         {
             Debug.Log("I died, current target");
-            defenderCreepTarget = null;
+            DefenderCreepTarget = null;
         }
     }
     private void DefenderKilled(Defender _defender)

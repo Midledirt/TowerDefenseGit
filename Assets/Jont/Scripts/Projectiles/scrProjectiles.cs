@@ -74,7 +74,7 @@ public class scrProjectiles : MonoBehaviour
             //This is also why you sometimes want to declare FUNCTIONS with parameters. I would NOT have been able to specify the damage
             //from my damage var in THIS script, if the "DealDamage(float damage)" function took no "input".
             TurretOwner.ResetTurretProjectile();
-            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
+            ObjectPooler.SetObjectToInactive(gameObject); //Return this projectile to the pool
         }
     }
     private void MoveProjectileWithoutHoming()
@@ -100,7 +100,7 @@ public class scrProjectiles : MonoBehaviour
         {
             projectileIsFired = false;
             TurretOwner.ResetTurretProjectile();
-            ObjectPooler.MoveToDeathPool(gameObject); //Return this projectile to the pool
+            ObjectPooler.SetObjectToInactive(gameObject); //Return this projectile to the pool
             _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
             t = 0f;
             OnCreepHit?.Invoke(_creepTarget, Damage);//DELETE this later, as it is ONLY used for displaying DAMAGE NUMBERS

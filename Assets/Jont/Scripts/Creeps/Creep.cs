@@ -18,8 +18,7 @@ public class Creep : MonoBehaviour
     public PathCreator myPath; 
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
-    public scrCreepHealth _CreepHealth { get; set; }
-    private scrCreepHealth CreepHealth;
+    public scrCreepHealth _CreepHealth { get; private set; }
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
 
     private void Awake()
@@ -40,8 +39,6 @@ public class Creep : MonoBehaviour
         _CreepHealth = GetComponent<scrCreepHealth>();
 
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
-
-        CreepHealth = GetComponent<scrCreepHealth>();
         //creepPossition = transform.position; //Stores the position of the transform
     }
     public PathCreator SetPath(PathCreator path)
@@ -101,8 +98,8 @@ public class Creep : MonoBehaviour
         //OnEndReaced?.Invoke();
         transform.position = myPath.path.GetPoint(0); //Resets the creep possition
         DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
-        CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
-        ObjectPooler.MoveToDeathPool(gameObject);
+        _CreepHealth.ResetHealth(); // Resets the amount of health the creep has as it reaches its end position
+        ObjectPooler.SetObjectToInactive(gameObject); //Only sets the gameobject to "not active".
     }
     public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
     {

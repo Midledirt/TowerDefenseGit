@@ -92,7 +92,7 @@ public class ObjectPooler : MonoBehaviour
     }
 
     //Static lets us use this without a reference
-    public static void MoveToDeathPool(GameObject instance)
+    public static void SetObjectToInactive(GameObject instance)
     {
         instance.SetActive(false);
     }
