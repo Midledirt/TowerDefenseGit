@@ -6,12 +6,15 @@ public class scrDefenderMovement : MonoBehaviour
 {
     [Tooltip("Set how fast the defenders move")]
     [SerializeField] private float defenderMovementSpeed;
-    private float defenderRotationSpeed = 5f; //How fast defenders rotate to face targets
+    private float defenderRotationSpeed = 10f; //How fast defenders rotate to face targets
     private Vector3 rallyPointPos;
     private Defender defender;
+    private float engagementDistance = .8f;
+    private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
+        defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance
     }
     private void Update()
     {
@@ -25,8 +28,15 @@ public class scrDefenderMovement : MonoBehaviour
         }
         if(defender.IsEngagedWithCreep && defender.currentCreepTargetPos != null)
         {
-            moveTowardsTarget(defender.currentCreepTargetPos);
-            //rotateTowardsTarget(defender.currentCreepTargetPos);
+            if((transform.position - defender.currentCreepTargetPos).magnitude > engagementDistance) //Move closer
+            {
+                moveTowardsTarget(defender.currentCreepTargetPos);
+                rotateTowardsTarget(defender.currentCreepTargetPos);
+            }
+            //print("Close enough");
+            defenderAnimator.PlayAttackAnimation();
+            //Attack
+            //Tell creep its under attack
         }
 
     }

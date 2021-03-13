@@ -10,14 +10,12 @@ public class scrCreepAnimations : MonoBehaviour
 {
     private Animator animator; //Sets up a "generic" animator
     private Creep _creep;
-    private scrCreepHealth creepHealth;
     
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponentInChildren<Animator>(); //Get the reference to the animator conponent attached to this object
         _creep = GetComponent<Creep>();
-        creepHealth = GetComponent<scrCreepHealth>();
     }
 
     private void PlayAttackAnimation() //Stand in for the "hurtAnimation" in the tutorial. This game will most likely not have a hurt animation
@@ -32,7 +30,7 @@ public class scrCreepAnimations : MonoBehaviour
 
     private float GetCurrentAnimationLength()
     {
-        float animLength = animator.GetCurrentAnimatorStateInfo(0).length; //Usefuil function!
+        float animLength = animator.GetCurrentAnimatorStateInfo(0).length; //Useful function!
         return animLength;
     }
 

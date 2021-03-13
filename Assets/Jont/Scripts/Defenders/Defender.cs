@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Defender : MonoBehaviour
 {
-    scrCreepHealth defenderHealth;
+    //scrCreepHealth defenderHealth;
     [Tooltip("Drag the body of the defender itself into this slot")]
     [SerializeField] private GameObject defenderBody;
-    [SerializeField] private float respawnTimer = 2f;
+    //[SerializeField] private float respawnTimer = 2f;
     public bool IsEngagedWithCreep { get; private set; } //Used by movement script
     private List<Creep> _creepList;
     public Creep DefenderCreepTarget { get; private set; }
@@ -17,7 +17,7 @@ public class Defender : MonoBehaviour
     private void Awake()
     {
         _creepList = new List<Creep>();
-        defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
+        //defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
         IsEngagedWithCreep = false;
     }
     private void Update()
@@ -108,7 +108,7 @@ public class Defender : MonoBehaviour
             DefenderCreepTarget = null;
         }
     }
-    private void DefenderKilled(Defender _defender)
+    /*private void DefenderKilled(Defender _defender)
     {
         //Debug.Log("I died"); 
         defenderBody.SetActive(false); //Set the gameobject to unactive
@@ -119,19 +119,20 @@ public class Defender : MonoBehaviour
     }
     private IEnumerator RespawnDefender(float _respawnTimer)
     {
+        
         yield return new WaitForSeconds(_respawnTimer);
         defenderHealth.ResetHealth(); //Reset its health
         defenderBody.SetActive(true);
-    }
+    }*/
     
     private void OnEnable()
     {
         scrCreepHealth.OnEnemyKilled += EnemyKilled;
-        scrCreepHealth.OnDefenderKilled += DefenderKilled;
+        //scrCreepHealth.OnDefenderKilled += DefenderKilled;
     }
     private void OnDisable()
     {
         scrCreepHealth.OnEnemyKilled -= EnemyKilled;
-        scrCreepHealth.OnDefenderKilled -= DefenderKilled;
+        //scrCreepHealth.OnDefenderKilled -= DefenderKilled;
     }
 }
