@@ -65,11 +65,22 @@ public class Creep : MonoBehaviour
             }
         }
     }
+    public void CreepIsTargetedByDefender(bool isTargeted)
+    {
+        if (isTargeted)
+        {
+            StopMovement();
+        }
+        else
+            ResumeMovement();
+
+        //Play Idle animation from animator (IdleNotImplementedYet)
+    }
     void OnPathChanged()
     {
         DistanceTravelled = myPath.path.GetClosestDistanceAlongPath(transform.position);
     }
-    public void StopMovement() //Why does this nor work? Is it overwritten each frame somewhere?
+    public void StopMovement()
     {
         //print("Movement is stopped");
         MovementSpeed = 0f;

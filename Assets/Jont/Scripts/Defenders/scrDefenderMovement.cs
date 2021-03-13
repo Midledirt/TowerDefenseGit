@@ -8,19 +8,31 @@ public class scrDefenderMovement : MonoBehaviour
     [SerializeField] private float defenderMovementSpeed;
     private float defenderRotationSpeed = 5f; //How fast defenders rotate to face targets
     private Vector3 rallyPointPos;
-
-
+    private Defender defender;
+    private void Awake()
+    {
+        defender = GetComponent<Defender>(); //Get the instance
+    }
     private void Update()
     {
-        moveTowardsTarget(rallyPointPos);
-        if (transform.position != rallyPointPos)
+        if(defender.IsEngagedWithCreep == false)
         {
-            rotateTowardsTarget(rallyPointPos);
+            moveTowardsTarget(rallyPointPos);
+            if (transform.position != rallyPointPos)
+            {
+                rotateTowardsTarget(rallyPointPos);
+            }
         }
+        if(defender.IsEngagedWithCreep && defender.currentCreepTargetPos != null)
+        {
+            moveTowardsTarget(defender.currentCreepTargetPos);
+            rotateTowardsTarget(defender.currentCreepTargetPos);
+        }
+
     }
-    private void moveTowardsTarget(Vector3 rallyPointPossition)//Movement function for defenders
+    public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
     {
-        transform.position = Vector3.MoveTowards(transform.position, rallyPointPossition, defenderMovementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _currentTargetPos, defenderMovementSpeed * Time.deltaTime);
     }
     private void rotateTowardsTarget(Vector3 rallyPointPossition) //Simplify this code
     {

@@ -8,15 +8,17 @@ public class Defender : MonoBehaviour
     [Tooltip("Drag the body of the defender itself into this slot")]
     [SerializeField] private GameObject defenderBody;
     [SerializeField] private float respawnTimer = 2f;
-    private bool isEngagedWithCreep;
+    public bool IsEngagedWithCreep { get; private set; } //Used by movement script
     private List<Creep> _creepList;
     private Creep defenderCreepTarget;
+    private scrCreepHealth targetHealth;
+    public Vector3 currentCreepTargetPos { get; private set; }
 
     private void Awake()
     {
         _creepList = new List<Creep>();
         defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
-        isEngagedWithCreep = false;
+        IsEngagedWithCreep = false;
     }
     private void Update()
     {
@@ -39,6 +41,10 @@ public class Defender : MonoBehaviour
             Creep theCreep = other.GetComponent<Creep>();
             if(_creepList.Contains(theCreep))
             {
+                if(defenderCreepTarget == theCreep)
+                {
+                    defenderCreepTarget = null; //Loose this reference if this creep just moved outside of range
+                }
                 _creepList.Remove(theCreep);
             }
         }
@@ -46,11 +52,20 @@ public class Defender : MonoBehaviour
     //Engages the target
     private void EngageTarget(Creep _target)
     {
-        if(_target == null)
+        if(_target == null) //Makes the defender ignore a null reference
         {
+            IsEngagedWithCreep = false; //This bool is used by the "scrDefenderMovement" script, to decide what to move towards
             return;
         }
-        _target.StopMovement(); //Halts the target
+        currentCreepTargetPos = _target.transform.position; //Used by "scrDefenderMovement" for moving towards the target
+        _target.CreepIsTargetedByDefender(true); //Stops creep movement
+        IsEngagedWithCreep = true;
+        if (targetHealth.currentHealth <= 0) //Makes the defender ignore a dead creep
+        {
+            _target.CreepIsTargetedByDefender(false);
+            IsEngagedWithCreep = false; //This bool is used by the "scrDefenderMovement" script, to decide what to move towards
+            return;
+        }
         //Move towards the target
     }
     //Manage the creep target
@@ -63,17 +78,30 @@ public class Defender : MonoBehaviour
         }
         defenderCreepTarget = _creepList[0]; //Assign the first target as the default target
         float defenderCreepTargetDistanceTraveled = _creepList[0].DistanceTravelled;
-        for(int i = 1; i < _creepList.Count; i++)
+        targetHealth = _creepList[0].GetComponent<scrCreepHealth>();
+        if(targetHealth.currentHealth <= 0) //Checks that the current target has died
         {
-            if(_creepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)//YOU NEED TO ADD A CHECK THAT MAKES SURE THE CURRENT TARGET IS DEAD FIRST
+            for (int i = 1; i < _creepList.Count; i++)
             {
-                defenderCreepTarget = _creepList[i];
-                defenderCreepTargetDistanceTraveled = _creepList[i].DistanceTravelled;
+                if (_creepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)
+                {
+                    defenderCreepTarget = _creepList[i];
+                    defenderCreepTargetDistanceTraveled = _creepList[i].DistanceTravelled;
+                    targetHealth = _creepList[i].GetComponent<scrCreepHealth>();
+                }
             }
+            return defenderCreepTarget; //Returns the current living target
         }
-        return defenderCreepTarget; //Returns the current living target
-    }
+        return defenderCreepTarget;
 
+    }
+    private void EnemyKilled(Creep _creep) //This is used to make sure the reference of the current creep is lost when it dies
+    {
+        if(defenderCreepTarget == _creep)
+        {
+            defenderCreepTarget = null;
+        }
+    }
     private void DefenderKilled(Defender _defender)
     {
         Debug.Log("I died"); 
@@ -92,10 +120,12 @@ public class Defender : MonoBehaviour
     
     private void OnEnable()
     {
+        scrCreepHealth.OnEnemyKilled += EnemyKilled;
         scrCreepHealth.OnDefenderKilled += DefenderKilled;
     }
     private void OnDisable()
     {
+        scrCreepHealth.OnEnemyKilled -= EnemyKilled;
         scrCreepHealth.OnDefenderKilled -= DefenderKilled;
     }
 }

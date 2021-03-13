@@ -38,10 +38,10 @@ public class scrCreepAnimations : MonoBehaviour
 
     private IEnumerator PlayHurt()
     {
-        _creep.StopMovement(); //See how you can call something from another script just like that? :O Once again, STUDY EPISODE 19!
+        //_creep.StopMovement(); //See how you can call something from another script just like that? :O Once again, STUDY EPISODE 19!
         PlayAttackAnimation();
         yield return new WaitForSeconds(GetCurrentAnimationLength() - 0.4f);
-        _creep.ResumeMovement();
+        //_creep.ResumeMovement();
     }
 
     private IEnumerator PlayDeath()
