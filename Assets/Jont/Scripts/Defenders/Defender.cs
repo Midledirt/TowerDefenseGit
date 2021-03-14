@@ -61,7 +61,7 @@ public class Defender : MonoBehaviour
         }
         currentCreepTargetPos = _target.transform.position; //Used by "scrDefenderMovement" for moving towards the target
         _target.CreepIsTargetedByDefender(true); //Stops creep movement
-        //_target.CreepIsInCombatWithTarget(this); //Makes the target respond and fight back against "this"
+        _target.CreepIsInCombatWithTarget(this.gameObject); //Makes the target respond and fight back against "this"
         IsEngagedWithCreep = true;
         if (targetHealth.CurrentHealth <= 0) //Makes the defender ignore a dead creep
         {
@@ -118,7 +118,6 @@ public class Defender : MonoBehaviour
             DefenderCreepTarget.GetComponent<scrCreepHealth>().DealDamage(_damage); //Deal damage to the creep
         }
     }
-    
     private void OnEnable()
     {
         animEventHandler.OnDealingDamage += DealDamageToEnemy;

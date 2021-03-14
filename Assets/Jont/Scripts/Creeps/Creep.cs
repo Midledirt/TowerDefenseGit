@@ -12,24 +12,24 @@ public class Creep : MonoBehaviour
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
     public bool CreepEngagedInCombat { get; private set; }
-
-    //From "PathFollower"
-    //float distanceTravelled;
     public float DistanceTravelled { get; set; }
     public PathCreator myPath; 
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrCreepHealth _CreepHealth { get; private set; }
-    private scrCreepAnimations Animator;
+    private scrCreepAnimations creepAnimator;
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
+    private List<GameObject> defenderTargets;
 
     private void Awake()
     {
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
+        creepAnimator = GetComponent<scrCreepAnimations>(); //Get the reference
     }
     private void Start()
     {
+        defenderTargets = new List<GameObject>(); //Initialize the list
         if (myPath != null)
         {
             transform.position = myPath.path.GetPoint(0); //Spawns the creep at the first point
@@ -43,24 +43,6 @@ public class Creep : MonoBehaviour
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
         //creepPossition = transform.position; //Stores the position of the transform
     }
-    /*public void CreepIsInCombatWithTarget(Defender _target) //Sent by defender, lets both have this reference
-    {
-        if(_target == null)
-        {
-            return;
-        }
-        if(_target != null)
-        {
-            Animator.PlayAttackAnimation();
-            return;
-        }
-    }*/
-    public PathCreator SetPath(PathCreator path)
-    {
-        //Debug.Log("I am assigned a path");
-        return myPath = path.GetComponent<PathCreator>();
-    }
-
     private void Update()
     {
         if (myPath != null)
@@ -68,13 +50,39 @@ public class Creep : MonoBehaviour
             DistanceTravelled += MovementSpeed * Time.deltaTime;
             transform.position = myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
             transform.rotation = myPath.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
-            
+
             if (DistanceTravelled >= myPath.path.length)
             {
                 //Debug.Log("Reached the end"); CONFIRMED THAT THIS TURNS TRUE WHEN THE OBJECT REACHES THE END
                 EndPointReached();
             }
         }
+        if (defenderTargets.Count > 0)//If there are enemytargets
+        {
+            CreepEngagedInCombat = true;
+        }
+        else if(defenderTargets.Count <= 0)
+        {
+            CreepEngagedInCombat = false;
+        }
+    }
+    public void CreepIsInCombatWithTarget(GameObject _target) //Sent by defender, lets both have this reference
+    {
+        if(_target == null)
+        {
+            return;
+        }
+        if(_target != null && !defenderTargets.Contains(_target))
+        {
+            defenderTargets.Add(_target);
+            //creepAnimator.PlayAttackAnimation();
+            return;
+        }
+    }
+    public PathCreator SetPath(PathCreator path)
+    {
+        //Debug.Log("I am assigned a path");
+        return myPath = path.GetComponent<PathCreator>();
     }
     public void CreepIsTargetedByDefender(bool isTargeted)
     {
