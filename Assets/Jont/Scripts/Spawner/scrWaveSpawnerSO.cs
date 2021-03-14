@@ -62,7 +62,6 @@ public class scrWaveSpawnerSO : ScriptableObject
             }
         }
     }
-
     private void InitializeGroups(scrGroupSO group)
     {
         PathCreator _creepPath;

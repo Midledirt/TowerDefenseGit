@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Defender : MonoBehaviour
 {
@@ -13,12 +14,13 @@ public class Defender : MonoBehaviour
     public Creep DefenderCreepTarget { get; private set; }
     private scrCreepHealth targetHealth;
     public Vector3 currentCreepTargetPos { get; private set; }
-
+    scrAnimationEventHandler animEventHandler;
     private void Awake()
     {
         _creepList = new List<Creep>();
         //defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
         IsEngagedWithCreep = false;
+        animEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Get the instance
     }
     private void Update()
     {
@@ -59,6 +61,7 @@ public class Defender : MonoBehaviour
         }
         currentCreepTargetPos = _target.transform.position; //Used by "scrDefenderMovement" for moving towards the target
         _target.CreepIsTargetedByDefender(true); //Stops creep movement
+        //_target.CreepIsInCombatWithTarget(this); //Makes the target respond and fight back against "this"
         IsEngagedWithCreep = true;
         if (targetHealth.CurrentHealth <= 0) //Makes the defender ignore a dead creep
         {
@@ -99,40 +102,31 @@ public class Defender : MonoBehaviour
     {
         if(_creepList.Contains(_creep)) //Make sure to remove it from the creep list, even if it is not the current target
         {
-            Debug.Log("I died, not the target");
+            //Debug.Log("I died, not the target");
             _creepList.Remove(_creep);
         }
         if(DefenderCreepTarget == _creep)
         {
-            Debug.Log("I died, current target");
+            //Debug.Log("I died, current target");
             DefenderCreepTarget = null;
         }
     }
-    /*private void DefenderKilled(Defender _defender)
+    private void DealDamageToEnemy(float _damage)
     {
-        //Debug.Log("I died"); 
-        defenderBody.SetActive(false); //Set the gameobject to unactive
-        RespawnDefender(respawnTimer);
-        StartCoroutine(RespawnDefender(respawnTimer));
-        //Reset the defender position.
-        //Respawn after timer
+        if(DefenderCreepTarget != null) //Check for null reference
+        {
+            DefenderCreepTarget.GetComponent<scrCreepHealth>().DealDamage(_damage); //Deal damage to the creep
+        }
     }
-    private IEnumerator RespawnDefender(float _respawnTimer)
-    {
-        
-        yield return new WaitForSeconds(_respawnTimer);
-        defenderHealth.ResetHealth(); //Reset its health
-        defenderBody.SetActive(true);
-    }*/
     
     private void OnEnable()
     {
+        animEventHandler.OnDealingDamage += DealDamageToEnemy;
         scrCreepHealth.OnEnemyKilled += EnemyKilled;
-        //scrCreepHealth.OnDefenderKilled += DefenderKilled;
     }
     private void OnDisable()
     {
+        animEventHandler.OnDealingDamage -= DealDamageToEnemy;
         scrCreepHealth.OnEnemyKilled -= EnemyKilled;
-        //scrCreepHealth.OnDefenderKilled -= DefenderKilled;
     }
 }

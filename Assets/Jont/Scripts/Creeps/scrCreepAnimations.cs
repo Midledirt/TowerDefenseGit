@@ -10,7 +10,7 @@ public class scrCreepAnimations : MonoBehaviour
 {
     private Animator animator; //Sets up a "generic" animator
     private Creep _creep;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +18,13 @@ public class scrCreepAnimations : MonoBehaviour
         _creep = GetComponent<Creep>();
     }
 
-    private void PlayAttackAnimation() //Stand in for the "hurtAnimation" in the tutorial. This game will most likely not have a hurt animation
+    public void PlayAttackAnimation()
     {
-        animator.SetTrigger("InCombat");
+        animator.SetBool("CreepIsInCombat", true);
+    }
+    public void StopAttackAnimation()
+    {
+        animator.SetBool("CreepIsInCombat", false);
     }
 
     private void DieAnimation()
@@ -37,7 +41,7 @@ public class scrCreepAnimations : MonoBehaviour
     private IEnumerator PlayHurt()
     {
         //_creep.StopMovement(); //See how you can call something from another script just like that? :O Once again, STUDY EPISODE 19!
-        PlayAttackAnimation();
+        //PlayAttackAnimation();
         yield return new WaitForSeconds(GetCurrentAnimationLength() - 0.4f);
         //_creep.ResumeMovement();
     }

@@ -14,12 +14,13 @@ public class scrDefenderMovement : MonoBehaviour
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
-        defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance
+        defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance;
     }
     private void Update()
     {
         if(defender.IsEngagedWithCreep == false)
         {
+            defenderAnimator.StopAttackAnimation(); //Stop animation
             moveTowardsTarget(rallyPointPos);
             if (transform.position != rallyPointPos)
             {

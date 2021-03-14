@@ -11,6 +11,7 @@ public class Creep : MonoBehaviour
     //This is EXTREMELY interesting. It is covered at Part 14, around 3.50 timestamp. 
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
+    public bool CreepEngagedInCombat { get; private set; }
 
     //From "PathFollower"
     //float distanceTravelled;
@@ -19,6 +20,7 @@ public class Creep : MonoBehaviour
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrCreepHealth _CreepHealth { get; private set; }
+    private scrCreepAnimations Animator;
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
 
     private void Awake()
@@ -41,6 +43,18 @@ public class Creep : MonoBehaviour
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
         //creepPossition = transform.position; //Stores the position of the transform
     }
+    /*public void CreepIsInCombatWithTarget(Defender _target) //Sent by defender, lets both have this reference
+    {
+        if(_target == null)
+        {
+            return;
+        }
+        if(_target != null)
+        {
+            Animator.PlayAttackAnimation();
+            return;
+        }
+    }*/
     public PathCreator SetPath(PathCreator path)
     {
         //Debug.Log("I am assigned a path");

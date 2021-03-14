@@ -6622,7 +6622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawners:
-  - {fileID: 11400000, guid: c108acd1431a27d43addc5f90b7894d4, type: 2}
+  - {fileID: 11400000, guid: 7547540f45f109045aba9ff9cc37f18a, type: 2}
 --- !u!1 &1690633665
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class scrDefenderAnimation : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     private scrCreepHealth defenderHealth;
     private float respawnTimer = 2f;
+    private Defender defender;
 
 
     private void Awake()
@@ -17,11 +18,15 @@ public class scrDefenderAnimation : MonoBehaviour
     }
     public void PlayDeathAnimation()
     {
-        defenderAnimator.SetTrigger("Dead");
+        defenderAnimator.SetTrigger("DefenderDies");
     }
     public void PlayAttackAnimation()
     {
-        defenderAnimator.SetTrigger("InCombat");
+        defenderAnimator.SetBool("DefenderInCombat", true);
+    }
+    public void StopAttackAnimation()
+    {
+        defenderAnimator.SetBool("DefenderInCombat", false);
     }
     public void PlayWalkAnimation()
     {
