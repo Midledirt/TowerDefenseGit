@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 8812003351494664383}
   - component: {fileID: 9051755186405514363}
   - component: {fileID: 1249192206642949884}
+  - component: {fileID: 3618076917478651122}
+  - component: {fileID: -1434732339014343833}
   - component: {fileID: 3744202036051900513}
   - component: {fileID: 7105085934974663493}
-  - component: {fileID: 3618076917478651122}
   m_Layer: 0
   m_Name: NewGreenCreep
   m_TagString: Creep
@@ -93,6 +94,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creepType: {fileID: 11400000, guid: c4c2a1ffada265e499fa0698db167259, type: 2}
+--- !u!114 &3618076917478651122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083245130996328430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869fb8e9ad4e1324d92b02161923a9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textDamageSpawnPossition: {fileID: 5924595246154245378}
+--- !u!114 &-1434732339014343833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083245130996328430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021746227d446ad4f98833900a46a080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &3744202036051900513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -123,19 +149,6 @@ CapsuleCollider:
   m_Height: 1.15
   m_Direction: 1
   m_Center: {x: 0, y: 0.47, z: 0}
---- !u!114 &3618076917478651122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1083245130996328430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 869fb8e9ad4e1324d92b02161923a9c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textDamageSpawnPossition: {fileID: 5924595246154245378}
 --- !u!1 &4832716941167951417
 GameObject:
   m_ObjectHideFlags: 0

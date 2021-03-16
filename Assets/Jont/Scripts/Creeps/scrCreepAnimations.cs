@@ -10,34 +10,50 @@ public class scrCreepAnimations : MonoBehaviour
 {
     private Animator animator; //Sets up a "generic" animator
     private Creep _creep;
+    private scrCreepEngagementHandler engagementHandler;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         animator = GetComponentInChildren<Animator>(); //Get the reference to the animator conponent attached to this object
         _creep = GetComponent<Creep>();
+        engagementHandler = GetComponent<scrCreepEngagementHandler>(); //Gets the reference on this game object
     }
-
+    private void Update()
+    {
+        switch(engagementHandler.ThisCreepIsEngaged)
+        {
+            case true:
+                if(animator.GetBool("CreepIsInCombat") != true && _creep._CreepHealth.CurrentHealth > 0)
+                {
+                    PlayAttackAnimation();
+                }
+                return;
+            case false:
+                StopAttackAnimation();
+                return;
+        }
+    }
     public void PlayAttackAnimation()
     {
-        animator.SetBool("CreepIsInCombat", true);
+        print("Attacking");
     }
     public void StopAttackAnimation()
     {
-        animator.SetBool("CreepIsInCombat", false);
+        if(animator.GetBool("CreepIsInCombat") != false)
+        {
+            animator.SetBool("CreepIsInCombat", false);
+            print("Stopping");
+        }
     }
-
     private void DieAnimation()
     {
         animator.SetTrigger("Dead");
     }
-
     private float GetCurrentAnimationLength()
     {
         float animLength = animator.GetCurrentAnimatorStateInfo(0).length; //Useful function!
         return animLength;
     }
-
     private IEnumerator PlayHurt()
     {
         //_creep.StopMovement(); //See how you can call something from another script just like that? :O Once again, STUDY EPISODE 19!
@@ -45,7 +61,6 @@ public class scrCreepAnimations : MonoBehaviour
         yield return new WaitForSeconds(GetCurrentAnimationLength() - 0.4f);
         //_creep.ResumeMovement();
     }
-
     private IEnumerator PlayDeath()
     {
         _creep.StopMovement();
@@ -56,16 +71,13 @@ public class scrCreepAnimations : MonoBehaviour
         //next ("DIE") animation will be cut short.
         ObjectPooler.SetObjectToInactive(_creep.gameObject); //Only sets the gameobject to "not active".
     }
-
     private void CreepHit(Creep creep)
     {
-        if (_creep == creep) //Checks if this enemy is the same one that is hit as the one with the other script
-            //Confusing... This is covered in the turorial at episode 19. An episode I will need 2 study
+        if (_creep == creep)
         {
             StartCoroutine(PlayHurt());
         }
     }
-
     private void CreepDead(Creep creep)
     {
         if (_creep == creep)//Check that the reference is for the correct object
