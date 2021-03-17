@@ -17,19 +17,20 @@ public class Creep : MonoBehaviour
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrCreepHealth _CreepHealth { get; private set; }
-    private scrCreepAnimations creepAnimator;
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
-    private List<GameObject> defenderTargets;
+    public List<GameObject> DefenderTargets { get; private set; }
+
+    scrAnimationEventHandler animationEventHandler;
 
     private void Awake()
     {
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
-        creepAnimator = GetComponent<scrCreepAnimations>(); //Get the reference
+        DefenderTargets = new List<GameObject>(); //Initialize the list (DO IT HERE, NOT IN START, AS IT IS USED BY "scrCreepAttack")
+        animationEventHandler = GetComponentInChildren<scrAnimationEventHandler>();
     }
     private void Start()
     {
-        defenderTargets = new List<GameObject>(); //Initialize the list
         if (myPath != null)
         {
             transform.position = myPath.path.GetPoint(0); //Spawns the creep at the first point
@@ -57,11 +58,11 @@ public class Creep : MonoBehaviour
                 EndPointReached();
             }
         }
-        if (defenderTargets.Count > 0)//If there are enemytargets
+        if (DefenderTargets.Count > 0)//If there are enemytargets
         {
             CreepEngagedInCombat = true;
         }
-        else if(defenderTargets.Count <= 0)
+        else if(DefenderTargets.Count <= 0)
         {
             CreepEngagedInCombat = false;
         }
@@ -72,9 +73,9 @@ public class Creep : MonoBehaviour
         {
             return;
         }
-        if(_target != null && !defenderTargets.Contains(_target))
+        if(_target != null && !DefenderTargets.Contains(_target))
         {
-            defenderTargets.Add(_target);
+            DefenderTargets.Add(_target);
             //creepAnimator.PlayAttackAnimation();
             return;
         }
@@ -108,7 +109,6 @@ public class Creep : MonoBehaviour
     {
         MovementSpeed = stats.movementSpeed;
     }
-
     private void EndPointReached()
     {
         //This is where we fire the event (see the comment at the beginning of this script)
@@ -126,5 +126,23 @@ public class Creep : MonoBehaviour
     public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
     {
         creep.DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
+    }
+    private void DealDamageToDefender(float _damage)
+    {
+        //print("Deal damage is run from creep"); //Tested to work
+        if (DefenderTargets.Count > 0) //This is where my current problem lies
+        {
+            print("List is larger than 0"); //The list count was never greater than 0...
+            Defender targetedDefender = DefenderTargets[0].GetComponent<Defender>();
+            targetedDefender.IamDamaged(_damage);
+        }
+    }
+    private void OnEnable() //If this works, move it to its own script
+    {
+        animationEventHandler.OnDealingDamage += DealDamageToDefender;
+    }
+    private void OnDisable()
+    {
+        animationEventHandler.OnDealingDamage -= DealDamageToDefender;
     }
 }

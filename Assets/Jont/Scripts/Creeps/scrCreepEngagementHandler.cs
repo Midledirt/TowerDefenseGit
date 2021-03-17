@@ -20,4 +20,12 @@ public class scrCreepEngagementHandler : MonoBehaviour
         }
         return ThisCreepIsEngaged = false;  //This is false if the target for the defender is THIS creep
     }
+    public bool ToggleEngagementEnd(Creep _target)
+    {
+        if(thisCreep == _target)
+        {
+            return ThisCreepIsEngaged = false;
+        }
+        return false;
+    }
 }

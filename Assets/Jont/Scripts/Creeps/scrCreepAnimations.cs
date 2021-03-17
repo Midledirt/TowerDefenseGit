@@ -25,17 +25,21 @@ public class scrCreepAnimations : MonoBehaviour
             case true:
                 if(animator.GetBool("CreepIsInCombat") != true && _creep._CreepHealth.CurrentHealth > 0)
                 {
+                    //print("Creep starting combat animation"); //TESTED TO WORK
                     PlayAttackAnimation();
                 }
                 return;
             case false:
+                //print("Stop attack animation");
                 StopAttackAnimation();
+                return;
+            default:
                 return;
         }
     }
     public void PlayAttackAnimation()
     {
-        print("Attacking");
+        animator.SetBool("CreepIsInCombat", true);
     }
     public void StopAttackAnimation()
     {
@@ -47,6 +51,7 @@ public class scrCreepAnimations : MonoBehaviour
     }
     private void DieAnimation()
     {
+        animator.SetBool("CreepIsInCombat", false);
         animator.SetTrigger("Dead");
     }
     private float GetCurrentAnimationLength()
