@@ -20,14 +20,11 @@ public class Creep : MonoBehaviour
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
     public List<GameObject> DefenderTargets { get; private set; }
 
-    scrAnimationEventHandler animationEventHandler;
-
     private void Awake()
     {
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
         DefenderTargets = new List<GameObject>(); //Initialize the list (DO IT HERE, NOT IN START, AS IT IS USED BY "scrCreepAttack")
-        animationEventHandler = GetComponentInChildren<scrAnimationEventHandler>();
     }
     private void Start()
     {
@@ -58,12 +55,14 @@ public class Creep : MonoBehaviour
                 EndPointReached();
             }
         }
-        if (DefenderTargets.Count > 0)//If there are enemytargets
+        if (DefenderTargets.Count > 0)//THIS IS THE CAUSE OF THE PROBLEM, THIS IS NEVER TURNED TO TRUE (and this is unrelated to the bool that causes animations to change)
         {
+            //print("Creep is engaged in combat wtf");
             CreepEngagedInCombat = true;
         }
         else if(DefenderTargets.Count <= 0)
         {
+            //print("Creep is not engaged in combat");
             CreepEngagedInCombat = false;
         }
     }
@@ -126,23 +125,5 @@ public class Creep : MonoBehaviour
     public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
     {
         creep.DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
-    }
-    private void DealDamageToDefender(float _damage)
-    {
-        //print("Deal damage is run from creep"); //Tested to work
-        if (DefenderTargets.Count > 0) //This is where my current problem lies
-        {
-            print("List is larger than 0"); //The list count was never greater than 0...
-            Defender targetedDefender = DefenderTargets[0].GetComponent<Defender>();
-            targetedDefender.IamDamaged(_damage);
-        }
-    }
-    private void OnEnable() //If this works, move it to its own script
-    {
-        animationEventHandler.OnDealingDamage += DealDamageToDefender;
-    }
-    private void OnDisable()
-    {
-        animationEventHandler.OnDealingDamage -= DealDamageToDefender;
     }
 }

@@ -66,8 +66,10 @@ public class Defender : MonoBehaviour
         }
         currentCreepTargetPos = _target.transform.position; //Used by "scrDefenderMovement" for moving towards the target
         scrCreepEngagementHandler _targetEngagementHandler = _target.GetComponent<scrCreepEngagementHandler>();
-        _targetEngagementHandler.ToggleEngagement(_target);
+        //THE FOLLOWING 3 FUNCTIONS FEEL KINDA REDUNDANT, PERHAPS THERE IS A WAY TO SIMPLIFY THIS INTO ONE FUNCTION(OR ACTION) THAT SENDS SEVERAL REFERENCES?
+        _targetEngagementHandler.ToggleEngagement(_target); //Used for animation
         _target.CreepIsTargetedByDefender(true); //Stops creep movement
+        _target.CreepIsInCombatWithTarget(this.gameObject); //Sends a reference of this gameobject to a list used to toggle creep attack
         //_target.CreepIsInCombatWithTarget(this.gameObject); //Makes the target respond and fight back against "this"
         IsEngagedWithCreep = true;
         if (targetHealth.CurrentHealth <= 0) //Makes the defender ignore a dead creep
@@ -132,10 +134,6 @@ public class Defender : MonoBehaviour
         {
             DefenderCreepTarget.GetComponent<scrCreepHealth>().DealDamage(_damage); //Deal damage to the creep
         }
-    }
-    public void IamDamaged(float _damage)
-    {
-        print("I am damaged this amount: " + _damage);
     }
     private void OnEnable()
     {
