@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class scrDefenderStats : MonoBehaviour
 {
-    public int DefenderPossition { get; set; }
+    public int DefenderPossition { get; set; } //Used for defining the defender possition in formation (rally point)
 
     private void Awake()
     {

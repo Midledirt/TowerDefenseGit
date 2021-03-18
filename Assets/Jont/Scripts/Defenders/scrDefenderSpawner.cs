@@ -22,8 +22,6 @@ public class scrDefenderSpawner : MonoBehaviour
     private void Start()
     {
         spawnDefenders();
-        //orderDefendersToMoveTowardsTarget();
-        //moveTowardsTarget(); //This should get a while loop, so that it can run without being called here, and the end when defender reaches possition
     }
     private void spawnDefenders()
     {

@@ -9,4 +9,6 @@ public class CreepStatsSO : ScriptableObject
     public float initialHealth;
     [Tooltip("Assign movement speed. Does NOT affect DEFENDERS inhereting from creep stats")]
     public float movementSpeed;
+    [Tooltip("Assign meleeDamage for creeps or defenders")]
+    public float meleeDamage;
 }

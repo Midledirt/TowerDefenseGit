@@ -7,8 +7,7 @@ public class scrDefenderAnimation : MonoBehaviour
     private Animator defenderAnimator;
     [SerializeField] private GameObject defenderBody;
     private scrCreepHealth defenderHealth;
-    private float respawnTimer = 2f;
-
+    private float respawnTimer = 5f;
 
     private void Awake()
     {

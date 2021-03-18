@@ -46,7 +46,7 @@ public class scrCreepAnimations : MonoBehaviour
         if(animator.GetBool("CreepIsInCombat") != false)
         {
             animator.SetBool("CreepIsInCombat", false);
-            print("Stopping");
+            //print("Stopping");
         }
     }
     private void DieAnimation()

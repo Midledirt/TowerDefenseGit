@@ -8,10 +8,16 @@ using System;
 public class scrAnimationEventHandler : MonoBehaviour
 {
     public Action<float> OnDealingDamage;
+    CreepStatsSO defenderOrCreepStats;
+
+    private void Awake()
+    {
+        defenderOrCreepStats = GetComponentInParent<scrCreepTypeDefiner>().creepType; //Get the "creepType" from the stats on the gameobject
+    }
     public void dealDamage() //Called by animation event
     {
-        OnDealingDamage?.Invoke(5f); //Damage needs to inherit from stats
-        print("DealingDamage");
+        OnDealingDamage?.Invoke(defenderOrCreepStats.meleeDamage); //Damage needs to inherit from stats
+        //print("DealingDamage");
         //Run the damage function for the target
     }
 }

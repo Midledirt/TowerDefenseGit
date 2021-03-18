@@ -7,21 +7,30 @@ using UnityEngine;
 public class scrCreepAttack : MonoBehaviour
 {
     scrAnimationEventHandler animationEventHandler;
-    private List<GameObject> defenderTargetsFromCreep;
+    private List<GameObject> defenderTargets;
+    Creep theCreep;
 
     private void Awake()
     {
         animationEventHandler = GetComponentInChildren<scrAnimationEventHandler>();
+        theCreep = GetComponent<Creep>();
     }
     private void DealDamageToDefender(float _damage)
     {
-        defenderTargetsFromCreep = GetComponent<Creep>().DefenderTargets; //This list is initialized in the awake method for creep
+        defenderTargets = GetComponent<Creep>().DefenderTargets; //This list is initialized in the awake method for creep
         //print("Deal damage is run from creep"); //Tested to work
-        if (defenderTargetsFromCreep.Count > 0) //This is where my current problem lies
+        if (defenderTargets.Count > 0) //This is where my current problem lies
         {
+            scrCreepHealth targetedDefenderHealth = defenderTargets[0].GetComponent<scrCreepHealth>();
+            if (targetedDefenderHealth.CurrentHealth <= 0)
+            {
+                print("The defender I fought is dead");
+                theCreep.TemporaryTestFunction(); //Removes the DefenderTarget(0)
+                //defenderTargets.RemoveAt(0); //The removeAt is cheaper to run for the cpu than Remove. Source: Comment by "Fabian Haquin" https://forum.unity.com/threads/lists-and-removeat.450322/
+                //Now, lets see if the creep reaquires the target...
+            }
             //print("List is larger than 0"); //The list count was never greater than 0...
-            scrCreepHealth targetedDefender = defenderTargetsFromCreep[0].GetComponent<scrCreepHealth>();
-            targetedDefender.DealDamage(_damage);
+            targetedDefenderHealth.DealDamage(_damage);
         }
     }
     private void OnEnable() //If this works, move it to its own script
