@@ -10,46 +10,19 @@ public class Defender : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     //[SerializeField] private float respawnTimer = 2f;
     public bool IsEngagedWithCreep { get; private set; } //Used by movement script
-    private List<Creep> _creepList;
     public Creep DefenderCreepTarget { get; private set; }
     private scrCreepHealth targetHealth;
     public Vector3 currentCreepTargetPos { get; private set; }
     scrAnimationEventHandler animEventHandler;
+    scrDefenderTowerTargets defenderTowerTargets;
     private void Awake()
     {
-        _creepList = new List<Creep>();
-        //defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
         IsEngagedWithCreep = false;
         animEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Get the instance
     }
     private void Update()
     {
         EngageTarget(SelectingTarget()); //Engage the selected target
-    }
-    //check for collisions with creep
-    private void OnTriggerEnter(Collider other) //Adds the creep to a list
-    {
-        //print("Detected: " + other);
-        if(other.CompareTag("Creep"))
-        {
-            Creep newCreep = other.GetComponent<Creep>();
-            _creepList.Add(newCreep);
-        }
-    }
-    private void OnTriggerExit(Collider other) //Removes the creep from the list
-    {
-        if(other.CompareTag("Creep"))
-        {
-            Creep theCreep = other.GetComponent<Creep>();
-            if(_creepList.Contains(theCreep))
-            {
-                if(DefenderCreepTarget == theCreep)
-                {
-                    DefenderCreepTarget = null; //Loose this reference if this creep just moved outside of range
-                }
-                _creepList.Remove(theCreep);
-            }
-        }
     }
     //Engages the target
     private void EngageTarget(Creep _target)
@@ -83,29 +56,29 @@ public class Defender : MonoBehaviour
     //Manage the creep target
     private Creep SelectingTarget()
     {
-        if (_creepList.Count <= 0)
+        if (defenderTowerTargets.DefenderCreepList.Count <= 0)
         {
             DefenderCreepTarget = null;
             return DefenderCreepTarget; //Returns null, there are no creeps close
         }
-        if (_creepList[0].GetComponent<scrCreepHealth>().CurrentHealth > 0f)
+        if (defenderTowerTargets.DefenderCreepList[0].GetComponent<scrCreepHealth>().CurrentHealth > 0f)
         {
-            DefenderCreepTarget = _creepList[0]; //Assign the first target as the default target
+            DefenderCreepTarget = defenderTowerTargets.DefenderCreepList[0]; //Assign the first target as the default target
         }
-        float defenderCreepTargetDistanceTraveled = _creepList[0].DistanceTravelled;
-        targetHealth = _creepList[0].GetComponent<scrCreepHealth>();
+        float defenderCreepTargetDistanceTraveled = defenderTowerTargets.DefenderCreepList[0].DistanceTravelled;
+        targetHealth = defenderTowerTargets.DefenderCreepList[0].GetComponent<scrCreepHealth>();
         if(targetHealth.CurrentHealth <= 0) //Checks that the current target has died
         {
-            _creepList.Remove(_creepList[0]);
-            for (int i = 0; i < _creepList.Count; i++)
+            defenderTowerTargets.DefenderCreepList.Remove(defenderTowerTargets.DefenderCreepList[0]);
+            for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
             {
-                if (_creepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)
+                if (defenderTowerTargets.DefenderCreepList[i].DistanceTravelled > defenderCreepTargetDistanceTraveled)
                 {
-                    DefenderCreepTarget = _creepList[i];
-                    defenderCreepTargetDistanceTraveled = _creepList[i].DistanceTravelled;
-                    targetHealth = _creepList[i].GetComponent<scrCreepHealth>();
+                    DefenderCreepTarget = defenderTowerTargets.DefenderCreepList[i];
+                    defenderCreepTargetDistanceTraveled = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
+                    targetHealth = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepHealth>();
                 }
-                else if(_creepList.Count < 0)
+                else if(defenderTowerTargets.DefenderCreepList.Count < 0)
                 {
                     return null;
                 }
@@ -113,20 +86,24 @@ public class Defender : MonoBehaviour
             return DefenderCreepTarget; //Returns the current living target
         }
         return DefenderCreepTarget;
-
     }
     private void EnemyKilled(Creep _creep) //This is used to make sure the reference of the current creep is lost when it dies
     {
-        if(_creepList.Contains(_creep)) //Make sure to remove it from the creep list, even if it is not the current target
+        if(defenderTowerTargets.DefenderCreepList.Contains(_creep)) //Make sure to remove it from the creep list, even if it is not the current target
         {
             //Debug.Log("I died, not the target");
-            _creepList.Remove(_creep);
+            defenderTowerTargets.DefenderCreepList.Remove(_creep);
         }
         if(DefenderCreepTarget == _creep)
         {
             //Debug.Log("I died, current target");
             DefenderCreepTarget = null;
         }
+    }
+    public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
+    {
+        print("Local defender targets assigned to defender");
+        return defenderTowerTargets = _defenderTowerTargets; //Gets the reference
     }
     private void DealDamageToEnemy(float _damage)
     {
@@ -135,13 +112,22 @@ public class Defender : MonoBehaviour
             DefenderCreepTarget.GetComponent<scrCreepHealth>().DealDamage(_damage); //Deal damage to the creep
         }
     }
+    private void RemoveDefenderTarget(Creep _defenderTarget)
+    {
+        if (DefenderCreepTarget == _defenderTarget)
+        {
+            DefenderCreepTarget = null; //Loose this reference if this creep just moved outside of range
+        }
+    }
     private void OnEnable()
     {
+        scrDefenderTowerTargets.LooseDefenderTarget += RemoveDefenderTarget;
         animEventHandler.OnDealingDamage += DealDamageToEnemy;
         scrCreepHealth.OnEnemyKilled += EnemyKilled;
     }
     private void OnDisable()
     {
+        scrDefenderTowerTargets.LooseDefenderTarget -= RemoveDefenderTarget;
         animEventHandler.OnDealingDamage -= DealDamageToEnemy;
         scrCreepHealth.OnEnemyKilled -= EnemyKilled;
     }

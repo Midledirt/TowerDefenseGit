@@ -1,20 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// This class is currnetly (19.03.21) used by the defender tower, mainly for references it seems. This is horrible for optimization, and I need to remove this
+/// at a later point
+/// </summary>
 public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
-    public scrUppgradeTowers TowerUpgrade { get; set; } //This may be the wrong script! :O UPDATE: It works, so it must be right
+    public scrUppgradeTowers TowerUpgrade { get; set; }
     public Creep CurrentCreepTarget { get; private set; }
 
     [Header("Tower has defenders?")]
     [Tooltip("Decides wheter or not this tower type has defenders by default")]
     [SerializeField] private bool towerHasDefenders = false;
     public bool TowerHasDefenders { get; private set; }
-
-    //public float AttackRange => attackRange; //This is used in the "scrTowerNode" script. It is used to make sprite that illustrates the
-    //attack range scale with the actual attack range //IMPORTANT: DOES NOT WORK RIGHT NOW
 
     private bool _gameStarted;
     private List<Creep> _creeps;

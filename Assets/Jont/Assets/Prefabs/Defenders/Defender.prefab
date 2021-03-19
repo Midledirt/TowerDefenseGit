@@ -591,7 +591,6 @@ GameObject:
   - component: {fileID: 2063227664383940659}
   - component: {fileID: 5015053701425056376}
   - component: {fileID: -3877754944350883148}
-  - component: {fileID: 6541223201069234408}
   m_Layer: 0
   m_Name: Defender
   m_TagString: Untagged
@@ -692,19 +691,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defenderBody: {fileID: 4880265250296988634}
---- !u!135 &6541223201069234408
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848894563981429664}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &3963387490683044113
 GameObject:
   m_ObjectHideFlags: 0

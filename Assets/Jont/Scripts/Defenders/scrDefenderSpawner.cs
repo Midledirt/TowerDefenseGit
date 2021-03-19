@@ -10,15 +10,16 @@ public class scrDefenderSpawner : MonoBehaviour
     private List<GameObject> defenders;
     scrTowerRallypointPos rallyPointUpdater;
     [SerializeField] private float respawnTimer = 2f;
+    scrDefenderTowerTargets defenderTowerTargets;
 
     private void Awake()
     {
+        defenderTowerTargets = GetComponent<scrDefenderTowerTargets>();
         pooler = GetComponent<ObjectPooler>(); //Get the instance on this tower
         //rallyPointPos = GetComponent<scrTowerRallypointPos>(); //Get the instance on this tower
         rallyPointUpdater = GetComponent<scrTowerRallypointPos>(); //Get the instance
         defenders = new List<GameObject>(); //Initialize the list
     }
-
     private void Start()
     {
         spawnDefenders();
@@ -39,7 +40,8 @@ public class scrDefenderSpawner : MonoBehaviour
             {
                 defenderPossition.DefenderPossition = i + 1;
             }
-
+            Defender defender = newInstance.GetComponent<Defender>();
+            defender.AssignDefenderTowerTargets(defenderTowerTargets); //Assign this script for local defenders, so they can use the list of targets
             newInstance.SetActive(true); //Set defenders to active
         }
     }

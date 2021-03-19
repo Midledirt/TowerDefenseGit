@@ -28,12 +28,17 @@ public class scrTowerRallypointPos : MonoBehaviour
     }
     private void Start()
     {
-        if (towerParent != null && towerParent.TowerHasDefenders == true) //Move this to awake later?
+        if (towerParent != null && towerParent.TowerHasDefenders == true) //Dont move this to awake!
         {
             rallyPoint = Instantiate(rallyPointPrefab, transform.position, Quaternion.identity, towerParent.transform);
         }
         if (rallyPoint != null) //Check for null reference
         {
+            //Assign reference of the scrDefenderTowerTargets script to the newly instantiated rallypoint
+            scrDefenderTowerTargets _localDefenderTowerTargets = GetComponent<scrDefenderTowerTargets>(); //Find the script on this tower
+            scrTowerRallyPointDetection _newlyInstantiatedRallyPointDetectionScripot = rallyPoint.GetComponent<scrTowerRallyPointDetection>();
+            _newlyInstantiatedRallyPointDetectionScripot.setReference(_localDefenderTowerTargets); //Send it the reference
+
             RallyPointAPos = rallyPoint.transform.Find("PossitionA");
             RallyPointBPos = rallyPoint.transform.Find("PossitionB");
             RallyPointCPos = rallyPoint.transform.Find("PossitionC");
@@ -50,12 +55,10 @@ public class scrTowerRallypointPos : MonoBehaviour
             rallyPoint.transform.position = possition; //Move the rallypoint
             //defenders.orderDefendersToMoveTowardsTarget();
             OnSetRallyPoint?.Invoke(RallyPointAPos.transform.position, RallyPointBPos.transform.position, RallyPointCPos.transform.position);
-            //print("Inside circle");
         }
         else
         {
             rallyPoint.transform.position = latestViablePossition; //Rallypoint remains at latest viable possition
-            //print("outside circle");
         }
     }
 

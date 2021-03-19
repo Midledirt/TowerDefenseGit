@@ -62,8 +62,7 @@ public class Creep : MonoBehaviour
         }
         else if(DefenderTargets.Count <= 0)
         {
-            print("Creep is not engaged in combat"); //The issue might be that the function below is called in a function that runs at update, as such, there 
-            //may be many copies of the same object in the list. Lets test by running a clear.
+            //print("Creep is not engaged in combat"); 
             CreepEngagedInCombat = false;
         }
     }
@@ -126,11 +125,5 @@ public class Creep : MonoBehaviour
     public void ReturnPosition(Creep creep) //Is fired from... Check the reference above this method! :) (from the scrCreepAnimations)
     {
         creep.DistanceTravelled = 0f; //Reset the travel distance variable, also necessary so that they don`t "teleport" back into the goal
-    }
-    public void TemporaryTestFunction()
-    {
-        print("Yes, temporaryTestFunctionIsRun");
-        //DefenderTargets.RemoveAt(0);
-        DefenderTargets.Clear();
     }
 }
