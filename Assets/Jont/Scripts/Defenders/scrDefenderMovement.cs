@@ -122,7 +122,13 @@ public class scrDefenderMovement : MonoBehaviour
     public void getRallyPointPos(Vector3 rallyPointPossition) //Assigned from other script
     {
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
-        //defender.IsEngagedWithCreep = false;
+        defender.SetIsEngagedWithCreepToFalse();
+        DefenderAlreadyHasATarget = false;
         rallyPointPos = rallyPointPossition;
+        //the creep needs to loose referense!
+        if(defender.DefenderCreepTarget != null)
+        {
+            defender.DefenderCreepTarget.CreepEngagementHandler.SetEngagementToFalse();
+        }
     }
 }

@@ -15,6 +15,8 @@ public class scrCreepEngagementHandler : MonoBehaviour
     public void SetEngagementToFalse()
     {
         ThisCreepIsEngaged = false;
+        thisCreep.creepsFirstDefenderTarget = null; //Good 2 be extra sure
+        thisCreep.CreepGotItsFirstTarget = false; //Good 2 be extra sure
         thisCreep.ResumeMovement();
     }
     public bool ToggleEngagement(Creep _target)

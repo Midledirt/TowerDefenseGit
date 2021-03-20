@@ -21,9 +21,11 @@ public class Creep : MonoBehaviour
     public List<GameObject> DefenderTargets { get; private set; }
     public bool CreepGotItsFirstTarget { get; set; } //Used to make defenders not gang up on creeps when there are several creeps nearby
     public GameObject creepsFirstDefenderTarget;
+    public scrCreepEngagementHandler CreepEngagementHandler { get; set; }
 
     private void Awake()
     {
+        CreepEngagementHandler = GetComponent<scrCreepEngagementHandler>(); //Get the reference
         creepsFirstDefenderTarget = null;
         CreepGotItsFirstTarget = false;
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
