@@ -27,9 +27,13 @@ public class Defender : MonoBehaviour
         //EngageTarget(SelectingTarget()); //Engage the selected target
         //I think the issue is that this method is always making the defender move towards target 0. There must be a way to remedy this
     }
-    public void SetFirstTarget()
+    public void SetNewTarget()
     {
         EngageTarget(SelectingTarget());
+    }
+    public void SetIsEngagedWithCreepToFalse()
+    {
+        IsEngagedWithCreep = false;
     }
 
     //Engages the target
@@ -114,6 +118,7 @@ public class Defender : MonoBehaviour
             DefenderCreepTarget = null;
             defenderMovement.DefenderAlreadyHasATarget = false;
             IsEngagedWithCreep = false;
+            SetNewTarget(); //Search for a new target emediately
         }
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)

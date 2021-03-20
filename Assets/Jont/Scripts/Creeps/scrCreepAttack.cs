@@ -28,15 +28,14 @@ public class scrCreepAttack : MonoBehaviour
             scrCreepHealth targetedDefenderHealth = thisCreep.creepsFirstDefenderTarget.GetComponent<scrCreepHealth>();
             if (targetedDefenderHealth.CurrentHealth <= 0)
             {
+                defenderTargets.Remove(thisCreep.creepsFirstDefenderTarget);
                 //print("The defender I fought is dead");
-                //engagementHandler.SetEngagementToFalse(); //Stop combat behaviour
-                //Increment target
-                if (defenderTargets.Count <= 0) //THIS IS THE CAUSE OF THE ISSUE!!!!!!!!!!!!!!
+                if (defenderTargets.Count <= 0)
                 {
                     engagementHandler.SetEngagementToFalse(); //Stop combat behaviour
                     return; 
                 }
-                else if(defenderTargets.Count > 0)
+                else if(defenderTargets.Count > 0) //increment targetDefender
                 {
                     for(int i = 0; i < defenderTargets.Count; i++)
                     {

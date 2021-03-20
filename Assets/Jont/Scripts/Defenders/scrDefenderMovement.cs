@@ -11,12 +11,14 @@ public class scrDefenderMovement : MonoBehaviour
     private Defender defender;
     private float engagementDistance = .8f;
     private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
-    public bool DefenderAlreadyHasATarget { get; set; }
+    public bool DefenderAlreadyHasATarget { get; set; } //This is set to false on the defender dies event, as well as by the creeps when they die
+    public bool DefenderIsCurrentlyMovingTowardsNewPossition { get; set; }
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
         defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance;
         DefenderAlreadyHasATarget = false;
+        DefenderIsCurrentlyMovingTowardsNewPossition = true;
     }
     private void Update()
     {
@@ -24,6 +26,11 @@ public class scrDefenderMovement : MonoBehaviour
         {
             defenderAnimator.StopAttackAnimation(); //Stop animation
             moveTowardsTarget(rallyPointPos);
+            float _minDistanceToRallyPointPos = 0.05f;
+            if((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
+            {
+                DefenderIsCurrentlyMovingTowardsNewPossition = false;
+            }
             if (transform.position != rallyPointPos)
             {
                 rotateTowardsTarget(rallyPointPos);
@@ -69,7 +76,11 @@ public class scrDefenderMovement : MonoBehaviour
                             {
                                 //print("Defender selecting last target in list");
                                 defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[i]);
-                                defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
+                                if(defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget == false) //Need 2 check this here because it might
+                                    //not be true
+                                {
+                                    defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
+                                }
                                 defender.defenderTowerTargets.DefenderCreepList[i].AssignCreepsCurrentDefenderTarget(this.gameObject);
                                 DefenderAlreadyHasATarget = true;
                                 break;
@@ -110,6 +121,8 @@ public class scrDefenderMovement : MonoBehaviour
     }
     public void getRallyPointPos(Vector3 rallyPointPossition) //Assigned from other script
     {
+        DefenderIsCurrentlyMovingTowardsNewPossition = true;
+        //defender.IsEngagedWithCreep = false;
         rallyPointPos = rallyPointPossition;
     }
 }

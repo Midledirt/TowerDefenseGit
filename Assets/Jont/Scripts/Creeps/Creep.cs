@@ -59,18 +59,19 @@ public class Creep : MonoBehaviour
                 EndPointReached();
             }
         }
-        if (DefenderTargets.Count > 0)//THIS IS THE CAUSE OF THE PROBLEM, THIS IS NEVER TURNED TO TRUE (and this is unrelated to the bool that causes animations to change)
+        if (DefenderTargets.Count > 0) //THIS LIST IS EMPTIED IN THE scrCreepAttack class!
         {
             //print("Creep is engaged in combat wtf");
             CreepEngagedInCombat = true;
         }
-        else if(DefenderTargets.Count <= 0)
+        else if(DefenderTargets.Count <= 0) //THIS LIST IS EMPTIED IN THE scrCreepAttack class!
         {
             //print("Creep is not engaged in combat"); 
             CreepEngagedInCombat = false;
+            CreepGotItsFirstTarget = false;
         }
     }
-    public void AssignCreepsCurrentDefenderTarget(GameObject _defenderTarget)
+    public void AssignCreepsCurrentDefenderTarget(GameObject _defenderTarget) //THIS Object IS removed IN THE scrCreepAttack class!
     {
         creepsFirstDefenderTarget = _defenderTarget;
     }

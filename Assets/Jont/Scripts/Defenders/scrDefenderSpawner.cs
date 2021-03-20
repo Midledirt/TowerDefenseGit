@@ -9,7 +9,6 @@ public class scrDefenderSpawner : MonoBehaviour
     //private scrTowerRallypointPos rallyPointPos;
     private List<GameObject> defenders;
     scrTowerRallypointPos rallyPointUpdater;
-    [SerializeField] private float respawnTimer = 2f;
     scrDefenderTowerTargets defenderTowerTargets;
 
     private void Awake()

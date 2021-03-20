@@ -26,7 +26,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
         {
             foreach(Defender _defender in Defenders)
             {
-                _defender.SetFirstTarget(); //Makes the defenders engage the first target
+                _defender.SetNewTarget(); //Makes the defenders engage the first target
             }
         }
     }
