@@ -11,6 +11,7 @@ public class scrDefenderMovement : MonoBehaviour
     private Defender defender;
     private float engagementDistance = .8f;
     private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
+    private bool DefenderAlreadyHasATarget = false;
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
@@ -33,6 +34,53 @@ public class scrDefenderMovement : MonoBehaviour
             {
                 moveTowardsTarget(defender.currentCreepTargetPos);
                 rotateTowardsTarget(defender.currentCreepTargetPos);
+            }
+            else if((transform.position - defender.currentCreepTargetPos).magnitude <= engagementDistance && defender.DefenderCreepTarget != null) //Check if this defender is the first target
+            {
+                //I need to make a check for wether THIS defender is the creeps first target
+                //Is the creep in fight?
+                if (defender.DefenderCreepTarget.CreepGotItsFirstTarget == false)//No
+                {
+                    //ASSIGN THIS AS THE FIRST CREEP TARGET
+                    defender.DefenderCreepTarget.CreepGotItsFirstTarget = true; //This is the first target - Engage.
+                    defender.DefenderCreepTarget.AssignCreepsCurrentDefenderTarget(this.gameObject); //Assign as creepTarget
+                    DefenderAlreadyHasATarget = true;
+                    return;
+                }
+                else if(defender.DefenderCreepTarget.CreepGotItsFirstTarget == true) //Yes
+                {
+                    //Are there other targets in the tower engagement list?
+                    if (defender.defenderTowerTargets.DefenderCreepList.Count > 0 && DefenderAlreadyHasATarget == false) //Yes
+                    {
+                        for(int i = 0; i < defender.defenderTowerTargets.DefenderCreepList.Count; i++)
+                        {
+                            //The problem might be that this list makes the defenders constantly go for the next target. Perhaps i can break out of it?
+                            if(defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget == false)
+                            {
+                                //print("Defender selecting new target");
+                                defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[i]);
+                                defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
+                                defender.defenderTowerTargets.DefenderCreepList[i].AssignCreepsCurrentDefenderTarget(this.gameObject);
+                                DefenderAlreadyHasATarget = true;
+                                break;
+                            }
+                        }
+                    }
+                    else if (defender.defenderTowerTargets.DefenderCreepList.Count <= 0)//No
+                    {
+                        if(defender.defenderTowerTargets.DefenderCreepList[0] == null)
+                        {
+                            return;
+                        }
+                        print("There are no other targets to engage, engaging the first target in the list");
+                        defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[0]);
+                        defender.defenderTowerTargets.DefenderCreepList[0].CreepGotItsFirstTarget = true;
+                        defender.defenderTowerTargets.DefenderCreepList[0].AssignCreepsCurrentDefenderTarget(this.gameObject);
+                        DefenderAlreadyHasATarget = true;
+                        return; //Engage.
+                    }
+                }
+
             }
             //print("Close enough");
             defenderAnimator.PlayAttackAnimation();

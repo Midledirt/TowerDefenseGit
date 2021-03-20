@@ -19,9 +19,13 @@ public class Creep : MonoBehaviour
     public scrCreepHealth _CreepHealth { get; private set; }
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
     public List<GameObject> DefenderTargets { get; private set; }
+    public bool CreepGotItsFirstTarget { get; set; } //Used to make defenders not gang up on creeps when there are several creeps nearby
+    public GameObject creepsCurrentDefenderTarget;
 
     private void Awake()
     {
+        creepsCurrentDefenderTarget = null;
+        CreepGotItsFirstTarget = false;
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
         DefenderTargets = new List<GameObject>(); //Initialize the list (DO IT HERE, NOT IN START, AS IT IS USED BY "scrCreepAttack")
@@ -65,6 +69,10 @@ public class Creep : MonoBehaviour
             //print("Creep is not engaged in combat"); 
             CreepEngagedInCombat = false;
         }
+    }
+    public void AssignCreepsCurrentDefenderTarget(GameObject _defenderTarget)
+    {
+        creepsCurrentDefenderTarget = _defenderTarget;
     }
     public void CreepIsInCombatWithTarget(GameObject _target) //Sent by defender, lets both have this reference
     {

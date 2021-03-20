@@ -42,6 +42,7 @@ public class scrDefenderSpawner : MonoBehaviour
             }
             Defender defender = newInstance.GetComponent<Defender>();
             defender.AssignDefenderTowerTargets(defenderTowerTargets); //Assign this script for local defenders, so they can use the list of targets
+            defenderTowerTargets.InitializeLocalDefenders(defender); //Assign the defenders to the defenderTowerTargets, so they can be issued orders from the defenderTowerTargetets script
             newInstance.SetActive(true); //Set defenders to active
         }
     }

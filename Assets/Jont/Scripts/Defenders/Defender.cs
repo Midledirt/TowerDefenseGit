@@ -10,11 +10,11 @@ public class Defender : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     //[SerializeField] private float respawnTimer = 2f;
     public bool IsEngagedWithCreep { get; private set; } //Used by movement script
-    public Creep DefenderCreepTarget { get; private set; }
+    public Creep DefenderCreepTarget { get; set; } //Can be set by defender movement!
     private scrCreepHealth targetHealth;
     public Vector3 currentCreepTargetPos { get; private set; }
-    scrAnimationEventHandler animEventHandler;
-    scrDefenderTowerTargets defenderTowerTargets;
+    private scrAnimationEventHandler animEventHandler;
+    public scrDefenderTowerTargets defenderTowerTargets;
     private void Awake()
     {
         IsEngagedWithCreep = false;
@@ -22,8 +22,14 @@ public class Defender : MonoBehaviour
     }
     private void Update()
     {
-        EngageTarget(SelectingTarget()); //Engage the selected target
+        //EngageTarget(SelectingTarget()); //Engage the selected target
+        //I think the issue is that this method is always making the defender move towards target 0. There must be a way to remedy this
     }
+    public void SetFirstTarget()
+    {
+        EngageTarget(SelectingTarget());
+    }
+
     //Engages the target
     private void EngageTarget(Creep _target)
     {
@@ -87,6 +93,12 @@ public class Defender : MonoBehaviour
         }
         return DefenderCreepTarget;
     }
+    public void UpdateCurrentDefenderTarget(Creep _newTarget)
+    {
+        DefenderCreepTarget = _newTarget;
+        //currentCreepTargetPos = _newTarget.transform.position; //Do not think this is necessary here
+        EngageTarget(_newTarget);
+    }
     private void EnemyKilled(Creep _creep) //This is used to make sure the reference of the current creep is lost when it dies
     {
         if(defenderTowerTargets.DefenderCreepList.Contains(_creep)) //Make sure to remove it from the creep list, even if it is not the current target
@@ -102,7 +114,7 @@ public class Defender : MonoBehaviour
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
     {
-        print("Local defender targets assigned to defender");
+        //print("Local defender targets assigned to defender");
         return defenderTowerTargets = _defenderTowerTargets; //Gets the reference
     }
     private void DealDamageToEnemy(float _damage)
