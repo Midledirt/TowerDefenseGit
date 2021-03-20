@@ -15,8 +15,10 @@ public class Defender : MonoBehaviour
     public Vector3 currentCreepTargetPos { get; private set; }
     private scrAnimationEventHandler animEventHandler;
     public scrDefenderTowerTargets defenderTowerTargets;
+    private scrDefenderMovement defenderMovement;
     private void Awake()
     {
+        defenderMovement = GetComponent<scrDefenderMovement>();
         IsEngagedWithCreep = false;
         animEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Get the instance
     }
@@ -110,6 +112,8 @@ public class Defender : MonoBehaviour
         {
             //Debug.Log("I died, current target");
             DefenderCreepTarget = null;
+            defenderMovement.DefenderAlreadyHasATarget = false;
+            IsEngagedWithCreep = false;
         }
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)

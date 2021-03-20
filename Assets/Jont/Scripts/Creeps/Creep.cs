@@ -20,11 +20,11 @@ public class Creep : MonoBehaviour
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
     public List<GameObject> DefenderTargets { get; private set; }
     public bool CreepGotItsFirstTarget { get; set; } //Used to make defenders not gang up on creeps when there are several creeps nearby
-    public GameObject creepsCurrentDefenderTarget;
+    public GameObject creepsFirstDefenderTarget;
 
     private void Awake()
     {
-        creepsCurrentDefenderTarget = null;
+        creepsFirstDefenderTarget = null;
         CreepGotItsFirstTarget = false;
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
@@ -72,7 +72,7 @@ public class Creep : MonoBehaviour
     }
     public void AssignCreepsCurrentDefenderTarget(GameObject _defenderTarget)
     {
-        creepsCurrentDefenderTarget = _defenderTarget;
+        creepsFirstDefenderTarget = _defenderTarget;
     }
     public void CreepIsInCombatWithTarget(GameObject _target) //Sent by defender, lets both have this reference
     {

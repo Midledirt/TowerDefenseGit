@@ -12,6 +12,11 @@ public class scrCreepEngagementHandler : MonoBehaviour
     {
         thisCreep = GetComponent<Creep>(); //Get the creep instance on this game object
     }
+    public void SetEngagementToFalse()
+    {
+        ThisCreepIsEngaged = false;
+        thisCreep.ResumeMovement();
+    }
     public bool ToggleEngagement(Creep _target)
     {
         if(thisCreep == _target)

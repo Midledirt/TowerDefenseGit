@@ -30,7 +30,7 @@ public class scrCreepAnimations : MonoBehaviour
                 }
                 return;
             case false:
-                //print("Stop attack animation");
+                print("Stop attack animation, return to moving");
                 StopAttackAnimation();
                 return;
             default:

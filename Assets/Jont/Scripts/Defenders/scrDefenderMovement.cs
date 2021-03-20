@@ -11,11 +11,12 @@ public class scrDefenderMovement : MonoBehaviour
     private Defender defender;
     private float engagementDistance = .8f;
     private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
-    private bool DefenderAlreadyHasATarget = false;
+    public bool DefenderAlreadyHasATarget { get; set; }
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
         defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance;
+        DefenderAlreadyHasATarget = false;
     }
     private void Update()
     {
@@ -64,6 +65,15 @@ public class scrDefenderMovement : MonoBehaviour
                                 DefenderAlreadyHasATarget = true;
                                 break;
                             }
+                            if(i == defender.defenderTowerTargets.DefenderCreepList.Count)
+                            {
+                                //print("Defender selecting last target in list");
+                                defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[i]);
+                                defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
+                                defender.defenderTowerTargets.DefenderCreepList[i].AssignCreepsCurrentDefenderTarget(this.gameObject);
+                                DefenderAlreadyHasATarget = true;
+                                break;
+                            }
                         }
                     }
                     else if (defender.defenderTowerTargets.DefenderCreepList.Count <= 0)//No
@@ -73,9 +83,8 @@ public class scrDefenderMovement : MonoBehaviour
                             return;
                         }
                         print("There are no other targets to engage, engaging the first target in the list");
-                        defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[0]);
-                        defender.defenderTowerTargets.DefenderCreepList[0].CreepGotItsFirstTarget = true;
-                        defender.defenderTowerTargets.DefenderCreepList[0].AssignCreepsCurrentDefenderTarget(this.gameObject);
+                        defender.DefenderCreepTarget.CreepGotItsFirstTarget = true; //This is the first target - Engage.
+                        defender.DefenderCreepTarget.AssignCreepsCurrentDefenderTarget(this.gameObject); //Assign as creepTarget
                         DefenderAlreadyHasATarget = true;
                         return; //Engage.
                     }
