@@ -6,13 +6,13 @@ public class scrDefenderAnimation : MonoBehaviour
 {
     private Animator defenderAnimator;
     [SerializeField] private GameObject defenderBody;
-    private scrCreepHealth defenderHealth;
+    private scrUnitHealth defenderHealth;
     private float respawnTimer = 5f;
 
     private void Awake()
     {
         defenderAnimator = GetComponentInChildren<Animator>(); //Gets the reference of the animator
-        defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
+        defenderHealth = GetComponent<scrUnitHealth>(); //Gets the instance
     }
     public void PlayDeathAnimation()
     {
@@ -54,10 +54,10 @@ public class scrDefenderAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
-        scrCreepHealth.OnDefenderKilled += DefenderKilled;
+        scrUnitHealth.OnDefenderKilled += DefenderKilled;
     }
     private void OnDisable()
     {
-        scrCreepHealth.OnDefenderKilled -= DefenderKilled;
+        scrUnitHealth.OnDefenderKilled -= DefenderKilled;
     }
 }

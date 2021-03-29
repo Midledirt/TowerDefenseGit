@@ -5,10 +5,8 @@ using System;
 
 public class Defender : MonoBehaviour
 {
-    //scrCreepHealth defenderHealth;
     [Tooltip("Drag the body of the defender itself into this slot")]
     [SerializeField] private GameObject defenderBody;
-    //[SerializeField] private float respawnTimer = 2f;
 
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;

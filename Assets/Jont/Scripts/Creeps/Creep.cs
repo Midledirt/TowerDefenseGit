@@ -15,7 +15,7 @@ public class Creep : MonoBehaviour
     public PathCreator myPath; 
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
-    public scrCreepHealth _CreepHealth { get; private set; }
+    public scrUnitHealth _CreepHealth { get; private set; }
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
 
     private void Awake()
@@ -33,7 +33,7 @@ public class Creep : MonoBehaviour
         }
 
         //currentWaypointIndex = 0;
-        _CreepHealth = GetComponent<scrCreepHealth>();
+        _CreepHealth = GetComponent<scrUnitHealth>();
 
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
         //creepPossition = transform.position; //Stores the position of the transform

@@ -9,7 +9,7 @@ using TMPro;
 /// It communicates with other classes using (?) "properties".
 /// This class is also managing the position of the healthbar. 
 /// </summary>
-public class scrCreepHealth : MonoBehaviour
+public class scrUnitHealth : MonoBehaviour
 {
     private CreepStatsSO stats;
     //Requires the namespace "System"!

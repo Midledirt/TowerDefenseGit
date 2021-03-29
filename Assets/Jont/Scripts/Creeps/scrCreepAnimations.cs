@@ -93,13 +93,13 @@ public class scrCreepAnimations : MonoBehaviour
 
     private void OnEnable()
     {
-        scrCreepHealth.OnEnemyBlocked += CreepHit;
-        scrCreepHealth.OnEnemyKilled += CreepDead;
+        scrUnitHealth.OnEnemyBlocked += CreepHit;
+        scrUnitHealth.OnEnemyKilled += CreepDead;
     }
 
     private void OnDisable()
     {
-        scrCreepHealth.OnEnemyBlocked -= CreepHit;
-        scrCreepHealth.OnEnemyKilled -= CreepDead;
+        scrUnitHealth.OnEnemyBlocked -= CreepHit;
+        scrUnitHealth.OnEnemyKilled -= CreepDead;
     }
 }

@@ -43,12 +43,12 @@ public class scrCurrencySystem : Singleton<scrCurrencySystem>
 
     private void OnEnable()
     {
-        scrCreepHealth.OnEnemyKilled += EarnCoins; //Subscribe
+        scrUnitHealth.OnEnemyKilled += EarnCoins; //Subscribe
     }
 
     private void OnDisable()
     {
-        scrCreepHealth.OnEnemyKilled -= EarnCoins; //Desubscribe
+        scrUnitHealth.OnEnemyKilled -= EarnCoins; //Desubscribe
     }
 
 }
