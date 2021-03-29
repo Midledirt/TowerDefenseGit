@@ -22,92 +22,17 @@ public class scrDefenderMovement : MonoBehaviour
     }
     private void Update()
     {
-        if(defender.IsEngagedWithCreep == false)
+        defenderAnimator.StopAttackAnimation(); //Stop animation
+        moveTowardsTarget(rallyPointPos);
+        float _minDistanceToRallyPointPos = 0.05f;
+        if ((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
         {
-            defenderAnimator.StopAttackAnimation(); //Stop animation
-            moveTowardsTarget(rallyPointPos);
-            float _minDistanceToRallyPointPos = 0.05f;
-            if((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
-            {
-                DefenderIsCurrentlyMovingTowardsNewPossition = false;
-            }
-            if (transform.position != rallyPointPos)
-            {
-                rotateTowardsTarget(rallyPointPos);
-            }
+            DefenderIsCurrentlyMovingTowardsNewPossition = false;
         }
-        if(defender.IsEngagedWithCreep && defender.currentCreepTargetPos != null)
+        if (transform.position != rallyPointPos)
         {
-            if((transform.position - defender.currentCreepTargetPos).magnitude > engagementDistance) //Move closer
-            {
-                moveTowardsTarget(defender.currentCreepTargetPos);
-                rotateTowardsTarget(defender.currentCreepTargetPos);
-            }
-            else if((transform.position - defender.currentCreepTargetPos).magnitude <= engagementDistance && defender.DefenderCreepTarget != null) //Check if this defender is the first target
-            {
-                //I need to make a check for wether THIS defender is the creeps first target
-                //Is the creep in fight?
-                if (defender.DefenderCreepTarget.CreepGotItsFirstTarget == false)//No
-                {
-                    //ASSIGN THIS AS THE FIRST CREEP TARGET
-                    defender.DefenderCreepTarget.CreepGotItsFirstTarget = true; //This is the first target - Engage.
-                    defender.DefenderCreepTarget.AssignCreepsCurrentDefenderTarget(this.gameObject); //Assign as creepTarget
-                    DefenderAlreadyHasATarget = true;
-                    return;
-                }
-                else if(defender.DefenderCreepTarget.CreepGotItsFirstTarget == true) //Yes
-                {
-                    //Are there other targets in the tower engagement list?
-                    if (defender.defenderTowerTargets.DefenderCreepList.Count > 0 && DefenderAlreadyHasATarget == false) //Yes
-                    {
-                        for(int i = 0; i < defender.defenderTowerTargets.DefenderCreepList.Count; i++)
-                        {
-                            //The problem might be that this list makes the defenders constantly go for the next target. Perhaps i can break out of it?
-                            if(defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget == false)
-                            {
-                                //print("Defender selecting new target");
-                                defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[i]);
-                                defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
-                                defender.defenderTowerTargets.DefenderCreepList[i].AssignCreepsCurrentDefenderTarget(this.gameObject);
-                                DefenderAlreadyHasATarget = true;
-                                break;
-                            }
-                            if(i == defender.defenderTowerTargets.DefenderCreepList.Count)
-                            {
-                                //print("Defender selecting last target in list");
-                                defender.UpdateCurrentDefenderTarget(defender.defenderTowerTargets.DefenderCreepList[i]);
-                                if(defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget == false) //Need 2 check this here because it might
-                                    //not be true
-                                {
-                                    defender.defenderTowerTargets.DefenderCreepList[i].CreepGotItsFirstTarget = true;
-                                }
-                                defender.defenderTowerTargets.DefenderCreepList[i].AssignCreepsCurrentDefenderTarget(this.gameObject);
-                                DefenderAlreadyHasATarget = true;
-                                break;
-                            }
-                        }
-                    }
-                    else if (defender.defenderTowerTargets.DefenderCreepList.Count <= 0)//No
-                    {
-                        if(defender.defenderTowerTargets.DefenderCreepList[0] == null)
-                        {
-                            return;
-                        }
-                        print("There are no other targets to engage, engaging the first target in the list");
-                        defender.DefenderCreepTarget.CreepGotItsFirstTarget = true; //This is the first target - Engage.
-                        defender.DefenderCreepTarget.AssignCreepsCurrentDefenderTarget(this.gameObject); //Assign as creepTarget
-                        DefenderAlreadyHasATarget = true;
-                        return; //Engage.
-                    }
-                }
-
-            }
-            //print("Close enough");
-            defenderAnimator.PlayAttackAnimation();
-            //Attack
-            //Tell creep its under attack
+            rotateTowardsTarget(rallyPointPos);
         }
-
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
     {
@@ -122,13 +47,7 @@ public class scrDefenderMovement : MonoBehaviour
     public void getRallyPointPos(Vector3 rallyPointPossition) //Assigned from other script
     {
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
-        defender.SetIsEngagedWithCreepToFalse();
         DefenderAlreadyHasATarget = false;
         rallyPointPos = rallyPointPossition;
-        //the creep needs to loose referense!
-        if(defender.DefenderCreepTarget != null)
-        {
-            defender.DefenderCreepTarget.CreepEngagementHandler.SetEngagementToFalse();
-        }
     }
 }

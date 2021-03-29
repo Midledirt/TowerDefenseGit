@@ -11,26 +11,17 @@ public class Creep : MonoBehaviour
     //This is EXTREMELY interesting. It is covered at Part 14, around 3.50 timestamp. 
     //REQUIRES "System"
     public static Action<Creep> OnEndReaced;
-    public bool CreepEngagedInCombat { get; private set; }
     public float DistanceTravelled { get; set; }
     public PathCreator myPath; 
     public EndOfPathInstruction endOfPathInstruction; //This one needs to be assigned
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrCreepHealth _CreepHealth { get; private set; }
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
-    public List<GameObject> DefenderTargets { get; private set; }
-    public bool CreepGotItsFirstTarget { get; set; } //Used to make defenders not gang up on creeps when there are several creeps nearby
-    public GameObject creepsFirstDefenderTarget;
-    public scrCreepEngagementHandler CreepEngagementHandler { get; set; }
 
     private void Awake()
     {
-        CreepEngagementHandler = GetComponent<scrCreepEngagementHandler>(); //Get the reference
-        creepsFirstDefenderTarget = null;
-        CreepGotItsFirstTarget = false;
         stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
-        DefenderTargets = new List<GameObject>(); //Initialize the list (DO IT HERE, NOT IN START, AS IT IS USED BY "scrCreepAttack")
     }
     private void Start()
     {
@@ -61,50 +52,11 @@ public class Creep : MonoBehaviour
                 EndPointReached();
             }
         }
-        if (DefenderTargets.Count > 0) //THIS LIST IS EMPTIED IN THE scrCreepAttack class!
-        {
-            //print("Creep is engaged in combat wtf");
-            CreepEngagedInCombat = true;
-        }
-        else if(DefenderTargets.Count <= 0) //THIS LIST IS EMPTIED IN THE scrCreepAttack class!
-        {
-            //print("Creep is not engaged in combat"); 
-            CreepEngagedInCombat = false;
-            CreepGotItsFirstTarget = false;
-        }
-    }
-    public void AssignCreepsCurrentDefenderTarget(GameObject _defenderTarget) //THIS Object IS removed IN THE scrCreepAttack class!
-    {
-        creepsFirstDefenderTarget = _defenderTarget;
-    }
-    public void CreepIsInCombatWithTarget(GameObject _target) //Sent by defender, lets both have this reference
-    {
-        if(_target == null)
-        {
-            return;
-        }
-        if(_target != null && !DefenderTargets.Contains(_target))
-        {
-            DefenderTargets.Add(_target);
-            //creepAnimator.PlayAttackAnimation();
-            return;
-        }
     }
     public PathCreator SetPath(PathCreator path)
     {
         //Debug.Log("I am assigned a path");
         return myPath = path.GetComponent<PathCreator>();
-    }
-    public void CreepIsTargetedByDefender(bool isTargeted)
-    {
-        if (isTargeted)
-        {
-            StopMovement();
-        }
-        else
-            ResumeMovement();
-
-        //Play Idle animation from animator (IdleNotImplementedYet)
     }
     void OnPathChanged()
     {
@@ -112,7 +64,6 @@ public class Creep : MonoBehaviour
     }
     public void StopMovement()
     {
-        //print("Movement is stopped");
         MovementSpeed = 0f;
     }
     public void ResumeMovement()

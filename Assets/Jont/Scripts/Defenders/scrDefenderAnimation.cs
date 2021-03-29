@@ -8,11 +8,9 @@ public class scrDefenderAnimation : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     private scrCreepHealth defenderHealth;
     private float respawnTimer = 5f;
-    scrDefenderMovement defenderMovement;
 
     private void Awake()
     {
-        defenderMovement = GetComponent<scrDefenderMovement>(); //Gets the instance
         defenderAnimator = GetComponentInChildren<Animator>(); //Gets the reference of the animator
         defenderHealth = GetComponent<scrCreepHealth>(); //Gets the instance
     }
@@ -40,8 +38,6 @@ public class scrDefenderAnimation : MonoBehaviour
     private void DefenderKilled(Defender _defender)
     {
         //Debug.Log("I died"); 
-        _defender.SetIsEngagedWithCreepToFalse();
-        defenderMovement.DefenderAlreadyHasATarget = false;
         RespawnDefender(respawnTimer);
         StartCoroutine(RespawnDefender(respawnTimer));
         //Reset the defender position.

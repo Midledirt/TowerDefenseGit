@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random = UnityEngine.Random;
 
 public class scrTowerRallypointPos : MonoBehaviour
 {
@@ -20,11 +21,13 @@ public class scrTowerRallypointPos : MonoBehaviour
     private float distanceFromTowerToRallypoint;
     BoundingSphere attackRange;
     private Vector3 latestViablePossition;
+    private Collider towerCollider;
 
     private void Awake()
     {
         towerParent = GetComponent<scrTowerTargeting>();
         attackRange = new BoundingSphere(towerParent.transform.position, towerRallyRange);
+        towerCollider = GetComponent<Collider>(); //Get the collider
     }
     private void Start()
     {
