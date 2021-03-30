@@ -11,27 +11,57 @@ public class scrDefenderMovement : MonoBehaviour
     private Defender defender;
     private float engagementDistance = .8f;
     private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
-    public bool DefenderAlreadyHasATarget { get; set; } //This is set to false on the defender dies event, as well as by the creeps when they die
     public bool DefenderIsCurrentlyMovingTowardsNewPossition { get; set; }
+    private bool defenderHasANewPotentialTarget;
     private void Awake()
     {
         defender = GetComponent<Defender>(); //Get the instance
         defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance;
-        DefenderAlreadyHasATarget = false;
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
+        defenderHasANewPotentialTarget = false;
     }
     private void Update()
     {
-        defenderAnimator.StopAttackAnimation(); //Stop animation
-        moveTowardsTarget(rallyPointPos);
-        float _minDistanceToRallyPointPos = 0.05f;
-        if ((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
+        if (defenderHasANewPotentialTarget && defender.defenderIsAlive) //Potential target set in the defender script
         {
-            DefenderIsCurrentlyMovingTowardsNewPossition = false;
+            SetDefenderApproachTarget(defender.CurrentCreepTarget);
         }
-        if (transform.position != rallyPointPos)
+        else if (defender.defenderIsAlive && defender.thisDefenderIsEngagedAsMainTarget == false)
         {
-            rotateTowardsTarget(rallyPointPos);
+            defenderAnimator.StopAttackAnimation(); //Stop animation
+            moveTowardsTarget(rallyPointPos);
+            float _minDistanceToRallyPointPos = 0.05f;
+            if ((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
+            {
+                DefenderIsCurrentlyMovingTowardsNewPossition = false;
+            }
+            if (transform.position != rallyPointPos)
+            {
+                rotateTowardsTarget(rallyPointPos);
+            }
+        }
+    }
+    public void MakeDefenderMoveTowardsTarget() //Potential target set in the defender script
+    {
+        defenderHasANewPotentialTarget = true;
+    }
+    public void SetDefenderApproachTarget(Creep _creep)
+    {
+        if((transform.position - _creep.transform.position).magnitude > engagementDistance)
+        {
+            moveTowardsTarget(_creep.transform.position);
+            //Rotate towards target
+        }
+        else if((transform.position - _creep.transform.position).magnitude <= engagementDistance)
+        {
+            defenderHasANewPotentialTarget = false;
+            scrCreepEngagementHandler potentialTargetEngagementHandler = _creep.GetComponent<scrCreepEngagementHandler>();
+            if (potentialTargetEngagementHandler.CurrentTarget == null)
+            {
+                defender.SetDefenderIsEngagedAsMainTargetTrue(); //What keeps the defender from searching from approaching ever new targets
+                potentialTargetEngagementHandler.SetThisCreepIsEngaged();
+            }
+            //else if() Make it possible to attack, even if we are not the main target (in case there are no other targets)
         }
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
@@ -47,7 +77,8 @@ public class scrDefenderMovement : MonoBehaviour
     public void getRallyPointPos(Vector3 rallyPointPossition) //Assigned from other script
     {
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
-        DefenderAlreadyHasATarget = false;
         rallyPointPos = rallyPointPossition;
+        defender.ResetDefenderIsEngagedAsMainTarget(); //Make the defender break out of combat
+        defenderHasANewPotentialTarget = false;
     }
 }

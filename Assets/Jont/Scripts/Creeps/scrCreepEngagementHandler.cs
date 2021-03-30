@@ -62,4 +62,11 @@ public class scrCreepEngagementHandler : MonoBehaviour
             CurrentTarget = null;
         }
     }
+    public void RemoveDefenderFromList(Defender _defender) //Removes the defender from target list if it is in the target list
+    {
+        if(currentDefenderTargetsForThisCreep.Contains(_defender))
+        {
+            currentDefenderTargetsForThisCreep.Remove(_defender);
+        }
+    }
 }

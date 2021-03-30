@@ -28,14 +28,6 @@ public class scrDefenderTowerTargets : MonoBehaviour
         {
             _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
         }
-        //Assign creep as main target if there are no other targets
-        //if(DefenderCreepList.Count == 1) //Check that there is exactly one target in the list
-        //{
-        //    foreach(Defender _defender in Defenders)
-        //    {
-        //        //_defender.SetNewTarget(); //Makes the defenders engage the first target
-        //    }
-        //}
     }
     public void LooseTargetReferenceFromRallyPoint(GameObject other)
     {
