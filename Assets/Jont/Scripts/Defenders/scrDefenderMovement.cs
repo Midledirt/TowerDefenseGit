@@ -54,6 +54,7 @@ public class scrDefenderMovement : MonoBehaviour
         }
         else if((transform.position - _creep.transform.position).magnitude <= engagementDistance)
         {
+            defender.defenderIsAlreadyMovingTowardsTarget = false;
             defenderHasANewPotentialTarget = false;
             scrCreepEngagementHandler potentialTargetEngagementHandler = _creep.GetComponent<scrCreepEngagementHandler>();
             if (potentialTargetEngagementHandler.CurrentTarget == null)

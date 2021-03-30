@@ -19,16 +19,7 @@ public class scrTowerRallyPointDetection : MonoBehaviour
             print("defenderTowerTargets is assigned!");
         }
     }
-    private void OnTriggerStay(Collider other) //IDEALY, i would like to ONLY call this (for perhaps one second) when the rally point is moved
-    {
-        if (other.CompareTag("Creep"))
-        {
-            //print("RallyPoint detected creep");
-            //Add detected creeps references to a list, in one of the tower scripts
-            defenderTowerTargets.GetTargetReferenceFromRallyPoint(other.gameObject);
-        }
-    }
-    //private void OnTriggerEnter(Collider other) //This is ONLY called on collider exit and enter. Causes a problem if this collider is moved to cover a creep
+    //private void OnTriggerStay(Collider other) //IDEALY, i would like to ONLY call this (for perhaps one second) when the rally point is moved
     //{
     //    if (other.CompareTag("Creep"))
     //    {
@@ -37,6 +28,15 @@ public class scrTowerRallyPointDetection : MonoBehaviour
     //        defenderTowerTargets.GetTargetReferenceFromRallyPoint(other.gameObject);
     //    }
     //}
+    private void OnTriggerEnter(Collider other) //This is ONLY called on collider exit and enter. Causes a problem if this collider is moved to cover a creep
+    {
+        if (other.CompareTag("Creep"))
+        {
+            //print("RallyPoint detected creep");
+            //Add detected creeps references to a list, in one of the tower scripts
+            defenderTowerTargets.GetTargetReferenceFromRallyPoint(other.gameObject);
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Creep"))

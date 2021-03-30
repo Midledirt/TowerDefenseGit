@@ -14,6 +14,7 @@ public class Defender : MonoBehaviour
     public bool thisDefenderIsEngagedAsMainTarget { get; private set; }
     public bool defenderIsAlive { get; private set; }
     public Creep CurrentCreepTarget { get; set; } //Increase security if this code works
+    public bool defenderIsAlreadyMovingTowardsTarget { get; set; } //Increase security if this code works
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class Defender : MonoBehaviour
     {
         thisDefenderIsEngagedAsMainTarget = false;
         defenderIsAlive = true; //Used to make sure certain code is not run whilst the defender is respawning
+        defenderIsAlreadyMovingTowardsTarget = false;
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
     {
@@ -32,7 +34,7 @@ public class Defender : MonoBehaviour
     }
     public void NewCreepTargetInCollider(Creep _newCreep)
     {
-        if(thisDefenderIsEngagedAsMainTarget == false && defenderIsAlive) //If we are not already engaged && currently alive
+        if(thisDefenderIsEngagedAsMainTarget == false && defenderIsAlive && defenderIsAlreadyMovingTowardsTarget == false) //If we are not already engaged && currently alive && we are not already moving towards a target
         {
             NewTargetToCheckOut(_newCreep);
         }
@@ -40,6 +42,7 @@ public class Defender : MonoBehaviour
     }
     private void NewTargetToCheckOut(Creep _creepTarget) //This does not work yet...
     {
+        defenderIsAlreadyMovingTowardsTarget = true;
         //Assign target as current target:
         CurrentCreepTarget = _creepTarget;
         //1.Find out if this target is already targeted by another defender, if so, prioritize a new target if possible
