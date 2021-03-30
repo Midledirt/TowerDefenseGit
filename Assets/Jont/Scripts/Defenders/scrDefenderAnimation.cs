@@ -8,11 +8,13 @@ public class scrDefenderAnimation : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     private scrUnitHealth defenderHealth;
     private float respawnTimer = 5f;
+    private Defender defender;
 
     private void Awake()
     {
         defenderAnimator = GetComponentInChildren<Animator>(); //Gets the reference of the animator
         defenderHealth = GetComponent<scrUnitHealth>(); //Gets the instance
+        defender = GetComponent<Defender>(); //Gets the instance
     }
     public void PlayDeathAnimation()
     {
@@ -37,11 +39,14 @@ public class scrDefenderAnimation : MonoBehaviour
     }
     private void DefenderKilled(Defender _defender)
     {
-        //Debug.Log("I died"); 
-        RespawnDefender(respawnTimer);
-        StartCoroutine(RespawnDefender(respawnTimer));
-        //Reset the defender position.
-        //Respawn after timer
+        if(defender == _defender) //Make sure that it is THIS defender that died
+        {
+            //Debug.Log("I died"); 
+            RespawnDefender(respawnTimer);
+            StartCoroutine(RespawnDefender(respawnTimer));
+            //Reset the defender position.
+            //Respawn after timer
+        }
     }
     private IEnumerator RespawnDefender(float _respawnTimer)
     {
@@ -51,6 +56,8 @@ public class scrDefenderAnimation : MonoBehaviour
         yield return new WaitForSeconds(_respawnTimer);
         defenderHealth.ResetHealth(); //Reset its health
         defenderBody.SetActive(true);
+        defender.ResetIsAlive(); //Turns a bool on. Used to prevent the defender from targeting creeps whilst "dead"
+
     }
     private void OnEnable()
     {

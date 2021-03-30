@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/// <summary>
+/// This class is placed on the defender tower. Used to keep reference of the creeps that enters the collider for the rally ponint, and send that
+/// information to the defenders. 
+/// </summary>
 public class scrDefenderTowerTargets : MonoBehaviour
 {
     public List<Creep> DefenderCreepList { get; private set; }
@@ -21,14 +24,18 @@ public class scrDefenderTowerTargets : MonoBehaviour
     {
         Creep newCreep = other.GetComponent<Creep>();
         DefenderCreepList.Add(newCreep);
-        //Assign creep as main target if there are no other targets
-        if(DefenderCreepList.Count == 1) //Check that there is exactly one target in the list
+        foreach(Defender _defender in Defenders)
         {
-            foreach(Defender _defender in Defenders)
-            {
-                //_defender.SetNewTarget(); //Makes the defenders engage the first target
-            }
+            _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
         }
+        //Assign creep as main target if there are no other targets
+        //if(DefenderCreepList.Count == 1) //Check that there is exactly one target in the list
+        //{
+        //    foreach(Defender _defender in Defenders)
+        //    {
+        //        //_defender.SetNewTarget(); //Makes the defenders engage the first target
+        //    }
+        //}
     }
     public void LooseTargetReferenceFromRallyPoint(GameObject other)
     {
