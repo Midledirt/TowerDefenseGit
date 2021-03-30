@@ -52,9 +52,7 @@ public class Defender : MonoBehaviour
 
             //3.Tell target that it is targeted
             _creepEngagementHandler.SetThisCreepIsEngaged(); //Sets the creep to engaged, if its not already true
-            _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
-            
-            return; //Do not continue down this code, we do not need to look for new targets
+            _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list            
         }
         else if(_creepEngagementHandler.CurrentTarget != null && _creepEngagementHandler.CurrentTarget != this.gameObject)
         {
