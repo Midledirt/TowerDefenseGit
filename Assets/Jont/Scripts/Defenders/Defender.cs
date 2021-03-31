@@ -47,6 +47,10 @@ public class Defender : MonoBehaviour
     }
     private void NewTargetToCheckOut(Creep _creepTarget) //This does not work yet...
     {
+        if(CurrentCreepTarget != null) //Update the list for the current (if any) creep target
+        {
+            CurrentCreepTarget.GetComponent<scrCreepEngagementHandler>().RemoveDefenderFromList(this);
+        }
         defenderIsAlreadyMovingTowardsTarget = true;
         //Assign target as current target:
         CurrentCreepTarget = _creepTarget;

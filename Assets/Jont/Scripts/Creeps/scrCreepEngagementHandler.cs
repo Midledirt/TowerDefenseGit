@@ -13,7 +13,6 @@ public class scrCreepEngagementHandler : MonoBehaviour
     //I MUST set a specific reference to whatever defender this creep IS IN combat with. So that this creep can return to walking if that defender dies or is
     //moved
 
-
     private void Awake()
     {
         thisCreep = GetComponent<Creep>(); //Get the creep instance on this game object
