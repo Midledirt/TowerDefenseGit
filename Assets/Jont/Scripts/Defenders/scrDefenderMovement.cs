@@ -63,6 +63,8 @@ public class scrDefenderMovement : MonoBehaviour
                 defender.SetDefenderIsEngagedAsMainTargetTrue(); //What keeps the defender from searching from approaching ever new targets
                 potentialTargetEngagementHandler.SetThisCreepIsEngaged();
             }
+            else //If we are not the target
+                defender.ChceckForOtherTargets(_creep);
         }
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders

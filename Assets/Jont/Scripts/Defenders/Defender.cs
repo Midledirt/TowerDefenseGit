@@ -56,54 +56,65 @@ public class Defender : MonoBehaviour
         CurrentCreepTarget = _creepTarget;
         //1.Find out if this target is already targeted by another defender, if so, prioritize a new target if possible
         scrCreepEngagementHandler _creepEngagementHandler = CurrentCreepTarget.GetComponent<scrCreepEngagementHandler>(); //Gets the engagement handler
-        if(_creepEngagementHandler.CurrentTarget == null || _creepEngagementHandler.CurrentTarget == this) //Find out if the creep has a target already, or if "we" are it
+
+        //2.Move towards target
+        defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
+        //3.Tell target that it is targeted
+        _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
+    }
+    public void ChceckForOtherTargets(Creep _creepTarget) //Called from defender movement
+    {
+        scrCreepEngagementHandler _creepEngagementHandler = _creepTarget.GetComponent<scrCreepEngagementHandler>(); //Gets the engagement handler
+        if (defenderTowerTargets.DefenderCreepList.Count <= 1)
         {
-            //2.Move towards target
-            defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-            //3.Tell target that it is targeted
-            _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
-        }
-        else if(_creepEngagementHandler.CurrentTarget != null && _creepEngagementHandler.CurrentTarget != this.gameObject)
-        {
-            //4. No other targets? -> Engage
-            if(defenderTowerTargets.DefenderCreepList.Count <= 1)
+            if(thisDefenderIsEngagedAsNoneTarget)
             {
-                //2.Move towards target
-                defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                //3.Tell target that it is targeted
-                _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
-         
-                return; //Do not continue down this code, we do not need to look for new targets
+                return; //No need to run this code several times
             }
-            else if(defenderTowerTargets.DefenderCreepList.Count > 1)
+            print("Attacking only other option");
+            SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
+                                                //2.Move towards target
+            defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
+                                                              //3.Tell target that it is targeted
+            _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
+
+            return; //Do not continue down this code, we do not need to look for new targets
+        }
+        else if (defenderTowerTargets.DefenderCreepList.Count > 1)
+        {
+            //5. Other targets? -> Look for other targets       
+            for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
             {
-                //5. Other targets? -> Look for other targets       
-                for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count + 1; i++) // +1 is added so that the defender also checks if there are no more creep
+                //6. Engage other targets (this CANNOT run a loop that can restart THIS loop)
+                if (defenderTowerTargets.DefenderCreepList[i] != null)
                 {
-                    //6. Engage other targets (this CANNOT run a loop that can restart THIS loop)
-                    if(defenderTowerTargets.DefenderCreepList[i] != null)
+                    scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
+                    if (_newCreepEngagementHandler.CurrentTarget == null || _newCreepEngagementHandler.CurrentTarget == this)
                     {
-                        scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
-                        if (_newCreepEngagementHandler.CurrentTarget == null || _newCreepEngagementHandler.CurrentTarget == this)
-                        {
-                            //2.Move towards target
-                            defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                            _newCreepEngagementHandler.AddDefenderToCreepTargetsList(this);
-                            //thisDefenderIsEngagedAsMainTarget = true;
-                        }
-                    }
-                    else if(i >= defenderTowerTargets.DefenderCreepList.Count) //No more creeps in list //GRRRRR THIS IS THE PROBLEM...
-                    {
-                        print("No more targets code run");
-                        CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i - 1]; //Target is the last entry
-                        SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
-                        //2.Move towards target
+                        print("I am now the main target for new creep");
+                        CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i];
                         defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                        //3. Add defender to list
+                        _newCreepEngagementHandler.AddDefenderToCreepTargetsList(this);
+                        //thisDefenderIsEngagedAsMainTarget = true;
+                        return;
+                    }
+                }
+                if (i >= defenderTowerTargets.DefenderCreepList.Count) //No more creeps in list
+                {
+                    scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
+                    if(_newCreepEngagementHandler.CurrentTarget != this)
+                    {
+                        print("No more unengaged targets code run");
+                        CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i]; //Target is the last entry
+                        SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
+                                                            //2.Move towards target
+                        defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
+                                                                          //3. Add defender to list
                         _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
 
                         return; //Do not continue down this code, we do not need to look for new targets
                     }
+
                 }
             }
         }
@@ -138,10 +149,12 @@ public class Defender : MonoBehaviour
     public void SetDefenderIsEngagedAsMainTargetTrue()
     {
         thisDefenderIsEngagedAsMainTarget = true;
+        thisDefenderIsEngagedAsNoneTarget = false;
     }
     public void SetDefenderIsEngagedAsNoneTarget()
     {
         thisDefenderIsEngagedAsNoneTarget = true;
+        thisDefenderIsEngagedAsMainTarget = false;
     }
     public void ResetDefenderIsEngagedAsMainOrNoneTarget() //Called when rally point is updated/Changed from the scrDefenderMovement class 
     {

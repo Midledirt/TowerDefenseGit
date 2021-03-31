@@ -7,7 +7,7 @@ using UnityEngine;
 public class scrCreepEngagementHandler : MonoBehaviour
 {
     private Creep thisCreep;
-    private List<Defender> currentDefenderTargetsForThisCreep;
+    public List<Defender> currentDefenderTargetsForThisCreep { get; private set; }
     public bool ThisCreepIsEngaged { get; private set; }
     public Defender CurrentTarget { get; private set; }
     //I MUST set a specific reference to whatever defender this creep IS IN combat with. So that this creep can return to walking if that defender dies or is
