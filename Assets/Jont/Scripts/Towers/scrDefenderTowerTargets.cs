@@ -9,7 +9,7 @@ using System;
 public class scrDefenderTowerTargets : MonoBehaviour
 {
     public List<Creep> DefenderCreepList { get; private set; }
-    public static Action<Creep> LooseDefenderTarget;
+    public static Action<Creep, List<Defender>> LooseDefenderTarget;
     public List<Defender> Defenders { get; private set; }
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
         Creep theCreep = other.GetComponent<Creep>();
         if (DefenderCreepList.Contains(theCreep))
         {
-            LooseDefenderTarget?.Invoke(theCreep);
+            LooseDefenderTarget?.Invoke(theCreep, Defenders);
             DefenderCreepList.Remove(theCreep);
         }
         //print("Lost a creep reference: " + other);

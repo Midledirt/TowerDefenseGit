@@ -15,12 +15,9 @@ MonoBehaviour:
   waveArray:
   - {fileID: 11400000, guid: e2a35960db66fa84799e82fb83b93a22, type: 2}
   - {fileID: 11400000, guid: 5a5772f8dd645b640a95700747cfd7cf, type: 2}
-  groupArray:
-  - {fileID: 11400000, guid: a6bc9a5005d9e124b9d37dcf8f15c11a, type: 2}
-  - {fileID: 11400000, guid: abf409d9498dd464da20d84d838bce3e, type: 2}
-  - {fileID: 11400000, guid: 1cdbea1d8f5dddc4ca601f850936dc51, type: 2}
+  groupArray: []
   middlePath: {fileID: 1221764889697836092, guid: 086892471b69af948b10daf1b44084d6, type: 3}
   leftPath: {fileID: 6624649976806491228, guid: edecd7bc6e0f13643b32b8103da1cd7c, type: 3}
   rightPath: {fileID: 8276247367088044684, guid: 73982ef1391de9344b09cf2aa9b757c5, type: 3}
-  currentWave: 2
+  currentWave: 1
   gameHasStarted: 1

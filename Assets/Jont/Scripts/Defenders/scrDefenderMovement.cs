@@ -26,7 +26,7 @@ public class scrDefenderMovement : MonoBehaviour
         {
             SetDefenderApproachTarget(defender.CurrentCreepTarget);
         }
-        else if (defender.defenderIsAlive && defender.thisDefenderIsEngagedAsMainTarget == false)
+        else if (defender.defenderIsAlive && defender.thisDefenderIsEngagedAsMainTarget == false && defender.thisDefenderIsEngagedAsNoneTarget == false)
         {
             defenderAnimator.StopAttackAnimation(); //Stop animation
             moveTowardsTarget(rallyPointPos);
@@ -57,12 +57,12 @@ public class scrDefenderMovement : MonoBehaviour
             defender.defenderIsAlreadyMovingTowardsTarget = false;
             defenderHasANewPotentialTarget = false;
             scrCreepEngagementHandler potentialTargetEngagementHandler = _creep.GetComponent<scrCreepEngagementHandler>();
-            if (potentialTargetEngagementHandler.CurrentTarget == null)
+            if (potentialTargetEngagementHandler.CurrentTarget == defender) //Check if we are the current target //WORKS
             {
+                //print("WILL THIS EVER RUN?"); 
                 defender.SetDefenderIsEngagedAsMainTargetTrue(); //What keeps the defender from searching from approaching ever new targets
                 potentialTargetEngagementHandler.SetThisCreepIsEngaged();
             }
-            //else if() Make it possible to attack, even if we are not the main target (in case there are no other targets)
         }
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
@@ -79,7 +79,7 @@ public class scrDefenderMovement : MonoBehaviour
     {
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
         rallyPointPos = rallyPointPossition;
-        defender.ResetDefenderIsEngagedAsMainTarget(); //Make the defender break out of combat
+        defender.ResetDefenderIsEngagedAsMainOrNoneTarget(); //Make the defender break out of combat
         defenderHasANewPotentialTarget = false;
     }
 }

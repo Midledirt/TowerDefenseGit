@@ -16,9 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e2a35960db66fa84799e82fb83b93a22, type: 2}
   - {fileID: 11400000, guid: 5a5772f8dd645b640a95700747cfd7cf, type: 2}
   groupArray:
-  - {fileID: 11400000, guid: ef87c0cff5a3fcf4cb20cdbe1d634990, type: 2}
-  - {fileID: 11400000, guid: ce2b95e93b24db5499b75efd44657378, type: 2}
-  - {fileID: 11400000, guid: 672c677010822fb478128edd569b0288, type: 2}
+  - {fileID: 11400000, guid: 28e9666703b0f3d46b4c8eb1cbbe4f85, type: 2}
   middlePath: {fileID: 6917264112738308621, guid: 5b2642ce515064442b2d5903355e4bc9, type: 3}
   leftPath: {fileID: 1628470953999550697, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
   rightPath: {fileID: 5277045050336534000, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
