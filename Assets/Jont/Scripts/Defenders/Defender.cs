@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/// <summary>
+/// When im done handling the targeting logic, i`ll need to write logic for defenders tackling new defenders if their current target died.
+/// This should probably take the "distance along path" var into consideration
+/// 
+/// Currently, any defender that is not a MAINTARGET will always look for new targets each frame...
+/// </summary>
 public class Defender : MonoBehaviour
 {
     [Tooltip("Drag the body of the defender itself into this slot")]
@@ -65,7 +70,7 @@ public class Defender : MonoBehaviour
     public void ChceckForOtherTargets(Creep _creepTarget) //Called from defender movement
     {
         scrCreepEngagementHandler _creepEngagementHandler = _creepTarget.GetComponent<scrCreepEngagementHandler>(); //Gets the engagement handler
-        if (defenderTowerTargets.DefenderCreepList.Count <= 1)
+        if (defenderTowerTargets.DefenderCreepList.Count <= 1) 
         {
             if(thisDefenderIsEngagedAsNoneTarget)
             {
@@ -83,28 +88,29 @@ public class Defender : MonoBehaviour
         else if (defenderTowerTargets.DefenderCreepList.Count > 1)
         {
             //5. Other targets? -> Look for other targets       
-            for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
+            for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i ++)
             {
-                //6. Engage other targets (this CANNOT run a loop that can restart THIS loop)
-                if (defenderTowerTargets.DefenderCreepList[i] != null)
+                print(defenderTowerTargets.DefenderCreepList.Count + " is the value for defenderTowerTargets Count");
+                print(i + " is the value for i...");
+                scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
+                if (_newCreepEngagementHandler.ThisCreepIsEngaged == false || _newCreepEngagementHandler.CurrentTarget == this)
                 {
-                    scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
-                    if (_newCreepEngagementHandler.CurrentTarget == null || _newCreepEngagementHandler.CurrentTarget == this)
-                    {
-                        print("I am now the main target for new creep");
-                        CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i];
-                        defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                        _newCreepEngagementHandler.AddDefenderToCreepTargetsList(this);
-                        //thisDefenderIsEngagedAsMainTarget = true;
-                        return;
-                    }
+                    print("I am now the main target for new creep"); //This probably works, but wont get called for the current setup of the test level
+                                                                     //This will only happen if we have a new creep that entered whilst several defenders were moving towards another target 
+                    defenderIsAlreadyMovingTowardsTarget = true;
+                    CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i];
+                    defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
+                    _newCreepEngagementHandler.AddDefenderToCreepTargetsList(this);
+                    //thisDefenderIsEngagedAsMainTarget = true;
+                    return;
                 }
-                if (i >= defenderTowerTargets.DefenderCreepList.Count) //No more creeps in list
+                //6. Engage other targets (this CANNOT run a loop that can restart THIS loop)
+                if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //No more creeps in list (need to implement - 1 because i wont increase IF DOING SO MAKES IT = TO THE COUNT. (not how i thought this worked...))
                 {
-                    scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
-                    if(_newCreepEngagementHandler.CurrentTarget != this)
+                    if (_newCreepEngagementHandler.CurrentTarget != this)
                     {
                         print("No more unengaged targets code run");
+                        defenderIsAlreadyMovingTowardsTarget = true;
                         CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i]; //Target is the last entry
                         SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
                                                             //2.Move towards target
@@ -114,7 +120,6 @@ public class Defender : MonoBehaviour
 
                         return; //Do not continue down this code, we do not need to look for new targets
                     }
-
                 }
             }
         }

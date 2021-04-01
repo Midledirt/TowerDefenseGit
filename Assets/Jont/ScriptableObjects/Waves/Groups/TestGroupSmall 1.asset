@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 104e74e7ffd1b374eabb0cb8ab9f76a5, type: 3}
-  m_Name: TestGroupSmall
+  m_Name: TestGroupSmall 1
   m_EditorClassIdentifier: 
   setGroupWavePlacement: 1
-  groupName: Path2Group1Right
+  groupName: Path2Group1RightNew
   creepList:
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}

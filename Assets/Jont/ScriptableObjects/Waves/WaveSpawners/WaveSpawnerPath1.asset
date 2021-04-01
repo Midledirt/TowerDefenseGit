@@ -20,5 +20,5 @@ MonoBehaviour:
   middlePath: {fileID: 6917264112738308621, guid: 5b2642ce515064442b2d5903355e4bc9, type: 3}
   leftPath: {fileID: 1628470953999550697, guid: 87ab82df132992f40ac812cabf31b060, type: 3}
   rightPath: {fileID: 5277045050336534000, guid: b7b0261360dc20a4e8f1ae51da1fc723, type: 3}
-  currentWave: 1
+  currentWave: 2
   gameHasStarted: 1
