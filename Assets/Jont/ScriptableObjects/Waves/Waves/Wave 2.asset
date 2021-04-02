@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveName: SecondWave
   waveNumber: 2
-  setWaveTimer: 50
-  waveTimer: -0.0002422249
+  setWaveTimer: 35
+  waveTimer: -0.0055008875

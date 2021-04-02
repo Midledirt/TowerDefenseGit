@@ -22,6 +22,8 @@ public class Defender : MonoBehaviour
     public Creep CurrentCreepTarget { get; set; } //Increase security if this code works
     public bool defenderIsAlreadyMovingTowardsTarget { get; set; } //Increase security if this code works
 
+    private float longestTargetDistance; //Used to find new creep targets for defenders when they have killed their current target
+
     private void Awake()
     {
         defenderMovement = GetComponent<scrDefenderMovement>();
@@ -76,13 +78,9 @@ public class Defender : MonoBehaviour
             {
                 return; //No need to run this code several times
             }
-            print("Attacking only other option");
-            SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
-                                                //2.Move towards target
-            defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                                                              //3.Tell target that it is targeted
-            _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
-
+            defenderIsAlreadyMovingTowardsTarget = true;
+            SetDefenderIsEngagedAsNoneTarget();
+            defenderMovement.MakeDefenderMoveTowardsTarget();
             return; //Do not continue down this code, we do not need to look for new targets
         }
         else if (defenderTowerTargets.DefenderCreepList.Count > 1)
@@ -90,41 +88,69 @@ public class Defender : MonoBehaviour
             //5. Other targets? -> Look for other targets       
             for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i ++)
             {
-                print(defenderTowerTargets.DefenderCreepList.Count + " is the value for defenderTowerTargets Count");
-                print(i + " is the value for i...");
                 scrCreepEngagementHandler _newCreepEngagementHandler = defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>();
                 if (_newCreepEngagementHandler.ThisCreepIsEngaged == false || _newCreepEngagementHandler.CurrentTarget == this)
                 {
-                    print("I am now the main target for new creep"); //This probably works, but wont get called for the current setup of the test level
-                                                                     //This will only happen if we have a new creep that entered whilst several defenders were moving towards another target 
                     defenderIsAlreadyMovingTowardsTarget = true;
                     CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i];
-                    defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
+                    defenderMovement.MakeDefenderMoveTowardsTarget(); 
                     _newCreepEngagementHandler.AddDefenderToCreepTargetsList(this);
-                    //thisDefenderIsEngagedAsMainTarget = true;
                     return;
                 }
                 //6. Engage other targets (this CANNOT run a loop that can restart THIS loop)
                 if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //No more creeps in list (need to implement - 1 because i wont increase IF DOING SO MAKES IT = TO THE COUNT. (not how i thought this worked...))
                 {
-                    if (_newCreepEngagementHandler.CurrentTarget != this)
+                    if (_newCreepEngagementHandler.CurrentTarget != this && CurrentCreepTarget != defenderTowerTargets.DefenderCreepList[i])
                     {
-                        print("No more unengaged targets code run");
+                        //print("No more unengaged targets code run");
                         defenderIsAlreadyMovingTowardsTarget = true;
                         CurrentCreepTarget = defenderTowerTargets.DefenderCreepList[i]; //Target is the last entry
-                        SetDefenderIsEngagedAsNoneTarget(); //1. Engage anyway //This must be called before movement
-                                                            //2.Move towards target
-                        defenderMovement.MakeDefenderMoveTowardsTarget(); //This will set the thisDefenderIsEngagedAsMainTarget to true, if the creep has no current targets
-                                                                          //3. Add defender to list
+                        SetDefenderIsEngagedAsNoneTarget();
+                        defenderMovement.MakeDefenderMoveTowardsTarget();
                         _creepEngagementHandler.AddDefenderToCreepTargetsList(this); //Adds itself to the creep target list
-
                         return; //Do not continue down this code, we do not need to look for new targets
                     }
                 }
             }
         }
     }
-
+    public void LookForNewTarget()
+    {
+        print("Looking for new target...");
+        longestTargetDistance = 0f; //Reset the longest target distance
+        if(defenderTowerTargets.DefenderCreepList.Count <= 0)
+        {
+            print("There are no new targets...");
+            return; //No targets, return
+        }
+        for(int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
+        {
+            if(defenderTowerTargets.DefenderCreepList.Count <= 0)
+            {
+                print("There are no new targets...");
+                return; //No targets, return
+            }
+            Creep _potentialNewTarget;
+            float newLength = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
+            if(newLength >= longestTargetDistance)
+            {
+                longestTargetDistance = newLength; //Update longest distance
+                _potentialNewTarget = defenderTowerTargets.DefenderCreepList[i];
+                if (i == defenderTowerTargets.DefenderCreepList.Count - 1) //If we are at the end of the list
+                {
+                    if (_potentialNewTarget != null)
+                    {
+                        print("...Found new target!");
+                        NewTargetToCheckOut(_potentialNewTarget);
+                        return;
+                    }
+                    else
+                        print("Found no new targets...");
+                    return;
+                }
+            }
+        }
+    }
     public void ResetIsAlive() //Called when the defender respawns. Handled by the animator script on this gameobject
     {
         defenderIsAlive = true; //Tested to work!
@@ -148,6 +174,7 @@ public class Defender : MonoBehaviour
                 CurrentCreepTarget = null;
                 thisDefenderIsEngagedAsMainTarget = false;
                 thisDefenderIsEngagedAsNoneTarget = false;
+                LookForNewTarget();
             }
         }
     }

@@ -47,6 +47,20 @@ public class scrDefenderMovement : MonoBehaviour
     }
     public void SetDefenderApproachTarget(Creep _creep)
     {
+        if(_creep == null)
+        {
+            defenderHasANewPotentialTarget = false;
+            defender.defenderIsAlreadyMovingTowardsTarget = false;
+            return;
+        }
+        if(_creep._CreepHealth.CurrentHealth <= 0f)
+        {
+            defenderHasANewPotentialTarget = false;
+            defender.defenderIsAlreadyMovingTowardsTarget = false;
+            print("Target died before I got to it...");
+            defender.LookForNewTarget();
+            return;
+        }
         if((transform.position - _creep.transform.position).magnitude > engagementDistance)
         {
             moveTowardsTarget(_creep.transform.position);
@@ -65,7 +79,10 @@ public class scrDefenderMovement : MonoBehaviour
                 potentialTargetEngagementHandler.SetThisCreepIsEngaged();
             }
             else
+            {
+                defenderHasANewPotentialTarget = false; //Prevents this code from looping
                 defender.ChceckForOtherTargets(_creep);
+            }
         }
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders

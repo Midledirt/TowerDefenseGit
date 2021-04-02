@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104e74e7ffd1b374eabb0cb8ab9f76a5, type: 3}
   m_Name: Path2Group1Middle
   m_EditorClassIdentifier: 
-  setGroupWavePlacement: 1
+  setGroupWavePlacement: 2
   groupName: Path2Group1Middle
   creepList:
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
-  actualCreepList: []
+  actualCreepList:
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
+  - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
   setGroupTimer: 1
   setTimeBetweenCreeps: 3
   groupPathVar: 1
-  groupTimer: 0
-  timeBetweenCreeps: 0
+  groupTimer: -0.006617518
+  timeBetweenCreeps: 3

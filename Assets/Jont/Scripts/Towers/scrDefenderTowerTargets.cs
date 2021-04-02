@@ -23,8 +23,11 @@ public class scrDefenderTowerTargets : MonoBehaviour
     public void GetTargetReferenceFromRallyPoint(GameObject other)
     {
         Creep newCreep = other.GetComponent<Creep>();
-        DefenderCreepList.Add(newCreep);
-        foreach(Defender _defender in Defenders)
+        if(newCreep._CreepHealth.CurrentHealth > 0f) //Extra check needed in case a creep that just died "slides" into the collider
+        {
+            DefenderCreepList.Add(newCreep);
+        }
+        foreach (Defender _defender in Defenders)
         {
             _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
         }
@@ -38,5 +41,20 @@ public class scrDefenderTowerTargets : MonoBehaviour
             DefenderCreepList.Remove(theCreep);
         }
         //print("Lost a creep reference: " + other);
+    }
+    private void RemoveDeadCreepFromList(Creep _creep) //If the creep that died is in the current list...
+    {
+        if(DefenderCreepList.Contains(_creep))
+        {
+            DefenderCreepList.Remove(_creep); //Remove it
+        }
+    }
+    private void OnEnable()
+    {
+        scrUnitHealth.OnEnemyKilled += RemoveDeadCreepFromList;
+    }
+    private void OnDisable()
+    {
+        scrUnitHealth.OnEnemyKilled -= RemoveDeadCreepFromList;
     }
 }
