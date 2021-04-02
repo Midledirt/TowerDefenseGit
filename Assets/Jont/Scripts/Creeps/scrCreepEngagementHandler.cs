@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class scrCreepEngagementHandler : MonoBehaviour
 {
+    scrAnimationEventHandler creepAnimationEventHandler;
     private Creep thisCreep;
     public List<Defender> currentDefenderTargetsForThisCreep { get; private set; }
     public bool ThisCreepIsEngaged { get; private set; }
@@ -16,6 +17,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
     private void Awake()
     {
         thisCreep = GetComponent<Creep>(); //Get the creep instance on this game object
+        creepAnimationEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Gets the reference
     }
     private void Start()
     {
@@ -58,6 +60,13 @@ public class scrCreepEngagementHandler : MonoBehaviour
             CheckForDefenderDeath(); //4.Handle target death.
         }
     }
+    private void DamageDefender(float _damage)
+    {
+        if(CurrentTarget != null && CurrentTarget.defenderIsAlive)
+        {
+            CurrentTarget.DefenderHealth.DealDamage(_damage); //Damage the defender
+        }
+    }
     private void CheckForDefenderDeath()
     {
         CurrentTarget = currentDefenderTargetsForThisCreep[0];
@@ -69,9 +78,16 @@ public class scrCreepEngagementHandler : MonoBehaviour
                 CurrentTarget = null; //Set this to the next potential defender instead
                 ReturnToPath();
             }
-            else //Get the next defender //THIS MAY BE FAULTY, AS I DO NOT KNOW IF THE INDEX FOR THE LIST IS UPDATED WHEN AN ENTRY IS REMOVED
+            else //Get the next defender //
             {
-                CurrentTarget = currentDefenderTargetsForThisCreep[0];
+                for(int i = 0; i < currentDefenderTargetsForThisCreep.Count; i++)
+                {
+                    if(currentDefenderTargetsForThisCreep[i].defenderIsAlive)
+                    {
+                        CurrentTarget = currentDefenderTargetsForThisCreep[i];
+                        CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue();
+                    }
+                }
             }
         }
     }
@@ -117,9 +133,11 @@ public class scrCreepEngagementHandler : MonoBehaviour
     private void OnEnable()
     {
         scrDefenderTowerTargets.LooseDefenderTarget += DefenderRallyPointMoved;
+        creepAnimationEventHandler.OnDealingDamage += DamageDefender;
     }
     private void OnDisable()
     {
         scrDefenderTowerTargets.LooseDefenderTarget -= DefenderRallyPointMoved;
+        creepAnimationEventHandler.OnDealingDamage -= DamageDefender;
     }
 }

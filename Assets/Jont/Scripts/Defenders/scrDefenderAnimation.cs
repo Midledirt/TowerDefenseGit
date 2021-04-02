@@ -57,7 +57,6 @@ public class scrDefenderAnimation : MonoBehaviour
         defenderHealth.ResetHealth(); //Reset its health
         defenderBody.SetActive(true);
         defender.ResetIsAlive(); //Turns a bool on. Used to prevent the defender from targeting creeps whilst "dead"
-
     }
     private void OnEnable()
     {

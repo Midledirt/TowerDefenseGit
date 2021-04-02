@@ -57,7 +57,7 @@ public class scrDefenderMovement : MonoBehaviour
         {
             defenderHasANewPotentialTarget = false;
             defender.defenderIsAlreadyMovingTowardsTarget = false;
-            print("Target died before I got to it...");
+            //print("Target died before I got to it...");
             defender.LookForNewTarget();
             return;
         }

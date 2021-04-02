@@ -16,6 +16,8 @@ public class Defender : MonoBehaviour
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;
     private scrDefenderMovement defenderMovement;
+    private scrCreepEngagementHandler creepEngagementHandler; 
+    public scrUnitHealth DefenderHealth { get; private set; } //Used by the creep to deal damage
 
     public bool thisDefenderIsEngagedAsMainTarget { get; private set; }
     public bool thisDefenderIsEngagedAsNoneTarget { get; private set; } //Make defender fight creep, there are more defenders than creep
@@ -27,6 +29,7 @@ public class Defender : MonoBehaviour
 
     private void Awake()
     {
+        DefenderHealth = GetComponent<scrUnitHealth>(); //Gets the reference
         defenderAnimator = GetComponent<scrDefenderAnimation>(); //Gets the instance
         defenderMovement = GetComponent<scrDefenderMovement>();
         animEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Get the instance
@@ -113,46 +116,82 @@ public class Defender : MonoBehaviour
     }
     public void LookForNewTarget()
     {
-        print("Looking for new target...");
+        //print("Looking for new target...");
         longestTargetDistance = 0f; //Reset the longest target distance
-        if(defenderTowerTargets.DefenderCreepList.Count <= 0)
+        if(defenderTowerTargets.DefenderCreepList.Count <= 0 || thisDefenderIsEngagedAsMainTarget)
         {
-            print("There are no new targets...");
+            //print("There are no new targets...");
             return; //No targets, return
         }
+        //StartCoroutine(WaitForCreepCheck()); //This coroutine delays the check, so that the creep vars can update before the check
+    }
+    private Creep CheckForUnengagedTargets()
+    {
+        longestTargetDistance = 0f;
+        Creep _potentialNewTarget = null;
+        print("Running unengaged check...");
         for(int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
         {
-            if(defenderTowerTargets.DefenderCreepList.Count <= 0)
+            if (defenderTowerTargets.DefenderCreepList[i].DistanceTravelled > longestTargetDistance && !defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>().ThisCreepIsEngaged)
             {
-                print("There are no new targets...");
+                print("Found a new target pertaining to the standards...");
+                longestTargetDistance = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
+                _potentialNewTarget = defenderTowerTargets.DefenderCreepList[i];
+            }
+            if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //does it NOT loop if this condidion is not checked?
+            {
+                print("Check complete...");
+                if (_potentialNewTarget != null)
+                {
+                    print("Returning target");
+                    return _potentialNewTarget;
+                }
+                else
+                    print("Returning null");
+                    return null;
+            }
+        }
+        return null;
+    }
+    private void CheckForEngagedTargets()
+    {
+        longestTargetDistance = 0f;
+        for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
+        {
+            if (defenderTowerTargets.DefenderCreepList.Count <= 0)
+            {
+                //print("There are no new targets...");
                 return; //No targets, return
             }
-            Creep _potentialNewTarget;
+            Creep _potentialNewTarget = null;
             float newLength = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
-            if(newLength >= longestTargetDistance)
+            if (newLength >= longestTargetDistance)
             {
                 longestTargetDistance = newLength; //Update longest distance
                 _potentialNewTarget = defenderTowerTargets.DefenderCreepList[i];
-                if (i == defenderTowerTargets.DefenderCreepList.Count - 1) //If we are at the end of the list
+            }
+            if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //If we are at the end of the list
+            {
+                if (_potentialNewTarget != null)
                 {
-                    if (_potentialNewTarget != null)
-                    {
-                        print("...Found new target!");
-                        NewTargetToCheckOut(_potentialNewTarget);
-                        return;
-                    }
-                    else
-                        print("Found no new targets...");
+                    print("...Found new already engaged target!");
+                    NewTargetToCheckOut(_potentialNewTarget);
                     return;
                 }
+                else
+                    print("Found no new targets...");
+                    return;
             }
+
         }
+        return;
     }
     public void ResetIsAlive() //Called when the defender respawns. Handled by the animator script on this gameobject
     {
         defenderIsAlive = true; //Tested to work!
+        LookForNewTarget(); //Look for a new target on respawn!
     }
-    private void WhenIDie(Defender _defender)
+    private void WhenDefenderDies(Defender _defender)
     {
         if(this == _defender)
         {
@@ -162,10 +201,15 @@ public class Defender : MonoBehaviour
             defenderAnimator.StopAttackAnimation();
             //print("I died");
         }
+        else if(this != _defender && !thisDefenderIsEngagedAsMainTarget && defenderIsAlive && !defenderIsAlreadyMovingTowardsTarget)
+        {
+            print("Some other defender died and I am free to help... I better help out!");
+            LookForNewTarget();
+        }
     }
     private void WhenTargetDies(Creep _creep) //Reset engagement on target death
     {
-        if(CurrentCreepTarget != null)
+        if (CurrentCreepTarget != null)
         {
             if (CurrentCreepTarget == _creep)
             {
@@ -173,8 +217,21 @@ public class Defender : MonoBehaviour
                 thisDefenderIsEngagedAsMainTarget = false;
                 thisDefenderIsEngagedAsNoneTarget = false;
                 defenderAnimator.StopAttackAnimation();
-                LookForNewTarget();
+                LookForNewTarget(); //1. This one only runs if the defender just killed ITS target
             }
+        }
+    }
+    private IEnumerator WaitForCreepCheck()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Creep newPotentialTarget = CheckForUnengagedTargets(); //Are there any unengaged targets?
+        if(newPotentialTarget != null)
+        {
+            NewTargetToCheckOut(newPotentialTarget);
+        }
+        else if (newPotentialTarget == null)
+        {
+            CheckForEngagedTargets(); //No? Check for unengaged ones
         }
     }
     public void SetDefenderIsEngagedAsMainTargetTrue()
@@ -207,13 +264,13 @@ public class Defender : MonoBehaviour
     }
     private void OnEnable()
     {
-        scrUnitHealth.OnDefenderKilled += WhenIDie;
+        scrUnitHealth.OnDefenderKilled += WhenDefenderDies;
         scrUnitHealth.OnEnemyKilled += WhenTargetDies;
         animEventHandler.OnDealingDamage += DealDamageToTarget;
     }
     private void OnDisable()
     {
-        scrUnitHealth.OnDefenderKilled -= WhenIDie;
+        scrUnitHealth.OnDefenderKilled -= WhenDefenderDies;
         scrUnitHealth.OnEnemyKilled -= WhenTargetDies;
         animEventHandler.OnDealingDamage -= DealDamageToTarget;
     }

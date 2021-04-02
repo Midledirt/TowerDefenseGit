@@ -18,8 +18,8 @@ MonoBehaviour:
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
   actualCreepList:
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
-  setGroupTimer: 0
+  setGroupTimer: 2
   setTimeBetweenCreeps: 1
   groupPathVar: 1
-  groupTimer: -0.0102154
+  groupTimer: -0.0053756535
   timeBetweenCreeps: 1
