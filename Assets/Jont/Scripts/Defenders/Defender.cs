@@ -12,6 +12,7 @@ public class Defender : MonoBehaviour
 {
     [Tooltip("Drag the body of the defender itself into this slot")]
     [SerializeField] private GameObject defenderBody;
+    private scrDefenderAnimation defenderAnimator;
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;
     private scrDefenderMovement defenderMovement;
@@ -26,6 +27,7 @@ public class Defender : MonoBehaviour
 
     private void Awake()
     {
+        defenderAnimator = GetComponent<scrDefenderAnimation>(); //Gets the instance
         defenderMovement = GetComponent<scrDefenderMovement>();
         animEventHandler = GetComponentInChildren<scrAnimationEventHandler>(); //Get the instance
     }
@@ -35,11 +37,6 @@ public class Defender : MonoBehaviour
         thisDefenderIsEngagedAsNoneTarget = false;
         defenderIsAlive = true; //Used to make sure certain code is not run whilst the defender is respawning
         defenderIsAlreadyMovingTowardsTarget = false;
-    }
-    private void Update()
-    {
-        //If defender is engaged as main or none target
-            //Attack
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
     {
@@ -162,7 +159,8 @@ public class Defender : MonoBehaviour
             defenderIsAlive = false;
             thisDefenderIsEngagedAsMainTarget = false; //Reset engagement on death
             thisDefenderIsEngagedAsNoneTarget = false;
-            print("I died");
+            defenderAnimator.StopAttackAnimation();
+            //print("I died");
         }
     }
     private void WhenTargetDies(Creep _creep) //Reset engagement on target death
@@ -174,6 +172,7 @@ public class Defender : MonoBehaviour
                 CurrentCreepTarget = null;
                 thisDefenderIsEngagedAsMainTarget = false;
                 thisDefenderIsEngagedAsNoneTarget = false;
+                defenderAnimator.StopAttackAnimation();
                 LookForNewTarget();
             }
         }
@@ -198,14 +197,24 @@ public class Defender : MonoBehaviour
             CurrentCreepTarget = null;
         }
     }
+    private void DealDamageToTarget(float _damage)
+    {
+        if(CurrentCreepTarget == null || CurrentCreepTarget._CreepHealth.CurrentHealth <= 0f)
+        {
+            return; //No alive target to damage
+        }
+        CurrentCreepTarget._CreepHealth.DealDamage(_damage);
+    }
     private void OnEnable()
     {
         scrUnitHealth.OnDefenderKilled += WhenIDie;
         scrUnitHealth.OnEnemyKilled += WhenTargetDies;
+        animEventHandler.OnDealingDamage += DealDamageToTarget;
     }
     private void OnDisable()
     {
         scrUnitHealth.OnDefenderKilled -= WhenIDie;
         scrUnitHealth.OnEnemyKilled -= WhenTargetDies;
+        animEventHandler.OnDealingDamage -= DealDamageToTarget;
     }
 }
