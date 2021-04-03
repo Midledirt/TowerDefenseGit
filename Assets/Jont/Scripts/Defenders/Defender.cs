@@ -16,7 +16,6 @@ public class Defender : MonoBehaviour
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;
     private scrDefenderMovement defenderMovement;
-    private scrCreepEngagementHandler creepEngagementHandler; 
     public scrUnitHealth DefenderHealth { get; private set; } //Used by the creep to deal damage
 
     public bool thisDefenderIsEngagedAsMainTarget { get; private set; }
@@ -201,8 +200,12 @@ public class Defender : MonoBehaviour
             CheckForEngagedTargets(); //No? Check for unengaged ones
         }
     }
-    public void SetDefenderIsEngagedAsMainTargetTrue()
+    public void SetDefenderIsEngagedAsMainTargetTrue(Creep creep)
     {
+        if(creep != null)
+        {
+            CurrentCreepTarget = creep;
+        }
         thisDefenderIsEngagedAsMainTarget = true;
         thisDefenderIsEngagedAsNoneTarget = false;
     }

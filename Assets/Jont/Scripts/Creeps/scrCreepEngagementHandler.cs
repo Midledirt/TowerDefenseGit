@@ -101,7 +101,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
                     {
                         print("Assigning new target");
                         CurrentTarget = currentDefenderTargetsForThisCreep[i];
-                        CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue();
+                        CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue(thisCreep);
                     }
                     else if(i >= currentDefenderTargetsForThisCreep.Count)
                     {
