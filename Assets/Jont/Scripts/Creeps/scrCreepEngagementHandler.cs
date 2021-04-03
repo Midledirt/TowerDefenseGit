@@ -51,7 +51,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
             ReturnToPath();
             return;
         }
-        else if(currentDefenderTargetsForThisCreep.Count > 0)
+        if(currentDefenderTargetsForThisCreep.Count > 0)
         {
             //print("I am engaged in combat!");
             thisCreep.StopMovement(); //1.Stop
@@ -69,23 +69,43 @@ public class scrCreepEngagementHandler : MonoBehaviour
     }
     private void CheckForDefenderDeath()
     {
-        CurrentTarget = currentDefenderTargetsForThisCreep[0];
-        if(CurrentTarget.defenderIsAlive == false)
+        if(currentDefenderTargetsForThisCreep.Count <= 0)
         {
+            currentDefenderTargetsForThisCreep.Clear();
+            CurrentTarget = null;
+            return;
+        }
+        if(currentDefenderTargetsForThisCreep[0].defenderIsAlive)
+        {
+            CurrentTarget = currentDefenderTargetsForThisCreep[0];
+        }
+        if (!CurrentTarget.defenderIsAlive)
+        {
+            print("Defender died, removing defender");
             currentDefenderTargetsForThisCreep.Remove(CurrentTarget); //Remove it from the list
             if(currentDefenderTargetsForThisCreep.Count <= 0)
             {
+                print("No more defenders, returning to path.");
                 CurrentTarget = null; //Set this to the next potential defender instead
+                currentDefenderTargetsForThisCreep.Clear(); //Just to be sure
                 ReturnToPath();
             }
             else //Get the next defender //
             {
+                print("More defenders in list...");
                 for(int i = 0; i < currentDefenderTargetsForThisCreep.Count; i++)
                 {
-                    if(currentDefenderTargetsForThisCreep[i].defenderIsAlive)
+                    if(currentDefenderTargetsForThisCreep[i].defenderIsAlive && !currentDefenderTargetsForThisCreep[i].thisDefenderIsEngagedAsMainTarget && !currentDefenderTargetsForThisCreep[i].defenderIsAlreadyMovingTowardsTarget)
                     {
+                        print("Assigning new target");
                         CurrentTarget = currentDefenderTargetsForThisCreep[i];
                         CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue();
+                    }
+                    else if(i >= currentDefenderTargetsForThisCreep.Count - 1)
+                    {
+                        print("...Actually, no more viable defenders after all");
+                        currentDefenderTargetsForThisCreep.Clear();
+                        CurrentTarget = null;
                     }
                 }
             }

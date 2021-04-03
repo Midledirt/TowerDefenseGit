@@ -123,7 +123,7 @@ public class Defender : MonoBehaviour
             //print("There are no new targets...");
             return; //No targets, return
         }
-        //StartCoroutine(WaitForCreepCheck()); //This coroutine delays the check, so that the creep vars can update before the check
+        StartCoroutine(WaitForCreepCheck()); //This coroutine delays the check, so that the creep vars can update before the check
     }
     private Creep CheckForUnengagedTargets()
     {
