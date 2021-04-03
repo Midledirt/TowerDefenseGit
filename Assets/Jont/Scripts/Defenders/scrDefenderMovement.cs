@@ -69,25 +69,8 @@ public class scrDefenderMovement : MonoBehaviour
         else if((transform.position - _creep.transform.position).magnitude <= engagementDistance)
         {
             defender.defenderIsAlreadyMovingTowardsTarget = false;
-
-            scrCreepEngagementHandler potentialTargetEngagementHandler = _creep.GetComponent<scrCreepEngagementHandler>();
-            if (potentialTargetEngagementHandler.CurrentTarget == defender) //Check if we are the current target //WORKS
-            {
-                defenderHasANewPotentialTarget = false; //Prevents this code from looping
-                defender.SetDefenderIsEngagedAsMainTargetTrue(); //What keeps the defender from searching from approaching ever new targets
-                potentialTargetEngagementHandler.SetThisCreepIsEngaged();
-                defenderAnimator.PlayAttackAnimation(); //Attack
-            }
-            else if(defender.thisDefenderIsEngagedAsNoneTarget)
-            {
-                defenderHasANewPotentialTarget = false; //Prevents this code from looping
-                defenderAnimator.PlayAttackAnimation(); //Attack
-            }
-            else
-            {
-                defenderHasANewPotentialTarget = false; //Prevents this code from looping
-                defender.ChceckForOtherTargets(_creep);
-            }
+            defenderHasANewPotentialTarget = false; //Prevents this code from looping
+            defenderAnimator.PlayAttackAnimation(); //Attack
         }
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders

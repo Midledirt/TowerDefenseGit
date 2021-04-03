@@ -23,14 +23,33 @@ public class scrDefenderTowerTargets : MonoBehaviour
     public void GetTargetReferenceFromRallyPoint(GameObject other)
     {
         Creep newCreep = other.GetComponent<Creep>();
-        if(newCreep._CreepHealth.CurrentHealth > 0f) //Extra check needed in case a creep that just died "slides" into the collider
+        scrCreepEngagementHandler _newCreepEngagementHandler = newCreep.GetComponent<scrCreepEngagementHandler>();
+        if (newCreep._CreepHealth.CurrentHealth > 0f) //Extra check needed in case a creep that just died "slides" into the collider
         {
             DefenderCreepList.Add(newCreep);
+            foreach(Defender _defender in Defenders) //Send all defenders to engage as none
+            {
+                if(_defender.defenderIsAlive && !_defender.thisDefenderIsEngagedAsMainTarget && !_defender.thisDefenderIsEngagedAsNoneTarget)
+                {
+                    print("Sent a defender as none target");
+                    _defender.DefenderEngageNewTargetAsNone(newCreep);
+                }
+            }
+            for (int i = 0; i < Defenders.Count; i++) //Send a defender to engage as main
+            {
+                if (!Defenders[i].thisDefenderIsEngagedAsMainTarget && Defenders[i].defenderIsAlive && _newCreepEngagementHandler.CurrentTarget == null)
+                {
+                    print("Sent a defender to engage new target: " + newCreep);
+                    Defenders[i].DefenderEngageNewTargetAsMain(Defenders[i], newCreep);
+                    return; //Only send one
+                }
+            }
         }
-        foreach (Defender _defender in Defenders)
+        /*foreach (Defender _defender in Defenders)
         {
             _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
-        }
+        }*/
+
     }
     public void LooseTargetReferenceFromRallyPoint(GameObject other)
     {

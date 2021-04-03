@@ -33,6 +33,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
     {
         if(ThisCreepIsEngaged == false)
         {
+            print("This creep is engaged");
             ThisCreepIsEngaged = true;
         }
     }
@@ -76,7 +77,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
             CurrentTarget = null;
             return;
         }
-        if(currentDefenderTargetsForThisCreep[0].defenderIsAlive || currentDefenderTargetsForThisCreep[0] == null)
+        if(currentDefenderTargetsForThisCreep[0].defenderIsAlive || currentDefenderTargetsForThisCreep[0] != null)
         {
             CurrentTarget = currentDefenderTargetsForThisCreep[0];
         }
@@ -102,7 +103,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
                         CurrentTarget = currentDefenderTargetsForThisCreep[i];
                         CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue();
                     }
-                    else if(i >= currentDefenderTargetsForThisCreep.Count - 1)
+                    else if(i >= currentDefenderTargetsForThisCreep.Count)
                     {
                         print("...Actually, no more viable defenders after all");
                         currentDefenderTargetsForThisCreep.Clear();
@@ -114,7 +115,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
     }
     private void ReturnToPath()
     {
-        if(CurrentTarget != null) //Checks that we have no targets.
+        if(CurrentTarget != null || currentDefenderTargetsForThisCreep.Count > 0) //Checks that we have no targets.
         {
             return;
         }
@@ -125,10 +126,6 @@ public class scrCreepEngagementHandler : MonoBehaviour
         if(currentDefenderTargetsForThisCreep.Contains(_defender))
         {
             currentDefenderTargetsForThisCreep.Remove(_defender);
-        }
-        if(CurrentTarget == _defender)
-        {
-            CurrentTarget = null;
         }
     }
     private void DefenderRallyPointMoved(Creep _creep, List<Defender> _defenders) //Remove defenders from list
@@ -141,11 +138,6 @@ public class scrCreepEngagementHandler : MonoBehaviour
                 if(currentDefenderTargetsForThisCreep.Contains(defender))
                 {
                     currentDefenderTargetsForThisCreep.Remove(defender); //This works!
-                    if(CurrentTarget == defender)
-                    {
-                        CurrentTarget = null; //Reset the current target
-                        ReturnToPath();
-                    }
                 }
                 if(currentDefenderTargetsForThisCreep.Count <= 0) //This is necessary
                 {
