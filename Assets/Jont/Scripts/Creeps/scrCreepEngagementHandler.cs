@@ -45,9 +45,10 @@ public class scrCreepEngagementHandler : MonoBehaviour
     }
     private void CreepEngageTarget()
     {
-        if(currentDefenderTargetsForThisCreep.Count <= 0) //Return if there are no current targets
+        if (currentDefenderTargetsForThisCreep.Count <= 0) //Return if there are no current targets
         {
             ThisCreepIsEngaged = false;
+            CurrentTarget = null;
             ReturnToPath();
             return;
         }
@@ -75,11 +76,11 @@ public class scrCreepEngagementHandler : MonoBehaviour
             CurrentTarget = null;
             return;
         }
-        if(currentDefenderTargetsForThisCreep[0].defenderIsAlive)
+        if(currentDefenderTargetsForThisCreep[0].defenderIsAlive || currentDefenderTargetsForThisCreep[0] == null)
         {
             CurrentTarget = currentDefenderTargetsForThisCreep[0];
         }
-        if (!CurrentTarget.defenderIsAlive)
+        if (!CurrentTarget.defenderIsAlive) //Find new targets when current target dies
         {
             print("Defender died, removing defender");
             currentDefenderTargetsForThisCreep.Remove(CurrentTarget); //Remove it from the list
@@ -124,6 +125,10 @@ public class scrCreepEngagementHandler : MonoBehaviour
         if(currentDefenderTargetsForThisCreep.Contains(_defender))
         {
             currentDefenderTargetsForThisCreep.Remove(_defender);
+        }
+        if(CurrentTarget == _defender)
+        {
+            CurrentTarget = null;
         }
     }
     private void DefenderRallyPointMoved(Creep _creep, List<Defender> _defenders) //Remove defenders from list
