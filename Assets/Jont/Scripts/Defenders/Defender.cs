@@ -15,6 +15,9 @@ public class Defender : MonoBehaviour
     private scrDefenderAnimation defenderAnimator;
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;
+
+    public scrDefenderTowerTargets DefenderTowerTargetsReference { get; private set; }
+
     private scrDefenderMovement defenderMovement;
     public scrUnitHealth DefenderHealth { get; private set; } //Used by the creep to deal damage
 
@@ -42,6 +45,7 @@ public class Defender : MonoBehaviour
     }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
     {
+        DefenderTowerTargetsReference = _defenderTowerTargets; //Sets the reference for the creep
         return defenderTowerTargets = _defenderTowerTargets; //Gets the reference
     }
     public void DefenderEngageNewTargetAsNone(Creep _target)
@@ -55,6 +59,7 @@ public class Defender : MonoBehaviour
             CurrentCreepTarget.GetComponent<scrCreepEngagementHandler>().RemoveDefenderFromList(this);
         }
         thisDefenderIsEngagedAsNoneTarget = true;
+        thisDefenderIsEngagedAsMainTarget = false;
         InformCreepTarget(_target);
     }
     public void DefenderEngageNewTargetAsMain(Defender _defender, Creep _target)
@@ -169,7 +174,7 @@ public class Defender : MonoBehaviour
         }
         else if(this != _defender && !thisDefenderIsEngagedAsMainTarget && defenderIsAlive && !defenderIsAlreadyMovingTowardsTarget)
         {
-            print("Some other defender died and I am free to help... I better help out!");
+            //print("Some other defender died and I am free to help... I better help out!");
             LookForNewTarget();
         }
     }
@@ -189,7 +194,7 @@ public class Defender : MonoBehaviour
     }
     private IEnumerator WaitForCreepCheck()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f * Time.deltaTime);
         Creep newPotentialTarget = CheckForUnengagedTargets(); //Are there any unengaged targets?
         if(newPotentialTarget != null)
         {

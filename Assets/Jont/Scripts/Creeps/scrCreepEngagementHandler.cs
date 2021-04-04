@@ -97,11 +97,18 @@ public class scrCreepEngagementHandler : MonoBehaviour
                 print("More defenders in list...");
                 for(int i = 0; i < currentDefenderTargetsForThisCreep.Count; i++)
                 {
-                    if(currentDefenderTargetsForThisCreep[i].defenderIsAlive && !currentDefenderTargetsForThisCreep[i].thisDefenderIsEngagedAsMainTarget && !currentDefenderTargetsForThisCreep[i].defenderIsAlreadyMovingTowardsTarget)
+                    if(currentDefenderTargetsForThisCreep[i].defenderIsAlive && !currentDefenderTargetsForThisCreep[i].thisDefenderIsEngagedAsMainTarget 
+                        && !currentDefenderTargetsForThisCreep[i].defenderIsAlreadyMovingTowardsTarget)
                     {
                         print("Assigning new target");
-                        CurrentTarget = currentDefenderTargetsForThisCreep[i];
-                        CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue(thisCreep);
+                        if(CurrentTarget != null)
+                        {
+                            if(CurrentTarget.DefenderTowerTargetsReference.DefenderCreepList.Contains(thisCreep))
+                            {
+                                CurrentTarget = currentDefenderTargetsForThisCreep[i];
+                                CurrentTarget.SetDefenderIsEngagedAsMainTargetTrue(thisCreep);
+                            }
+                        }
                     }
                     else if(i >= currentDefenderTargetsForThisCreep.Count)
                     {

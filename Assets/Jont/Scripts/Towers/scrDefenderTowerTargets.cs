@@ -31,7 +31,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
             {
                 if(_defender.defenderIsAlive && !_defender.thisDefenderIsEngagedAsMainTarget && !_defender.thisDefenderIsEngagedAsNoneTarget)
                 {
-                    print("Sent a defender as none target");
+                    //print("Sent a defender as none target");
                     _defender.DefenderEngageNewTargetAsNone(newCreep);
                 }
             }
@@ -39,7 +39,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
             {
                 if (!Defenders[i].thisDefenderIsEngagedAsMainTarget && Defenders[i].defenderIsAlive && _newCreepEngagementHandler.CurrentTarget == null)
                 {
-                    print("Sent a defender to engage new target: " + newCreep);
+                    //print("Sent a defender to engage new target: " + newCreep);
                     Defenders[i].DefenderEngageNewTargetAsMain(Defenders[i], newCreep);
                     return; //Only send one
                 }
