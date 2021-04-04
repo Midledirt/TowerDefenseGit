@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d750820f5267a6440b3f5bcb3e4c0c4c, type: 3}
   m_Name: DefenderStats
   m_EditorClassIdentifier: 
-  initialHealth: 5
+  initialHealth: 125
   movementSpeed: 2
-  meleeDamage: 1
+  meleeDamage: 14

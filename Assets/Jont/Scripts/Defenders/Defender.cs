@@ -138,6 +138,8 @@ public class Defender : MonoBehaviour
     {
         defenderIsAlive = true; //Tested to work!
         CurrentCreepTarget = null;
+        thisDefenderIsEngagedAsMainTarget = false;
+        thisDefenderIsEngagedAsNoneTarget = false;
         LookForNewTarget(); //Look for a new target on respawn!
     }
     private void WhenDefenderDies(Defender _defender)
@@ -177,10 +179,10 @@ public class Defender : MonoBehaviour
         {
             if (CurrentCreepTarget == _creep)
             {
-                CurrentCreepTarget = null;
                 thisDefenderIsEngagedAsMainTarget = false;
                 thisDefenderIsEngagedAsNoneTarget = false;
                 defenderAnimator.StopAttackAnimation();
+                CurrentCreepTarget = null;
                 LookForNewTarget(); //1. This one only runs if the defender just killed ITS target
             }
         }
