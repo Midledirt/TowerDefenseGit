@@ -50,8 +50,11 @@ public class Defender : MonoBehaviour
     }
     public void DefenderEngageNewTargetAsNone(Creep _target)
     {
-        if(_target == null)
+        if(_target == null || !defenderTowerTargets.DefenderCreepList.Contains(_target))
         {
+            print("Was attempting to engage target, but it dissapeared...");
+            CurrentCreepTarget = null;
+            LookForNewTarget();
             return;
         }
         if (CurrentCreepTarget != null)
@@ -64,8 +67,11 @@ public class Defender : MonoBehaviour
     }
     public void DefenderEngageNewTargetAsMain(Defender _defender, Creep _target)
     {
-        if(_defender != this || _target == null)
+        if(_defender != this || _target == null || !defenderTowerTargets.DefenderCreepList.Contains(_target))
         {
+            print("Was attempting to engage target, but it dissapeared...");
+            CurrentCreepTarget = null;
+            LookForNewTarget();
             return;
         }
         if(CurrentCreepTarget != null)
@@ -97,64 +103,36 @@ public class Defender : MonoBehaviour
     }
     private Creep CheckForUnengagedTargets()
     {
+        print("Looking for unengaged target");
         longestTargetDistance = 0f;
-        Creep _potentialNewTarget = null;
-        print("Running unengaged check...");
-        for(int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
+        Creep newTarget = null;
+        foreach(Creep _target in defenderTowerTargets.DefenderCreepList)
         {
-            if (defenderTowerTargets.DefenderCreepList[i].DistanceTravelled > longestTargetDistance && !defenderTowerTargets.DefenderCreepList[i].GetComponent<scrCreepEngagementHandler>().ThisCreepIsEngaged)
+            scrCreepEngagementHandler _targetEngagementHandler = _target.GetComponent<scrCreepEngagementHandler>();
+            if(_target.DistanceTravelled > longestTargetDistance && !_targetEngagementHandler.ThisCreepIsEngaged)
             {
-                print("Found a new target pertaining to the standards...");
-                longestTargetDistance = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
-                _potentialNewTarget = defenderTowerTargets.DefenderCreepList[i];
-            }
-            if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //does it NOT loop if this condidion is not checked?
-            {
-                print("Check complete...");
-                if (_potentialNewTarget != null)
-                {
-                    print("Returning target");
-                    return _potentialNewTarget;
-                }
-                else
-                    print("Returning null");
-                    return null;
+                print("Found unengaged target");
+                longestTargetDistance = _target.DistanceTravelled;
+                newTarget = _target;
             }
         }
-        return null;
+        return newTarget;
     }
-    private void CheckForEngagedTargets()
+    private Creep CheckForNewTargets()
     {
+        print("Looking for any target");
         longestTargetDistance = 0f;
-        for (int i = 0; i < defenderTowerTargets.DefenderCreepList.Count; i++)
+        Creep newTarget = null;
+        foreach (Creep _target in defenderTowerTargets.DefenderCreepList)
         {
-            if (defenderTowerTargets.DefenderCreepList.Count <= 0)
+            if (_target.DistanceTravelled > longestTargetDistance)
             {
-                //print("There are no new targets...");
-                return; //No targets, return
+                print("Found a target");
+                longestTargetDistance = _target.DistanceTravelled;
+                newTarget = _target;
             }
-            Creep _potentialNewTarget = null;
-            float newLength = defenderTowerTargets.DefenderCreepList[i].DistanceTravelled;
-            if (newLength >= longestTargetDistance)
-            {
-                longestTargetDistance = newLength; //Update longest distance
-                _potentialNewTarget = defenderTowerTargets.DefenderCreepList[i];
-            }
-            if (i >= defenderTowerTargets.DefenderCreepList.Count - 1) //If we are at the end of the list
-            {
-                if (_potentialNewTarget != null)
-                {
-                    print("...Found new already engaged target!");
-                    DefenderEngageNewTargetAsNone(_potentialNewTarget);
-                    return;
-                }
-                else
-                    print("Found no new targets...");
-                    return;
-            }
-
         }
-        return;
+        return newTarget;
     }
     public void ResetIsAlive() //Called when the defender respawns. Handled by the animator script on this gameobject
     {
@@ -175,6 +153,21 @@ public class Defender : MonoBehaviour
         else if(this != _defender && !thisDefenderIsEngagedAsMainTarget && defenderIsAlive && !defenderIsAlreadyMovingTowardsTarget)
         {
             //print("Some other defender died and I am free to help... I better help out!");
+            LookForNewTarget();
+        }
+    }
+    public void DefenderRemovedByCreep(Defender _defender)
+    {
+        if(this != _defender)
+        {
+            return;
+        }
+        thisDefenderIsEngagedAsMainTarget = false;
+        thisDefenderIsEngagedAsNoneTarget = false;
+        CurrentCreepTarget = null;
+        defenderAnimator.StopAttackAnimation();
+        if(defenderIsAlive)
+        {
             LookForNewTarget();
         }
     }
@@ -202,7 +195,7 @@ public class Defender : MonoBehaviour
         }
         else if (newPotentialTarget == null)
         {
-            CheckForEngagedTargets(); //No? Check for unengaged ones
+            DefenderEngageNewTargetAsNone(CheckForNewTargets()); //No? Check for unengaged ones
         }
     }
     public void SetDefenderIsEngagedAsMainTargetTrue(Creep creep)

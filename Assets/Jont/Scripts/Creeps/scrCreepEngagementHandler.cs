@@ -84,6 +84,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
         if (!CurrentTarget.defenderIsAlive) //Find new targets when current target dies
         {
             print("Defender died, removing defender");
+            CurrentTarget.DefenderRemovedByCreep(CurrentTarget);
             currentDefenderTargetsForThisCreep.Remove(CurrentTarget); //Remove it from the list
             if(currentDefenderTargetsForThisCreep.Count <= 0)
             {
