@@ -8,10 +8,8 @@ using System;
 /// 
 /// Currently, any defender that is not a MAINTARGET will always look for new targets each frame...
 /// </summary>
-public class Defender : MonoBehaviour
+public class DefenderEngagementHandler : MonoBehaviour
 {
-    [Tooltip("Drag the body of the defender itself into this slot")]
-    [SerializeField] private GameObject defenderBody;
     private scrDefenderAnimation defenderAnimator;
     private scrAnimationEventHandler animEventHandler;
     private scrDefenderTowerTargets defenderTowerTargets;
@@ -65,7 +63,7 @@ public class Defender : MonoBehaviour
         thisDefenderIsEngagedAsMainTarget = false;
         InformCreepTarget(_target);
     }
-    public void DefenderEngageNewTargetAsMain(Defender _defender, Creep _target)
+    public void DefenderEngageNewTargetAsMain(DefenderEngagementHandler _defender, Creep _target)
     {
         if(_defender != this || _target == null || !defenderTowerTargets.DefenderCreepList.Contains(_target))
         {
@@ -142,7 +140,7 @@ public class Defender : MonoBehaviour
         thisDefenderIsEngagedAsNoneTarget = false;
         LookForNewTarget(); //Look for a new target on respawn!
     }
-    private void WhenDefenderDies(Defender _defender)
+    private void WhenDefenderDies(DefenderEngagementHandler _defender)
     {
         if(this == _defender)
         {
@@ -158,7 +156,7 @@ public class Defender : MonoBehaviour
             LookForNewTarget();
         }
     }
-    public void DefenderRemovedByCreep(Defender _defender)
+    public void DefenderRemovedByCreep(DefenderEngagementHandler _defender)
     {
         if(this != _defender)
         {

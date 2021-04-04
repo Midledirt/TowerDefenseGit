@@ -14,7 +14,7 @@ public class scrUnitHealth : MonoBehaviour
     private CreepStatsSO stats;
     //Requires the namespace "System"!
     public static Action<Creep> OnEnemyKilled;
-    public static Action<Defender> OnDefenderKilled;
+    public static Action<DefenderEngagementHandler> OnDefenderKilled;
     //IMPORTANT check tutorial episode 19. Timestamp 3.30 ish for HOW TO CHECK FOR SPESIFIC ENEMY ID
     public static Action<Creep> OnEnemyBlocked; //In stead of "on enemy hit"
 
@@ -26,7 +26,7 @@ public class scrUnitHealth : MonoBehaviour
     private Image healthBar;
     //IMPORTANT, read text at the top
     private Creep _creep;
-    private Defender _defender;
+    private DefenderEngagementHandler _defender;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class scrUnitHealth : MonoBehaviour
         //This could be written better i suppose, using virtual classes or such. I might go back and make that change later, if I deem it necessary
         //or feel like I would like the practise. 4 now tho, lets focus on getting this done at my current level of understanding.
         _creep = GetComponent<Creep>();
-        _defender = GetComponent<Defender>();
+        _defender = GetComponent<DefenderEngagementHandler>();
     }
 
     private void Update()

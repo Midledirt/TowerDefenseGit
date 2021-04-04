@@ -8,9 +8,9 @@ public class scrCreepEngagementHandler : MonoBehaviour
 {
     scrAnimationEventHandler creepAnimationEventHandler;
     private Creep thisCreep;
-    public List<Defender> currentDefenderTargetsForThisCreep { get; private set; }
+    public List<DefenderEngagementHandler> currentDefenderTargetsForThisCreep { get; private set; }
     public bool ThisCreepIsEngaged { get; private set; }
-    public Defender CurrentTarget { get; private set; }
+    public DefenderEngagementHandler CurrentTarget { get; private set; }
     //I MUST set a specific reference to whatever defender this creep IS IN combat with. So that this creep can return to walking if that defender dies or is
     //moved
 
@@ -21,7 +21,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
     }
     private void Start()
     {
-        currentDefenderTargetsForThisCreep = new List<Defender>();
+        currentDefenderTargetsForThisCreep = new List<DefenderEngagementHandler>();
         ThisCreepIsEngaged = false;
         CurrentTarget = null; //starts with no target
     }
@@ -29,15 +29,22 @@ public class scrCreepEngagementHandler : MonoBehaviour
     {
         CreepEngageTarget();
     }
+    private void RotateTowardsTarget(Vector3 _target)
+    {
+        if(CurrentTarget != null)
+        {
+            transform.LookAt(_target);
+        }
+    }
     public void SetThisCreepIsEngaged()
     {
         if(ThisCreepIsEngaged == false)
         {
-            print("This creep is engaged");
+            //print("This creep is engaged");
             ThisCreepIsEngaged = true;
         }
     }
-    public void AddDefenderToCreepTargetsList(Defender _newDefenderTarget)
+    public void AddDefenderToCreepTargetsList(DefenderEngagementHandler _newDefenderTarget)
     {
         if(_newDefenderTarget != null)
         {
@@ -55,10 +62,11 @@ public class scrCreepEngagementHandler : MonoBehaviour
         }
         if(currentDefenderTargetsForThisCreep.Count > 0)
         {
-            //print("I am engaged in combat!");
-            thisCreep.StopMovement(); //1.Stop
-            //2.Face target
-            //3.Attack target
+            thisCreep.StopMovement();
+            if (CurrentTarget != null)
+            {
+                RotateTowardsTarget(CurrentTarget.transform.position);
+            }
             CheckForDefenderDeath(); //4.Handle target death.
         }
     }
@@ -83,7 +91,7 @@ public class scrCreepEngagementHandler : MonoBehaviour
         }
         if (!CurrentTarget.defenderIsAlive) //Find new targets when current target dies
         {
-            print("Defender died, removing defender");
+            print("DefenderEngagementHandler died, removing defender");
             CurrentTarget.DefenderRemovedByCreep(CurrentTarget);
             currentDefenderTargetsForThisCreep.Remove(CurrentTarget); //Remove it from the list
             if(currentDefenderTargetsForThisCreep.Count <= 0)
@@ -129,19 +137,19 @@ public class scrCreepEngagementHandler : MonoBehaviour
         }
         thisCreep.ResumeMovement();
     }
-    public void RemoveDefenderFromList(Defender _defender) //Removes the defender from target list if it is in the target list
+    public void RemoveDefenderFromList(DefenderEngagementHandler _defender) //Removes the defender from target list if it is in the target list
     {
         if(currentDefenderTargetsForThisCreep.Contains(_defender))
         {
             currentDefenderTargetsForThisCreep.Remove(_defender);
         }
     }
-    private void DefenderRallyPointMoved(Creep _creep, List<Defender> _defenders) //Remove defenders from list
+    private void DefenderRallyPointMoved(Creep _creep, List<DefenderEngagementHandler> _defenders) //Remove defenders from list
     {
         if(thisCreep == _creep) //If we are affected
         {
             //print("Rally point moved"); //works
-            foreach(Defender defender in _defenders)
+            foreach(DefenderEngagementHandler defender in _defenders)
             {
                 if(currentDefenderTargetsForThisCreep.Contains(defender))
                 {

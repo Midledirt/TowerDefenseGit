@@ -8,13 +8,13 @@ public class scrDefenderAnimation : MonoBehaviour
     [SerializeField] private GameObject defenderBody;
     private scrUnitHealth defenderHealth;
     private float respawnTimer = 5f;
-    private Defender defender;
+    private DefenderEngagementHandler defender;
 
     private void Awake()
     {
         defenderAnimator = GetComponentInChildren<Animator>(); //Gets the reference of the animator
         defenderHealth = GetComponent<scrUnitHealth>(); //Gets the instance
-        defender = GetComponent<Defender>(); //Gets the instance
+        defender = GetComponent<DefenderEngagementHandler>(); //Gets the instance
     }
     public void PlayDeathAnimation()
     {
@@ -37,7 +37,7 @@ public class scrDefenderAnimation : MonoBehaviour
         float animLength = defenderAnimator.GetCurrentAnimatorStateInfo(0).length; //Useful function!
         return animLength;
     }
-    private void DefenderKilled(Defender _defender)
+    private void DefenderKilled(DefenderEngagementHandler _defender)
     {
         if(defender == _defender) //Make sure that it is THIS defender that died
         {

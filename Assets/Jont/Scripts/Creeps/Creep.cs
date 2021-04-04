@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PathCreation; //Needed!
+using Random = UnityEngine.Random;
 
 
 public class Creep : MonoBehaviour
@@ -17,6 +18,12 @@ public class Creep : MonoBehaviour
     public float MovementSpeed { get; set; } //For modifying the property movementspeed in other scripts
     public scrUnitHealth _CreepHealth { get; private set; }
     [HideInInspector] public bool hasBeenSpawned; //Used to prevent this instance from being respawned by the spawner
+
+    [Header("Randomize creep possitions")]
+    [Tooltip("Larget numbers increases how far a creep MIGHT deviate from the original path possition")]
+    [Range(0f, 1f)]
+    [SerializeField] private float creepPossitionRandomizer;
+    private Vector3 randomizedPossition;
 
     private void Awake()
     {
@@ -37,13 +44,14 @@ public class Creep : MonoBehaviour
 
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
         //creepPossition = transform.position; //Stores the position of the transform
+        randomizedPossition = RandomizeCreepPossition(); //Randomizes the possition for each creep on start
     }
     private void Update()
     {
         if (myPath != null)
         {
             DistanceTravelled += MovementSpeed * Time.deltaTime;
-            transform.position = myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction);
+            transform.position = (myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction) + randomizedPossition);
             transform.rotation = myPath.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
 
             if (DistanceTravelled >= myPath.path.length)
@@ -52,6 +60,13 @@ public class Creep : MonoBehaviour
                 EndPointReached();
             }
         }
+    }
+    private Vector3 RandomizeCreepPossition()
+    {
+        Vector3 _randomizedPossition = Vector3.zero;
+        _randomizedPossition.x += Random.Range(-creepPossitionRandomizer, creepPossitionRandomizer);
+        _randomizedPossition.z += Random.Range(-creepPossitionRandomizer, creepPossitionRandomizer);
+        return _randomizedPossition;
     }
     public PathCreator SetPath(PathCreator path)
     {

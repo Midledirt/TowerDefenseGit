@@ -9,14 +9,14 @@ using System;
 public class scrDefenderTowerTargets : MonoBehaviour
 {
     public List<Creep> DefenderCreepList { get; private set; }
-    public static Action<Creep, List<Defender>> LooseDefenderTarget;
-    public List<Defender> Defenders { get; private set; }
+    public static Action<Creep, List<DefenderEngagementHandler>> LooseDefenderTarget;
+    public List<DefenderEngagementHandler> Defenders { get; private set; }
     private void Awake()
     {
         DefenderCreepList = new List<Creep>();
-        Defenders = new List<Defender>();
+        Defenders = new List<DefenderEngagementHandler>();
     }
-    public void InitializeLocalDefenders(Defender _defender)
+    public void InitializeLocalDefenders(DefenderEngagementHandler _defender)
     {
         Defenders.Add(_defender); //Add defenders to list
     }
@@ -27,7 +27,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
         if (newCreep._CreepHealth.CurrentHealth > 0f) //Extra check needed in case a creep that just died "slides" into the collider
         {
             DefenderCreepList.Add(newCreep);
-            foreach(Defender _defender in Defenders) //Send all defenders to engage as none
+            foreach(DefenderEngagementHandler _defender in Defenders) //Send all defenders to engage as none
             {
                 if(_defender.defenderIsAlive && !_defender.thisDefenderIsEngagedAsMainTarget && !_defender.thisDefenderIsEngagedAsNoneTarget)
                 {
@@ -45,7 +45,7 @@ public class scrDefenderTowerTargets : MonoBehaviour
                 }
             }
         }
-        /*foreach (Defender _defender in Defenders)
+        /*foreach (DefenderEngagementHandler _defender in Defenders)
         {
             _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
         }*/

@@ -8,14 +8,14 @@ public class scrDefenderMovement : MonoBehaviour
     [SerializeField] private float defenderMovementSpeed;
     private float defenderRotationSpeed = 10f; //How fast defenders rotate to face targets
     private Vector3 rallyPointPos;
-    private Defender defender;
+    private DefenderEngagementHandler defender;
     private float engagementDistance = .8f;
     private scrDefenderAnimation defenderAnimator; //This is only how I do this right now. It is probably better to make a dedicated class for attacking
     public bool DefenderIsCurrentlyMovingTowardsNewPossition { get; set; }
     private bool defenderHasANewPotentialTarget;
     private void Awake()
     {
-        defender = GetComponent<Defender>(); //Get the instance
+        defender = GetComponent<DefenderEngagementHandler>(); //Get the instance
         defenderAnimator = GetComponent<scrDefenderAnimation>(); //Get the instance;
         DefenderIsCurrentlyMovingTowardsNewPossition = true;
         defenderHasANewPotentialTarget = false;
@@ -25,6 +25,10 @@ public class scrDefenderMovement : MonoBehaviour
         if (defenderHasANewPotentialTarget && defender.defenderIsAlive) //Potential target set in the defender script
         {
             SetDefenderApproachTarget(defender.CurrentCreepTarget);
+            if(defender.CurrentCreepTarget != null)
+            {
+                rotateTowardsTarget(defender.CurrentCreepTarget.transform.position);
+            }
         }
         else if (defender.defenderIsAlive && defender.thisDefenderIsEngagedAsMainTarget == false && defender.thisDefenderIsEngagedAsNoneTarget == false)
         {
@@ -35,10 +39,7 @@ public class scrDefenderMovement : MonoBehaviour
             {
                 DefenderIsCurrentlyMovingTowardsNewPossition = false;
             }
-            if (transform.position != rallyPointPos)
-            {
-                rotateTowardsTarget(rallyPointPos);
-            }
+            rotateTowardsTarget(rallyPointPos);
         }
     }
     public void MakeDefenderMoveTowardsTarget() //Potential target set in the defender script
@@ -77,11 +78,9 @@ public class scrDefenderMovement : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, _currentTargetPos, defenderMovementSpeed * Time.deltaTime);
     }
-    private void rotateTowardsTarget(Vector3 rallyPointPossition) //Simplify this code
+    private void rotateTowardsTarget(Vector3 _targetPossition)
     {
-        Vector3 lookDirection = rallyPointPossition - transform.position;
-        Quaternion direction = Quaternion.LookRotation(lookDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, direction, defenderRotationSpeed * Time.deltaTime);
+        transform.LookAt(_targetPossition);
     }
     public void getRallyPointPos(Vector3 rallyPointPossition) //Assigned from other script
     {

@@ -56,7 +56,7 @@ MonoBehaviour:
   myPath: {fileID: 0}
   endOfPathInstruction: 2
   hasBeenSpawned: 0
-  creepsFirstDefenderTarget: {fileID: 0}
+  creepPossitionRandomizer: 0.472
 --- !u!114 &8812003351494664383
 MonoBehaviour:
   m_ObjectHideFlags: 0
