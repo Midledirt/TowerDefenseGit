@@ -109,6 +109,7 @@ public class scrProjectiles : MonoBehaviour
     }
     public Vector3 SetPossitionsForNonHoming(Vector3 _possition)
     {
+        print("Got following possition for target nonHomingPoint: " + _possition);
         return targetPos = _possition; //Updates the possition
     }
     private void RotateProjectile() //This may not work, and may not be needed for my functionallity. //NEEDS MORE WORK

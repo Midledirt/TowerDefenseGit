@@ -56,7 +56,7 @@ MonoBehaviour:
   myPath: {fileID: 0}
   endOfPathInstruction: 2
   hasBeenSpawned: 0
-  creepPossitionRandomizer: 0.472
+  creepPossitionRandomizer: 0
 --- !u!114 &8812003351494664383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +200,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 675350754984642802}
     m_Modifications:
+    - target: {fileID: 2715677130426264717, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170793009143032786, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5929833370194159273, guid: e004395a30ba7cc408a9ffcc10e37c48, type: 3}
       propertyPath: m_Name
       value: TestCreep 1
