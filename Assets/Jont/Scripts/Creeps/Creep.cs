@@ -23,7 +23,7 @@ public class Creep : MonoBehaviour
     [Tooltip("Larget numbers increases how far a creep MIGHT deviate from the original path possition")]
     [Range(0f, 1f)]
     [SerializeField] private float creepPossitionRandomizer;
-    private Vector3 randomizedPossition;
+    public Vector3 RandomizedPossition { get; private set; }
 
     private void Awake()
     {
@@ -44,14 +44,14 @@ public class Creep : MonoBehaviour
 
         MovementSpeed = stats.movementSpeed; //For modifying the property movementspeed in other scripts
         //creepPossition = transform.position; //Stores the position of the transform
-        randomizedPossition = RandomizeCreepPossition(); //Randomizes the possition for each creep on start
+        RandomizedPossition = RandomizeCreepPossition(); //Randomizes the possition for each creep on start
     }
     private void Update()
     {
         if (myPath != null)
         {
             DistanceTravelled += MovementSpeed * Time.deltaTime;
-            transform.position = (myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction) + randomizedPossition);
+            transform.position = (myPath.path.GetPointAtDistance(DistanceTravelled, endOfPathInstruction) + RandomizedPossition);
             transform.rotation = myPath.path.GetRotationAtDistance(DistanceTravelled, endOfPathInstruction);
 
             if (DistanceTravelled >= myPath.path.length)

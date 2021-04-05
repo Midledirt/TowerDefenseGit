@@ -61,13 +61,13 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 if (Tower.CurrentCreepTarget.MovementSpeed >= 3f) //For targeting most enemies
                 {
                     //print("Firing normal projectile");
-                    nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                    nonHomingHitPoint = (Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + ((Tower.CurrentCreepTarget.MovementSpeed) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction)) + Tower.CurrentCreepTarget.RandomizedPossition;
                     if (Tower.CurrentCreepTarget.MovementSpeed > projectileMissfireTreshold)
                     {
                         if (GetRandomNumber(0, 6) > 4) //Gives us a 1/6 chance that a projectile will missfire
                         {
                             //print("Firing missfire projectile");
-                            nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed) + 2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + GetRandomNumber(towerAimValue * -1, towerAimValue * 1.5f), Tower.CurrentCreepTarget.endOfPathInstruction);
+                            nonHomingHitPoint = (Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed) + 2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + GetRandomNumber(towerAimValue * -1, towerAimValue * 1.5f), Tower.CurrentCreepTarget.endOfPathInstruction)) + Tower.CurrentCreepTarget.RandomizedPossition;
                         }
                     }
                     FireWhenReady();
@@ -76,13 +76,13 @@ public class scrTowerProjectileLoader : MonoBehaviour
                 {
                     if(Tower.CurrentCreepTarget.MovementSpeed <= 0.1f) //If target is practically standing still
                     {
-                        nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance(Tower.CurrentCreepTarget.DistanceTravelled, Tower.CurrentCreepTarget.endOfPathInstruction);
+                        nonHomingHitPoint = (Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance(Tower.CurrentCreepTarget.DistanceTravelled, Tower.CurrentCreepTarget.endOfPathInstruction)) + Tower.CurrentCreepTarget.RandomizedPossition;
                         //print("Firing projectile for 0 speed target. Destination is: " + nonHomingHitPoint);
                         FireWhenReady();
                     }
                     else
                     //print("Firing projectile for slow speed target");
-                    nonHomingHitPoint = Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed)+2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction);
+                    nonHomingHitPoint = (Tower.CurrentCreepTarget.myPath.path.GetPointAtDistance((Tower.CurrentCreepTarget.DistanceTravelled + (((Tower.CurrentCreepTarget.MovementSpeed)+2) - (currentProjectileLoaded.GetComponent<scrProjectiles>().ProjectileMovementSpeed))) + towerAimValue, Tower.CurrentCreepTarget.endOfPathInstruction)) + Tower.CurrentCreepTarget.RandomizedPossition;
                     FireWhenReady();
                 }
                 //PROBLEM: "nonHomingHitPoint" can take a value that is greater than path length. This can be avoided through level design though.
