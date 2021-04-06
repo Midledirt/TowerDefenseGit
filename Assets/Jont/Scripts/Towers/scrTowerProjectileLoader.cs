@@ -123,9 +123,9 @@ public class scrTowerProjectileLoader : MonoBehaviour
     public void UpdateProjectileStats(int _towerPath, int _towerLevel)
     {
         assignedStats = projectileStatsTracker.UpgradeProjectileStats(_towerPath, _towerLevel); //Gets the projectile stats from the projectile tracker
+        assignedStats.ResetStats(); //Makes sure the stats are kept to assigned values
         delayBetweenAttacks = assignedStats.DelayBetweenAttacks;
         Damage = assignedStats.ProjectileDamage;
-        assignedStats.ResetStats(); //Makes sure the stats are kept to assigned values
     }
     public void ResetTurretProjectile()
     {

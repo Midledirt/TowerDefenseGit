@@ -656,9 +656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdc10495e3da7340997e4664ba5cc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsVersion1: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
-  statsVersion2: {fileID: 11400000, guid: 4294030815064e04a89578a096ee75a6, type: 2}
-  statsVersion3: {fileID: 11400000, guid: df8009ec92eb5444abf38e9d303a98fa, type: 2}
+  projectileMovementSpeed: 10
+  minDistanceToDealDamage: 0.1
+  topProjectileHight: 10
   homingProjectile: 1
   projectileIsFired: 0
 --- !u!114 &6687977831204999943
@@ -673,16 +673,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563ac41c82ab0004ca2405cc3bba27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileInitialPrefab: {fileID: 8339113531559566709}
-  projectileLevel2Version1: {fileID: 8429052782555524579}
-  projectileLevel3Version1: {fileID: 1202365149334002108}
-  projectileLevel4Version1: {fileID: 3746248709623778762}
-  projectileLevel2Version2: {fileID: 7634183166252777397}
-  projectileLevel3Version2: {fileID: 4564979439266741825}
-  projectileLevel4Version2: {fileID: 4852864752222769142}
-  projectileLevel2Version3: {fileID: 7958863933837821075}
-  projectileLevel3Version3: {fileID: 1936540277312419671}
-  projectileLevel4Version3: {fileID: 4681739566257901110}
+  initialPrefab: {fileID: 8339113531559566709}
+  prefabLevel2Version1: {fileID: 8429052782555524579}
+  prefabLevel3Version1: {fileID: 1202365149334002108}
+  pregabLevel4Version1: {fileID: 3746248709623778762}
+  prefabLevel2Version2: {fileID: 7634183166252777397}
+  prefabLevel3Version2: {fileID: 4564979439266741825}
+  prefabLevel4Version2: {fileID: 4852864752222769142}
+  prefabLevel2Version3: {fileID: 7958863933837821075}
+  prefabLevel3Version3: {fileID: 1936540277312419671}
+  prefabLevel4Version3: {fileID: 4681739566257901110}
 --- !u!1 &7634183166252777397
 GameObject:
   m_ObjectHideFlags: 0
