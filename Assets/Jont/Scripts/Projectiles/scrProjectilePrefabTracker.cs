@@ -18,21 +18,21 @@ public class scrProjectilePrefabTracker : MonoBehaviour
     [SerializeField] public GameObject prefabLevel2Version3;
     [SerializeField] public GameObject prefabLevel3Version3;
     [SerializeField] public GameObject prefabLevel4Version3;
-    private int projectileLevel;
-    private int projectileMaxLevel;
+    protected int defenderlevel;
+    protected int projectileOrUnitMaxLevel;
 
-    public int ProjectileVersion { get; private set; }
+    public int PrefabVersion { get; private set; }
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        ProjectileVersion = 0;
-        projectileLevel = 1;
-        projectileMaxLevel = 4;
+        PrefabVersion = 0;
+        defenderlevel = 1;
+        projectileOrUnitMaxLevel = 4;
         ResetProjectileLevel();
     }
 
-    public void ResetProjectileLevel()
+    public virtual void ResetProjectileLevel()
     {
         initialPrefab.SetActive(true);
         prefabLevel2Version1.SetActive(false);
@@ -45,16 +45,16 @@ public class scrProjectilePrefabTracker : MonoBehaviour
         prefabLevel3Version3.SetActive(false);
         prefabLevel4Version3.SetActive(false);
     }
-    public void SetProjectilePath(int _path)
+    public virtual void SetProjectilePath(int _path)
     {
-        ProjectileVersion = _path;
+        PrefabVersion = _path;
     }
-    public void SetProjectileLevel(int _projectileLevel)
+    public virtual void SetProjectileLevel(int _projectileLevel)
     {
-        projectileLevel = _projectileLevel;
-        if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 1)
+        defenderlevel = _projectileLevel;
+        if (defenderlevel <= projectileOrUnitMaxLevel && PrefabVersion == 1)
         {
-            switch (projectileLevel)
+            switch (defenderlevel)
             {
                 case 1:
                     initialPrefab.gameObject.SetActive(true);
@@ -84,9 +84,9 @@ public class scrProjectilePrefabTracker : MonoBehaviour
                     Debug.LogError("The projectileLevel variable in scrTpwerProjectileLoader is set to an incorrect value");
                     return;
             }
-        }if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 2)
+        }if (defenderlevel <= projectileOrUnitMaxLevel && PrefabVersion == 2)
         {
-            switch (projectileLevel)
+            switch (defenderlevel)
             {
 
                 case 1:
@@ -117,9 +117,9 @@ public class scrProjectilePrefabTracker : MonoBehaviour
                     Debug.LogError("The projectileLevel variable in scrTpwerProjectileLoader is set to an incorrect value");
                     return;
             }
-        }if (projectileLevel <= projectileMaxLevel && ProjectileVersion == 3)
+        }if (defenderlevel <= projectileOrUnitMaxLevel && PrefabVersion == 3)
         {
-            switch (projectileLevel)
+            switch (defenderlevel)
             {
 
                 case 1:

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealth: 100
   movementSpeed: 3
-  meleeDamage: 2
+  meleeDamage: 20

@@ -10,6 +10,8 @@ public class scrDefenderSpawner : MonoBehaviour
     private List<GameObject> defenders;
     scrTowerRallypointPos rallyPointUpdater;
     scrDefenderTowerTargets defenderTowerTargets;
+    [Tooltip("Assign the main tower prefab for this. It is used for defender respawn possition")]
+    public Transform defenderRespawnPos;
 
     private void Awake()
     {
@@ -22,6 +24,10 @@ public class scrDefenderSpawner : MonoBehaviour
     private void Start()
     {
         spawnDefenders();
+        if(defenderRespawnPos == null)
+        {
+            Debug.LogError("You forgot to assign the defenderRespawnPos for defender tower. See the scrDefenderSpawner class");
+        }
     }
     private void spawnDefenders()
     {
@@ -39,6 +45,8 @@ public class scrDefenderSpawner : MonoBehaviour
             {
                 defenderPossition.DefenderPossition = i + 1;
             }
+            scrDefenderAnimation defenderAnimator = newInstance.GetComponent<scrDefenderAnimation>();
+            defenderAnimator.GetDefenderRespawnPossition(defenderRespawnPos.position); //Assign the tower possition as the respawn possition for defenders
             DefenderEngagementHandler defender = newInstance.GetComponent<DefenderEngagementHandler>();
             defender.AssignDefenderTowerTargets(defenderTowerTargets); //Assign this script for local defenders, so they can use the list of targets
             defenderTowerTargets.InitializeLocalDefenders(defender); //Assign the defenders to the defenderTowerTargets, so they can be issued orders from the defenderTowerTargetets script

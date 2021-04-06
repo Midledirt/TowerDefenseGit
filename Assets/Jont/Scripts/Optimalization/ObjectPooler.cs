@@ -42,7 +42,6 @@ public class ObjectPooler : MonoBehaviour
     }
     private void Start()
     {
-
         //Run the createPooler method from below, based on the poolsize
         CreatePooler();
     }
@@ -61,8 +60,9 @@ public class ObjectPooler : MonoBehaviour
         GameObject newInstance = Instantiate(prefab);
         if (isProjectileSpawner)
         {
-            newInstance.GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
-            newInstance.GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+            scrProjectilePrefabTracker newProjectilePrefabTracker = newInstance.GetComponent<scrProjectilePrefabTracker>();
+            newProjectilePrefabTracker.SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+            newProjectilePrefabTracker.SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
         }
 
         //Set the parent to be the pool container
@@ -81,8 +81,9 @@ public class ObjectPooler : MonoBehaviour
                 if (isProjectileSpawner)
                 {
                     //Update and return the instance
-                    pool[i].GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
-                    pool[i].GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+                    scrProjectilePrefabTracker _projectilePrefabTracker = pool[i].GetComponent<scrProjectilePrefabTracker>();
+                    _projectilePrefabTracker.SetProjectilePath(towerLevelTracker.TowerUpgradePath); //Sets the upgrade path for projectile
+                    _projectilePrefabTracker.SetProjectileLevel(towerLevelTracker.CurrentTowerLevel); //Sets the level for the projectile
                 }
                 return pool[i];
             }
@@ -102,8 +103,19 @@ public class ObjectPooler : MonoBehaviour
         {
             foreach(GameObject _projectile in pool)
             {
-                _projectile.GetComponent<scrProjectilePrefabTracker>().SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
-                _projectile.GetComponent<scrProjectilePrefabTracker>().SetProjectilePath(_towerPath); //Sets the upgrade path for projectile
+                scrProjectilePrefabTracker projectilePrefabTracker = _projectile.GetComponent<scrProjectilePrefabTracker>();
+                projectilePrefabTracker.SetProjectilePath(_towerPath); //Sets the upgrade path for projectile
+                projectilePrefabTracker.SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
+            }
+        }
+        else if(isDefenderSpawner)
+        {
+            foreach(GameObject _defender in pool)
+            {
+                scrDefenderPrefabTracker defenderPrefabTracker = _defender.GetComponent<scrDefenderPrefabTracker>();
+                defenderPrefabTracker.SetProjectilePath(_towerPath);
+                defenderPrefabTracker.SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
+                //print("Upgrading defenders!");
             }
         }
     }

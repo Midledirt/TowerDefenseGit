@@ -5,10 +5,9 @@ using UnityEngine;
 public class scrDefenderMovement : MonoBehaviour
 {
     [Tooltip("Set how fast the defenders move")]
-    [Range(0.1f, 0.2f)]
+    [Range(1f, 5f)]
     [SerializeField] private float setDefenderMovementSpeed;
     private float defenderMovementSpeed;
-    private float distanceToNewPossition;
     private Vector3 rallyPointPos;
     private DefenderEngagementHandler defender;
     private float engagementDistance = .8f;
@@ -34,7 +33,6 @@ public class scrDefenderMovement : MonoBehaviour
         randomlyGeneratedPossition = GetRandomPossition(); //Potential problem: I assume this possition is relative to the parent object. If not...
         ABPos = transform.Find("ABPos");
         BCPos = transform.Find("BCPos");
-        distanceToNewPossition = 0f;
         defenderMovementSpeed = setDefenderMovementSpeed;
     }
     private Vector3 GetRandomPossition()
@@ -45,6 +43,7 @@ public class scrDefenderMovement : MonoBehaviour
             _possition.x = Random.Range(-2f, 2f);
             if(_possition.x < -1f || _possition.x > 1f)
             {
+                print("Good possition found for x");
                 break;
             }
         }
@@ -53,23 +52,11 @@ public class scrDefenderMovement : MonoBehaviour
             _possition.z = Random.Range(-2f, 2f);
             if (_possition.z < -1f || _possition.z > 1f)
             {
+                print("Good possition found for z");
                 break;
             }
         }
         return _possition;
-    }
-    private void LimitDefenderSpeedBasedOnTargetDistance(float distance)
-    {
-        float distanceSubtracter = 200 / setDefenderMovementSpeed; //Divided by setDefenderMovementSpeed so that it works on different movement speeds
-        if(distance > 2f)
-        {
-            //print("Great distance, limiting speed");
-            if(defenderMovementSpeed > distance / distanceSubtracter)
-            {
-                defenderMovementSpeed = (defenderMovementSpeed - (distance / distanceSubtracter));
-                //print("New speed is: " + defenderMovementSpeed);
-            }
-        }
     }
     private void Update()
     {
@@ -95,6 +82,8 @@ public class scrDefenderMovement : MonoBehaviour
     }
     public void MakeDefenderMoveTowardsTarget() //Potential target set in the defender script
     {
+        aPos = transform.position;
+        GetRandomPossition();
         defenderHasANewPotentialTarget = true;
     }
     public void SetDefenderApproachTarget(Creep _creep)
@@ -120,6 +109,7 @@ public class scrDefenderMovement : MonoBehaviour
         }
         else if((transform.position - _creep.transform.position).magnitude <= engagementDistance)
         {
+            t = 0f;
             defender.defenderIsAlreadyMovingTowardsTarget = false;
             defenderHasANewPotentialTarget = false; //Prevents this code from looping
             defenderAnimator.PlayAttackAnimation(); //Attack
@@ -127,6 +117,23 @@ public class scrDefenderMovement : MonoBehaviour
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
     {
+
+        if(defender.thisDefenderIsEngagedAsNoneTarget && !defender.thisDefenderIsEngagedAsMainTarget)
+        {
+            if (t < 1f)
+            {
+                t += (Time.deltaTime * defenderMovementSpeed) / 4;
+            }
+
+            bPos = ((aPos + randomlyGeneratedPossition) + _currentTargetPos) / 2;
+            cPos = _currentTargetPos;
+
+            ABPos.position = Vector3.Lerp(aPos, bPos, t);
+            BCPos.position = Vector3.Lerp(bPos, cPos, t);
+
+            transform.position = Vector3.Lerp(ABPos.position, BCPos.position, t);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, _currentTargetPos, defenderMovementSpeed * Time.deltaTime);
     }
     private void rotateTowardsTarget(Vector3 _targetPossition)
