@@ -88,6 +88,13 @@ public class scrUnitHealth : MonoBehaviour
             OnEnemyBlocked?.Invoke(_creep);
         }
     }
+    public void RegenerateHealth()
+    {
+        if(CurrentHealth < stats.initialHealth)
+        {
+            CurrentHealth += (stats.initialHealth / 10) * Time.deltaTime;
+        }
+    }
     public void ResetHealth()
     {
         InstantiatedHealthBar.SetActive(true); //Turn the healthbar back on as the defender respawns

@@ -41,6 +41,13 @@ public class DefenderEngagementHandler : MonoBehaviour
         defenderIsAlive = true; //Used to make sure certain code is not run whilst the defender is respawning
         defenderIsAlreadyMovingTowardsTarget = false;
     }
+    private void Update()
+    {
+        if(!thisDefenderIsEngagedAsMainTarget && !thisDefenderIsEngagedAsNoneTarget && defenderIsAlive)
+        {
+            DefenderHealth.RegenerateHealth();
+        }
+    }
     public scrDefenderTowerTargets AssignDefenderTowerTargets(scrDefenderTowerTargets _defenderTowerTargets)
     {
         DefenderTowerTargetsReference = _defenderTowerTargets; //Sets the reference for the creep
