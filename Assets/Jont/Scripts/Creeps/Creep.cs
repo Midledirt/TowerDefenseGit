@@ -27,11 +27,11 @@ public class Creep : MonoBehaviour
 
     private void Awake()
     {
-        stats = GetComponent<scrCreepTypeDefiner>().creepType;
         hasBeenSpawned = false;
     }
     private void Start()
     {
+        stats = GetComponent<scrCreepTypeDefiner>().CreepType; //Moved from awake to avoid conflict
         if (myPath != null)
         {
             transform.position = myPath.path.GetPoint(0); //Spawns the creep at the first point

@@ -28,12 +28,9 @@ public class scrUnitHealth : MonoBehaviour
     private Creep _creep;
     private DefenderEngagementHandler _defender;
 
-    private void Awake()
-    {
-        stats = GetComponent<scrCreepTypeDefiner>().creepType;
-    }
     void Start()
     {
+        stats = GetComponent<scrCreepTypeDefiner>().CreepType; //Moved from awake to prevent conflict
         CreateHealthbar();
         CurrentHealth = stats.initialHealth;
 
@@ -52,6 +49,11 @@ public class scrUnitHealth : MonoBehaviour
 
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, CurrentHealth / stats.initialHealth, Time.deltaTime * 10f); //Updates and lerps the fillamount
         //between the currenthealth and the max health
+    }
+    public void DefenderUpgraded(CreepStatsSO _newStats)
+    {
+        stats = _newStats;
+        CurrentHealth = _newStats.initialHealth;
     }
 
     private void CreateHealthbar()

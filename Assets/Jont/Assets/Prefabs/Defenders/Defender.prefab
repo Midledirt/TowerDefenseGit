@@ -802,6 +802,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creepType: {fileID: 11400000, guid: 0f958378db6ad7641bb9611f78f6507d, type: 2}
+  Path1Level2Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path1Level3Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path1Level4Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path2Level2Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path2Level3Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path2Level4Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path3Level2Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path3Level3Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
+  Path3Level4Defender: {fileID: 11400000, guid: 105a626c1bd850243ab9c8b98b813000, type: 2}
 --- !u!114 &-3877754944350883148
 MonoBehaviour:
   m_ObjectHideFlags: 0

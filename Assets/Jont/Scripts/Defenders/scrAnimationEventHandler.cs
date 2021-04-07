@@ -12,7 +12,11 @@ public class scrAnimationEventHandler : MonoBehaviour
 
     private void Awake()
     {
-        defenderOrCreepStats = GetComponentInParent<scrCreepTypeDefiner>().creepType; //Get the "creepType" from the stats on the gameobject
+        defenderOrCreepStats = GetComponentInParent<scrCreepTypeDefiner>().CreepType; //Get the "creepType" from the stats on the gameobject
+    }
+    public void DefenderIsUpgraded(CreepStatsSO _newStats)
+    {
+        defenderOrCreepStats = _newStats;
     }
     public void dealDamage() //Called by animation event
     {

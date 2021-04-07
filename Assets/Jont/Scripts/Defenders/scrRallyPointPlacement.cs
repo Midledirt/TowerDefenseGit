@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scrDefenderStats : MonoBehaviour
+public class scrRallyPointPlacement : MonoBehaviour
 {
     public int DefenderPossition { get; set; } //Used for defining the defender possition in formation (rally point)
 

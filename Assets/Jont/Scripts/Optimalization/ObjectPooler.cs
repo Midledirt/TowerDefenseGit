@@ -112,10 +112,13 @@ public class ObjectPooler : MonoBehaviour
         {
             foreach(GameObject _defender in pool)
             {
+                //Upgrade defender prefab
                 scrDefenderPrefabTracker defenderPrefabTracker = _defender.GetComponent<scrDefenderPrefabTracker>();
                 defenderPrefabTracker.SetProjectilePath(_towerPath);
                 defenderPrefabTracker.SetProjectileLevel(towerLevelTracker.CurrentTowerLevel);
-                //print("Upgrading defenders!");
+                //Upgrade defender stats
+                scrCreepTypeDefiner defenderStats = _defender.GetComponent<scrCreepTypeDefiner>();
+                defenderStats.UpgradeDefenderStats(_towerPath, towerLevelTracker.CurrentTowerLevel);
             }
         }
     }

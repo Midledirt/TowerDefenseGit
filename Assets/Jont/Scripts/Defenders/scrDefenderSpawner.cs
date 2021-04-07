@@ -39,7 +39,7 @@ public class scrDefenderSpawner : MonoBehaviour
 
             defenders.Add(newInstance); //Add defender to the list
 
-            scrDefenderStats defenderPossition = newInstance.GetComponent<scrDefenderStats>(); //Get a reference to the instances defender stats script
+            scrRallyPointPlacement defenderPossition = newInstance.GetComponent<scrRallyPointPlacement>(); //Get a reference to the instances defender stats script
 
             if (i != 0 && i < 4) //Assign possitions for the newly instantiated defenders
             {
@@ -60,7 +60,7 @@ public class scrDefenderSpawner : MonoBehaviour
         {
             scrDefenderMovement defenderMovement = defender.GetComponent<scrDefenderMovement>(); //Gets the defenders movement script
 
-            scrDefenderStats defenderPossition = defender.GetComponent<scrDefenderStats>(); //Get a reference to the instances defender stats script
+            scrRallyPointPlacement defenderPossition = defender.GetComponent<scrRallyPointPlacement>(); //Get a reference to the instances defender stats script
 
             if (defenderPossition.DefenderPossition == 1)
             {

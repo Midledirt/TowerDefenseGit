@@ -24,9 +24,9 @@ public class scrTowerProjectileStatsRecorder : MonoBehaviour
 
     private int currentTowerLevel;
 
-    public int TowerProjectileUpgradePath { get; set; }
+    public int TowerProjectileUpgradePath { get; private set; }
 
-    public int TowerProjectileLevel { get; set; }
+    public int TowerProjectileLevel { get; private set; }
 
     private void Awake()
     {
