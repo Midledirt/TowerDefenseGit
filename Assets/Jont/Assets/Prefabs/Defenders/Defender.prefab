@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3150964679282822316}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ABPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6169572068822459799}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 1292866705563887272}
   - component: {fileID: 1292866705563887270}
   - component: {fileID: 1292866705563887273}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 1292866706468114068}
   - component: {fileID: 1292866706468114066}
   - component: {fileID: 1292866706468114069}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 1292866706490948202}
   - component: {fileID: 1292866706490948205}
   - component: {fileID: 2333077416293871481}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 3639677266731655632}
   - component: {fileID: 7554158893480710526}
   - component: {fileID: 5276807736243064891}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path1Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 951804674390304074}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3765337617285581310}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4266220403458299998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8631672175631864791}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LowerArm.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6211439924961840801}
   - component: {fileID: 779052114401223368}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TestChar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728771871617205723}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefNeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3234368962356706901}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hip.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,8 @@ GameObject:
   - component: {fileID: -3877754944350883148}
   - component: {fileID: -4488678258183938096}
   - component: {fileID: -8472342088882550617}
-  m_Layer: 0
+  - component: {fileID: -4868539920410730483}
+  m_Layer: 10
   m_Name: Defender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -858,6 +859,24 @@ MonoBehaviour:
   prefabLevel2Version3: {fileID: 5157157469237427210}
   prefabLevel3Version3: {fileID: 6294502892634977961}
   prefabLevel4Version3: {fileID: 7153160733358640249}
+--- !u!114 &-4868539920410730483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848894563981429664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7892b5a45a50d2442938492759dbcd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splashDamageRadius: 3
+  whatCanBeTargeted:
+    serializedVersion: 2
+    m_Bits: 1024
+  minimumDamage: 5
+  damageFallOff: 4
 --- !u!1 &3963387490683044113
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,7 +886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203701798308151615}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LowerArm.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -900,7 +919,7 @@ GameObject:
   - component: {fileID: 7385076653313123137}
   - component: {fileID: 53368873477621699}
   - component: {fileID: 2828576416458975361}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path2Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +1011,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2541752104530017484}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1027,7 +1046,7 @@ GameObject:
   - component: {fileID: 1439409064164565049}
   - component: {fileID: 3183068145564327665}
   - component: {fileID: 526895365662321873}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefenderBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1122,7 +1141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224059659288231459}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1155,7 +1174,7 @@ GameObject:
   - component: {fileID: 2091644481035840084}
   - component: {fileID: 1659492695409228849}
   - component: {fileID: 5478199140685521993}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path3Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1247,7 +1266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8710963347040457184}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LowerArm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1278,7 +1297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7330256337301384378}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BCPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1311,7 +1330,7 @@ GameObject:
   - component: {fileID: 3545014939514739903}
   - component: {fileID: 5112641333382043447}
   - component: {fileID: 5639939275709457648}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path3Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1403,7 +1422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3223755969318396662}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefLowerHip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,7 +1455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692806121336998370}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UpperArm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1470,7 +1489,7 @@ GameObject:
   - component: {fileID: 1842121002359095956}
   - component: {fileID: 1685113619785724025}
   - component: {fileID: 2609654376643141348}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path2Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1562,7 +1581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5142403753317929477}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefMidsection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1593,7 +1612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3001396477664458881}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefNeck_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1626,7 +1645,7 @@ GameObject:
   - component: {fileID: 6847424793321865615}
   - component: {fileID: 2162193613388871600}
   - component: {fileID: 6720360169694349993}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path3Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1718,7 +1737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4792011012134722014}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BarPosition
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -1748,7 +1767,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3225905646301572436}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LowerArm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1782,7 +1801,7 @@ GameObject:
   - component: {fileID: 2997731070031763423}
   - component: {fileID: 4440825962695919935}
   - component: {fileID: 5086134528178628741}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path2Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1877,7 +1896,7 @@ GameObject:
   - component: {fileID: 591793654166818400}
   - component: {fileID: 5173652606410953663}
   - component: {fileID: 6891090118355195625}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path1Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1969,7 +1988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7342688793514647569}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hip.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2003,7 +2022,7 @@ GameObject:
   - component: {fileID: 7948340178997453208}
   - component: {fileID: 3126113246438952695}
   - component: {fileID: 5951566355630738107}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Path1Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2095,7 +2114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8099532208134943834}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UpperArm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}

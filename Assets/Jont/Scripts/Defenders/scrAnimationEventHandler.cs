@@ -8,11 +8,19 @@ using System;
 public class scrAnimationEventHandler : MonoBehaviour
 {
     public Action<float> OnDealingDamage;
-    CreepStatsSO defenderOrCreepStats;
+    private CreepStatsSO defenderOrCreepStats;
+    private scrSplashDamage localSplashDamageClass;
+    public bool UnitDealsSplashDamage { get; private set; }
 
     private void Awake()
     {
         defenderOrCreepStats = GetComponentInParent<scrCreepTypeDefiner>().CreepType; //Get the "creepType" from the stats on the gameobject
+        localSplashDamageClass = GetComponent<scrSplashDamage>(); //Gets the reference
+        UnitDealsSplashDamage = false;
+    }
+    public void MakeUnitDealSplashDamage()
+    {
+        UnitDealsSplashDamage = true;
     }
     public void DefenderIsUpgraded(CreepStatsSO _newStats)
     {
@@ -20,8 +28,13 @@ public class scrAnimationEventHandler : MonoBehaviour
     }
     public void dealDamage() //Called by animation event
     {
-        OnDealingDamage?.Invoke(defenderOrCreepStats.meleeDamage); //Damage needs to inherit from stats
-        //print("DealingDamage");
-        //Run the damage function for the target
+        if(!UnitDealsSplashDamage)
+        {
+            OnDealingDamage?.Invoke(defenderOrCreepStats.meleeDamage); //Damage needs to inherit from stats
+        }
+        if(UnitDealsSplashDamage)
+        {
+            localSplashDamageClass.DealSplashDamage(transform.position, defenderOrCreepStats.meleeDamage); //Deal damage at locaiton
+        }
     }
 }

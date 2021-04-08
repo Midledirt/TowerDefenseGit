@@ -123,7 +123,7 @@ public class scrDefenderMovement : MonoBehaviour
         {
             if (t < 1f)
             {
-                t += (Time.deltaTime * defenderMovementSpeed) / 4;
+                t += ((Time.deltaTime * defenderMovementSpeed) / 4);
             }
 
             bPos = ((aPos + randomlyGeneratedPossition) + _currentTargetPos) / 2;
@@ -134,7 +134,7 @@ public class scrDefenderMovement : MonoBehaviour
 
             transform.position = Vector3.Lerp(ABPos.position, BCPos.position, t);
         }
-
+        else
         transform.position = Vector3.MoveTowards(transform.position, _currentTargetPos, defenderMovementSpeed * Time.deltaTime);
     }
     private void rotateTowardsTarget(Vector3 _targetPossition)

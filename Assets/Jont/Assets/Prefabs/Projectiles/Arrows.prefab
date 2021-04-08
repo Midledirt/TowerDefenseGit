@@ -2151,6 +2151,7 @@ GameObject:
   - component: {fileID: 7126472582516542552}
   - component: {fileID: 1863327114401755419}
   - component: {fileID: 6737540994476229868}
+  - component: {fileID: 2879800547564786259}
   m_Layer: 0
   m_Name: Arrows
   m_TagString: Untagged
@@ -2200,6 +2201,7 @@ MonoBehaviour:
   minDistanceToDealDamage: 0.1
   topProjectileHight: 10
   homingProjectile: 0
+  dealsSplashDamageByDefault: 0
   projectileIsFired: 0
 --- !u!114 &6737540994476229868
 MonoBehaviour:
@@ -2223,3 +2225,21 @@ MonoBehaviour:
   prefabLevel2Version3: {fileID: 8987538394143192134}
   prefabLevel3Version3: {fileID: 3750634038512381770}
   prefabLevel4Version3: {fileID: 1454031694071066502}
+--- !u!114 &2879800547564786259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9133463270804130689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7892b5a45a50d2442938492759dbcd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splashDamageRadius: 3
+  whatCanBeTargeted:
+    serializedVersion: 2
+    m_Bits: 1024
+  minimumDamage: 5
+  damageFallOff: 4

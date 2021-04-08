@@ -23,6 +23,10 @@ public class scrProjectiles : MonoBehaviour
     [SerializeField] private float topProjectileHight = 10f;
     [Tooltip("Decides if this projectile will home in on enemies, or be aimed")]
     [SerializeField] private bool homingProjectile = false;
+    [Tooltip("If true, this projectile will deal splash damage without requiring upgrades")]
+    [SerializeField] private bool dealsSplashDamageByDefault;
+    public bool DealsSplashDamage { get; private set; }
+    private scrSplashDamage localSplashDamage;
     public scrTowerProjectileLoader TurretOwner { get; set; } //Define a "Owner". `This is weird, covered in episode 26, around 3.30
     public float Damage { get; set; } //This damage is assigned from the tower via the scrTowerProjectileLoader Script
     private Creep _creepTarget;
@@ -45,6 +49,8 @@ public class scrProjectiles : MonoBehaviour
         ProjectileMovementSpeed = projectileMovementSpeed;
         MinDistanceToDealDamage = minDistanceToDealDamage;
         projectileIsFired = false;
+        DealsSplashDamage = dealsSplashDamageByDefault;
+        localSplashDamage = GetComponent<scrSplashDamage>(); //Gets the reference
     }
     private void Update()
     {
@@ -101,9 +107,16 @@ public class scrProjectiles : MonoBehaviour
             projectileIsFired = false;
             TurretOwner.ResetTurretProjectile();
             ObjectPooler.SetObjectToInactive(gameObject); //Return this projectile to the pool
-            _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
+            if(!DealsSplashDamage)
+            {
+                _creepTarget._CreepHealth.DealDamage(Damage); //Fires the deal damage function in the creephealth reference
+                OnCreepHit?.Invoke(_creepTarget, Damage);//DELETE this later, as it is ONLY used for displaying DAMAGE NUMBERS
+            }
+            if(DealsSplashDamage)
+            {
+                localSplashDamage.DealSplashDamage(transform.position, Damage); //Deal damage at location
+            }
             t = 0f;
-            OnCreepHit?.Invoke(_creepTarget, Damage);//DELETE this later, as it is ONLY used for displaying DAMAGE NUMBERS
         }
         
     }
