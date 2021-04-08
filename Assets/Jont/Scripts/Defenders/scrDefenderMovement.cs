@@ -62,6 +62,7 @@ public class scrDefenderMovement : MonoBehaviour
     {
         if (defenderHasANewPotentialTarget && defender.defenderIsAlive) //Potential target set in the defender script
         {
+            defenderAnimator.StopIdleAnimation();
             SetDefenderApproachTarget(defender.CurrentCreepTarget);
             if(defender.CurrentCreepTarget != null)
             {
@@ -76,6 +77,7 @@ public class scrDefenderMovement : MonoBehaviour
             if ((transform.position - rallyPointPos).magnitude <= _minDistanceToRallyPointPos)
             {
                 DefenderIsCurrentlyMovingTowardsNewPossition = false;
+                defenderAnimator.PlayIdleAnimation();
             }
             rotateTowardsTarget(rallyPointPos);
         }
@@ -117,7 +119,6 @@ public class scrDefenderMovement : MonoBehaviour
     }
     public void moveTowardsTarget(Vector3 _currentTargetPos)//Movement function for defenders
     {
-
         if(defender.thisDefenderIsEngagedAsNoneTarget && !defender.thisDefenderIsEngagedAsMainTarget)
         {
             if (t < 1f)
@@ -146,5 +147,6 @@ public class scrDefenderMovement : MonoBehaviour
         rallyPointPos = rallyPointPossition;
         defender.ResetDefenderIsEngagedAsMainOrNoneTarget(); //Make the defender break out of combat
         defenderHasANewPotentialTarget = false;
+        defenderAnimator.StopIdleAnimation();
     }
 }

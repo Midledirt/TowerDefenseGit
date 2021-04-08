@@ -10,12 +10,31 @@ public class scrDefenderAnimation : MonoBehaviour
     private float respawnTimer = 5f;
     private DefenderEngagementHandler defender;
     private Vector3 defenderRespawnPossition;
+    private bool isIdeling;
 
     private void Awake()
     {
         defenderAnimator = GetComponentInChildren<Animator>(); //Gets the reference of the animator
         defenderHealth = GetComponent<scrUnitHealth>(); //Gets the instance
         defender = GetComponent<DefenderEngagementHandler>(); //Gets the instance
+    }
+    public void PlayIdleAnimation()
+    {
+        if(!isIdeling)
+        {
+            print("Playing Idle animation");
+            isIdeling = true;
+            defenderAnimator.SetBool("Ideling", true);
+        }
+    }
+    public void StopIdleAnimation()
+    {
+        if(isIdeling)
+        {
+            print("Stopping ideling");
+            isIdeling = false;
+            defenderAnimator.SetBool("Ideling", false);
+        }
     }
     public void PlayDeathAnimation()
     {
