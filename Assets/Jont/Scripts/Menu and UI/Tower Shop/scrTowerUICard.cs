@@ -11,12 +11,17 @@ using System;
 public class scrTowerUICard : MonoBehaviour
 {
     public static Action<scrTowerSettings> OnPlaceTower;
+    scrUIManager Uimanager;
 
     [SerializeField] private Image towerImage;
     [SerializeField] private TextMeshProUGUI towerCost;
 
     public scrTowerSettings TowerLoaded { get; set; }
 
+    private void Awake()
+    {
+        Uimanager = scrUIManager.Instance;
+    }
     public void SetupTurretButton(scrTowerSettings towerSettings)
     {
         TowerLoaded = towerSettings;
@@ -29,7 +34,7 @@ public class scrTowerUICard : MonoBehaviour
         if (scrCurrencySystem.Instance.TotalCoins >= TowerLoaded.TowerShopCost)
         {
             scrCurrencySystem.Instance.SpendCoins(TowerLoaded.TowerShopCost);
-            scrUIManager.Instance.CloseTowerShopPanel(); //scrUIManager was made into a singleton so that we could do this.
+            Uimanager.CloseTowerShopPanel(); //scrUIManager was made into a singleton so that we could do this.
             OnPlaceTower?.Invoke(TowerLoaded);
         }
     }

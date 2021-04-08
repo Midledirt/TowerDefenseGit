@@ -48,6 +48,11 @@ public class scrUIManager : Singleton<scrUIManager>
         RallyPointButton.SetActive(false);
         CloseOpenPanels(); //Close open panels
     }
+    public void CloseAllPanels()
+    {
+        CloseNodeUIPanel();
+        towerShopPanel.SetActive(false);
+    }
 
     public void OpenUpgradeMenu()
     {
@@ -135,6 +140,7 @@ public class scrUIManager : Singleton<scrUIManager>
         {
             _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
             PathSelected(1);
+            CloseAllPanels();
         }
     }
     public void SelectPath2()
@@ -143,6 +149,7 @@ public class scrUIManager : Singleton<scrUIManager>
         {
             _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
             PathSelected(2);
+            CloseAllPanels();
         }
     }
     public void SelectPath3()
@@ -151,6 +158,7 @@ public class scrUIManager : Singleton<scrUIManager>
         {
             _currentNodeSelected.Tower.TowerUpgrade.AssignPathFromButtonPress(1);
             PathSelected(3);
+            CloseAllPanels();
         }
     }
     public void PathSelected(int _path)
@@ -167,7 +175,7 @@ public class scrUIManager : Singleton<scrUIManager>
         _currentNodeSelected.Tower.TowerUpgrade.UpgradeTower(); //This is how we comunicate with the tower from this script
         UpdateUpgradeText();
         UpdateSellValue();
-        TowerUpgradePanel.SetActive(false);
+        CloseAllPanels();
     }
 
     private void OnEnable()

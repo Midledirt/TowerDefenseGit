@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 /// <summary>
 /// A script for selecting objects in the scene. There may be a way better way of doing this though.
 /// </summary>
@@ -8,11 +9,12 @@ public class scrNodeSelect : MonoBehaviour
 {
     [SerializeField] private LayerMask clickableLayer; //Allows us to filther using layers
     private Camera mainCamera;
-
+    scrUIManager UIManager;
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        mainCamera = Camera.main; //Cache the reference
+        UIManager = scrUIManager.Instance;
     }
 
     private void Update()
@@ -20,14 +22,21 @@ public class scrNodeSelect : MonoBehaviour
         #region genericMousePosition
         if (Input.GetMouseButtonDown(0)) //This should be the left mouse button
         {
+            if (EventSystem.current.IsPointerOverGameObject()) //This is taken from a youtube video by Jason Weimann ("Avoid/Detect clicks through your UI")
+            {
+                return;
+            }
+            //IMPORTANT FOR LATER
+            //Close the panel that is currently open when you click outside the panel
+
             //Instantiate(TestObject, GetMousePosition(), Quaternion.identity); //Instantiate something at the mouse position
             RaycastHit rayHit; //Set up a new variable for storing raycast hit information
-
             if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, clickableLayer)) //If "fire a raycast"
                 //fire a ray from the main camera towards the mouse position. IMPORTANT: From what I understand, you should not use "Camera.main" 
                 //in a final product. Instead I would probably need to use some variable that stores the camera I am using?
                 //ALSO: "Out" allows you to choose what to store this information to. So "out rayHit" means store this info in rayHit.
             {
+                UIManager.CloseAllPanels(); //Close panels, before opening a new
                 rayHit.collider.GetComponent<scrTowerNode>().WhenClicked(); //IMPORTANT:
                 //What I love about this is that is allows us to get classes from objects that we already know have those classes, because they are
                 //on the "clickableLayer". This should prevent null references. However, as this is setup right now, it will check for a specific
@@ -37,7 +46,7 @@ public class scrNodeSelect : MonoBehaviour
                 //with that one "scrClickable" class. Then, the "scrClickable" class checks for whatever classes it contain that may run code when clicked
                 //through something like a for loop. I think this approach sould work fine in theory, however, it may be incredebly un-optimized. So look
                 //for better solutions, if you do go for this approach.
-                //May have a better way: Use Actions. OnEnable and OnDissable. It is used in episode 46. And there should be info online about it
+                //May have a better way: Use Actions. OnEnable and OnDissable.
             }
         }
         #endregion
