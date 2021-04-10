@@ -17,7 +17,7 @@ public class scrCameraMovement : MonoBehaviour
     [SerializeField] private float movementTime;
     [SerializeField] private float rotationAmount;
     [SerializeField] private Vector3 zoomAmount;
-    private float distanceFromGround;
+
 
     private Vector3 newPossition;
     private Quaternion newRotation;
@@ -37,7 +37,7 @@ public class scrCameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if(followTransform != null)
+        if(followTransform != null) //This is currently not used!
         {
             transform.position = followTransform.position;
         }
@@ -47,7 +47,7 @@ public class scrCameraMovement : MonoBehaviour
             HandleMouseInput();
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             followTransform = null;
         }
