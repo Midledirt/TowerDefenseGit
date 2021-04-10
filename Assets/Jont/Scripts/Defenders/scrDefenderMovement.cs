@@ -107,7 +107,6 @@ public class scrDefenderMovement : MonoBehaviour
         if((transform.position - _creep.transform.position).magnitude > engagementDistance)
         {
             moveTowardsTarget(_creep.transform.position);
-            //Rotate towards target
         }
         else if((transform.position - _creep.transform.position).magnitude <= engagementDistance)
         {
