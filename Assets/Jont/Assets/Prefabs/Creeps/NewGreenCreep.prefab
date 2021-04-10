@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1434732339014343833}
   - component: {fileID: 5487476785820858240}
   - component: {fileID: 7164778447330377470}
+  - component: {fileID: 2244002677606282167}
   - component: {fileID: 3744202036051900513}
   - component: {fileID: 7105085934974663493}
   m_Layer: 10
@@ -155,12 +156,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7892b5a45a50d2442938492759dbcd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashDamageRadius: 3
+  splashDamageRadius: 1.5
   whatCanBeTargeted:
     serializedVersion: 2
     m_Bits: 1024
   minimumDamage: 5
   damageFallOff: 4
+--- !u!114 &2244002677606282167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083245130996328430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aa978673ed93c459cb5f97743a346b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitDealsSplashDamage: 0
 --- !u!54 &3744202036051900513
 Rigidbody:
   m_ObjectHideFlags: 0

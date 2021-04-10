@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104e74e7ffd1b374eabb0cb8ab9f76a5, type: 3}
   m_Name: GroupofOne 1
   m_EditorClassIdentifier: 
-  setGroupWavePlacement: 1
+  setGroupWavePlacement: 2
   groupName: GroupOfOneOriginal
   creepList:
   - {fileID: 1083245130996328430, guid: 333acd9d146a0dc439610fb2535e77d6, type: 3}
@@ -21,5 +21,5 @@ MonoBehaviour:
   setGroupTimer: 2
   setTimeBetweenCreeps: 1
   groupPathVar: 1
-  groupTimer: -0.0053756535
+  groupTimer: -0.004193764
   timeBetweenCreeps: 1

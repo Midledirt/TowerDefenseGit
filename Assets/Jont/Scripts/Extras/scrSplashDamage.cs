@@ -19,7 +19,6 @@ public class scrSplashDamage : MonoBehaviour
     public void DealSplashDamage(Vector3 _location, float _damage)
     {
         //Check if "we" are the referenced spash damage instance, find out where to cast the explosion
-        print("Dealing splash damage!");
         Collider[] Colliders = Physics.OverlapSphere(_location, splashDamageRadius, whatCanBeTargeted);
         foreach(Collider _collider in Colliders)
         {
