@@ -192,6 +192,15 @@ public class DefenderEngagementHandler : MonoBehaviour
             }
         }
     }
+    public void OnDefenderTowerSold()
+    {
+        thisDefenderIsEngagedAsMainTarget = false;
+        thisDefenderIsEngagedAsNoneTarget = false;
+        defenderAnimator.StopAttackAnimation();
+        CurrentCreepTarget = null;
+        defenderIsAlive = false;
+        defenderIsAlreadyMovingTowardsTarget = false;
+    }
     private IEnumerator WaitForCreepCheck()
     {
         yield return new WaitForSeconds(0.1f * Time.deltaTime);

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-/// <summary>
-/// This upgrade system currently only works for the mage tower. It may be fixed later on in the tutorial (right now, its called through
-/// a button press). If not, I may find a fix myself, or go back to when he made new towers like the "tankTower", and see if theres something
-/// to take from that video.
-/// </summary>
 
 public class scrUppgradeTowers : MonoBehaviour
 {

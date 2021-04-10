@@ -17,7 +17,6 @@ public class scrDefenderSpawner : MonoBehaviour
     {
         defenderTowerTargets = GetComponent<scrDefenderTowerTargets>();
         pooler = GetComponent<ObjectPooler>(); //Get the instance on this tower
-        //rallyPointPos = GetComponent<scrTowerRallypointPos>(); //Get the instance on this tower
         rallyPointUpdater = GetComponent<scrTowerRallypointPos>(); //Get the instance
         defenders = new List<GameObject>(); //Initialize the list
     }
@@ -84,6 +83,15 @@ public class scrDefenderSpawner : MonoBehaviour
             //Get instance of defenderMovement script
             //moveTowardsTarget();
         }
+    }
+    public void DeleteDefendersOnTowerSold()
+    {
+        foreach(GameObject _defender in defenders)
+        {
+            _defender.GetComponent<DefenderEngagementHandler>().OnDefenderTowerSold();
+            GameObject.Destroy(_defender);
+        }
+        pooler.DefendersSoldDeleteContainer();
     }
     private void OnEnable()
     {

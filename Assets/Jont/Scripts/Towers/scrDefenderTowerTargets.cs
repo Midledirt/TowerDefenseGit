@@ -45,11 +45,6 @@ public class scrDefenderTowerTargets : MonoBehaviour
                 }
             }
         }
-        /*foreach (DefenderEngagementHandler _defender in Defenders)
-        {
-            _defender.NewCreepTargetInCollider(newCreep); //Tell the defender there is a new creep
-        }*/
-
     }
     public void LooseTargetReferenceFromRallyPoint(GameObject other)
     {

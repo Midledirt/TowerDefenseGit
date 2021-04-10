@@ -45,7 +45,6 @@ public class ObjectPooler : MonoBehaviour
         //Run the createPooler method from below, based on the poolsize
         CreatePooler();
     }
-
     private void CreatePooler()
     {
         for (int i = 0; i < poolSize; i++)
@@ -54,7 +53,6 @@ public class ObjectPooler : MonoBehaviour
             pool.Add(CreateInstance());
         }
     }
-
     private GameObject CreateInstance()
     {
         GameObject newInstance = Instantiate(prefab);
@@ -91,7 +89,6 @@ public class ObjectPooler : MonoBehaviour
         //And if there are no non-active instances, create one instead
         return CreateInstance();
     }
-
     //Static lets us use this without a reference
     public static void SetObjectToInactive(GameObject instance)
     {
@@ -121,6 +118,10 @@ public class ObjectPooler : MonoBehaviour
                 defenderStats.UpgradeDefenderStats(_towerPath, towerLevelTracker.CurrentTowerLevel);
             }
         }
+    }
+    public void DefendersSoldDeleteContainer()
+    {
+        GameObject.Destroy(poolContainer);
     }
     public static void ReturnToPool(GameObject instance)
     {
