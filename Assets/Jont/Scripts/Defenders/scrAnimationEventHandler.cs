@@ -15,7 +15,7 @@ public class scrAnimationEventHandler : MonoBehaviour
     private void Awake()
     {
         defenderOrCreepStats = GetComponentInParent<scrCreepTypeDefiner>().CreepType; //Get the "creepType" from the stats on the gameobject
-        localSplashDamageClass = GetComponent<scrSplashDamage>(); //Gets the reference
+        localSplashDamageClass = GetComponentInParent<scrSplashDamage>(); //Gets the reference
         UnitDealsSplashDamage = false;
     }
     public void MakeUnitDealSplashDamage()

@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6169572068822459799}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Leg.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 1292866705563887272}
   - component: {fileID: 1292866705563887270}
   - component: {fileID: 1292866705563887273}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 1292866706468114068}
   - component: {fileID: 1292866706468114066}
   - component: {fileID: 1292866706468114069}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 1292866706490948202}
   - component: {fileID: 1292866706490948205}
   - component: {fileID: 2333077416293871481}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 951804674390304074}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3765337617285581310}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4266220403458299998}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Leg.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8631672175631864791}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LowerArm.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6211439924961840801}
   - component: {fileID: 779052114401223368}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: TestChar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728771871617205723}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefNeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3234368962356706901}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hip.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,6 +718,9 @@ GameObject:
   - component: {fileID: -4488678258183938096}
   - component: {fileID: -8472342088882550617}
   - component: {fileID: -4868539920410730483}
+  - component: {fileID: 1452276333716496678}
+  - component: {fileID: 8967557546713461009}
+  - component: {fileID: 4855044337299251228}
   m_Layer: 10
   m_Name: Defender
   m_TagString: Untagged
@@ -871,12 +874,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7892b5a45a50d2442938492759dbcd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashDamageRadius: 3
+  splashDamageRadius: 1.5
   whatCanBeTargeted:
     serializedVersion: 2
     m_Bits: 1024
   minimumDamage: 5
   damageFallOff: 4
+--- !u!114 &1452276333716496678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848894563981429664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14aa978673ed93c459cb5f97743a346b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitDealsSplashDamage: 0
+--- !u!136 &8967557546713461009
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848894563981429664}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.09
+  m_Height: 0.26
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.13, z: 0}
+--- !u!54 &4855044337299251228
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848894563981429664}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3963387490683044113
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +932,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203701798308151615}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LowerArm.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2541752104530017484}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Leg.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,11 +1088,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5256263508786600288}
-  - component: {fileID: 6692185052481267957}
-  - component: {fileID: 1439409064164565049}
   - component: {fileID: 3183068145564327665}
   - component: {fileID: 526895365662321873}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefenderBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,36 +1115,6 @@ Transform:
   m_Father: {fileID: 2523008808889394468}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6692185052481267957
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880265250296988634}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.04
-  m_Height: 5.61
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.8, z: 0}
---- !u!54 &1439409064164565049
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880265250296988634}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!95 &3183068145564327665
 Animator:
   serializedVersion: 3
@@ -1141,7 +1155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224059659288231459}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Leg.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1266,7 +1280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8710963347040457184}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LowerArm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3223755969318396662}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefLowerHip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1455,7 +1469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692806121336998370}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: UpperArm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5142403753317929477}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefMidsection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1612,7 +1626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3001396477664458881}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: DefNeck_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1737,7 +1751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4792011012134722014}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: BarPosition
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -1767,7 +1781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3225905646301572436}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LowerArm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1988,7 +2002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7342688793514647569}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hip.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2114,7 +2128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8099532208134943834}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: UpperArm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
