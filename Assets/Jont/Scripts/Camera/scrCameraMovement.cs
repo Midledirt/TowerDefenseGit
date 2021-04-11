@@ -18,7 +18,6 @@ public class scrCameraMovement : MonoBehaviour
     [SerializeField] private float rotationAmount;
     [SerializeField] private Vector3 zoomAmount;
 
-
     private Vector3 newPossition;
     private Quaternion newRotation;
     private Vector3 newZoom;
@@ -28,14 +27,26 @@ public class scrCameraMovement : MonoBehaviour
     private Vector3 rotateStartPossition;
     private Vector3 rotateCurrentPossition;
 
+    [SerializeField] private float minZoom;
+    [SerializeField] private float maxZoom;
+    [Tooltip("How far in each direction the cmarea can move")]
+    [SerializeField] private float cameraBorderSize;
+    [Tooltip("How close to the ground you can zoom. Defaults to 20")]
+    [SerializeField] private float groundHeight = 20f;
+    private float currentZoomValue; //Used to slow movement based on distance to the ground
+
     private void Start()
     {
+        currentZoomValue = 100f;
         newPossition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
     }
-
     private void Update()
+    {
+        currentZoomValue = -cameraTransform.localPosition.z / 500;
+    }
+    private void LateUpdate()
     {
         if(followTransform != null) //This is currently not used!
         {
@@ -46,17 +57,29 @@ public class scrCameraMovement : MonoBehaviour
             HandleMovementInput();
             HandleMouseInput();
         }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             followTransform = null;
         }
     }
+    private void ClampNewPossition()
+    {
+        newPossition.x = Mathf.Clamp(newPossition.x, -cameraBorderSize, cameraBorderSize);
+        newPossition.z = Mathf.Clamp(newPossition.z, -cameraBorderSize, cameraBorderSize);
+    }
     private void HandleMouseInput()
     {
-        if(Input.mouseScrollDelta.y != 0)
+
+        if (Input.mouseScrollDelta.y != 0)
         {
-            newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            if (Input.mouseScrollDelta.y > 0 && newZoom.z < maxZoom && newZoom.y > groundHeight)
+            {
+                newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            }
+            if (Input.mouseScrollDelta.y < 0 && newZoom.z > minZoom)
+            {
+                newZoom += Input.mouseScrollDelta.y * zoomAmount;
+            }
         }
         if (EventSystem.current.IsPointerOverGameObject()) //This is taken from a youtube video by Jason Weimann ("Avoid/Detect clicks through your UI")
         {
@@ -88,6 +111,7 @@ public class scrCameraMovement : MonoBehaviour
                 dragCurrentPossition = ray.GetPoint(entry);
 
                 newPossition = transform.position + dragStartPossitino - dragCurrentPossition;
+                ClampNewPossition();
             }
         }
         if(Input.GetMouseButtonDown(2))
@@ -100,7 +124,6 @@ public class scrCameraMovement : MonoBehaviour
 
             Vector3 difference = rotateStartPossition - rotateCurrentPossition;
             rotateStartPossition = rotateCurrentPossition;
-
             newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5));
         }
     }
@@ -108,29 +131,33 @@ public class scrCameraMovement : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            movementSpeed = fastSpeed;
+            movementSpeed = (fastSpeed * currentZoomValue);
         }
         else
         {
-            movementSpeed = normalSpeed;
+            movementSpeed = (normalSpeed * currentZoomValue);
         }
 
         #region movement
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             newPossition += (transform.forward * movementSpeed);
+            ClampNewPossition();
         }
-        if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             newPossition += (transform.forward * -movementSpeed);
+            ClampNewPossition();
         }
         if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             newPossition += (transform.right * -movementSpeed);
+            ClampNewPossition();
         }
         if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             newPossition += (transform.right * movementSpeed);
+            ClampNewPossition();
         }
         #endregion
         #region rotation
@@ -138,17 +165,17 @@ public class scrCameraMovement : MonoBehaviour
         {
             newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
         }
-        if(Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
         }
         #endregion
         #region Zoom
-        if(Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.R) && newZoom.y > groundHeight)
         {
             newZoom += zoomAmount;
         }
-        if(Input.GetKey(KeyCode.F))
+        if(Input.GetKey(KeyCode.F) && newZoom.y < maxZoom)
         {
             newZoom -= zoomAmount;
         }
