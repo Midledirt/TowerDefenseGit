@@ -8,6 +8,8 @@ using UnityEngine;
 public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
+    [Tooltip("Assign the tower range object as the range sprite")]
+    [SerializeField] private GameObject rangeSprite;
     public scrUppgradeTowers TowerUpgrade { get; set; }
     public Creep CurrentCreepTarget { get; private set; }
 
@@ -25,6 +27,9 @@ public class scrTowerTargeting : MonoBehaviour
     }
     private void Start()
     {
+        rangeSprite.transform.position = transform.position;
+        rangeSprite.transform.localScale = new Vector3(attackRange * 5, attackRange * 5, attackRange * 5);
+        rangeSprite.SetActive(false);
         TowerHasDefenders = towerHasDefenders; //Do not place this in awake. Or you might get a null reference
         _gameStarted = true;
 
@@ -74,7 +79,21 @@ public class scrTowerTargeting : MonoBehaviour
         var rotation = Quaternion.LookRotation(targetPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 5f);
     }
-
+    public void ToggleRangeSpriteOn(scrTowerTargeting _reference) //Turn the rangeSprite on if this is the tower clicked on
+    {
+        if(this != _reference)
+        {
+            return;
+        }
+        rangeSprite.SetActive(true);
+    }
+    public void ToggleRangeSpriteOff(scrTowerTargeting _reference) //Turn the rangeSprite off if this is not the tower clicked on
+    {
+        if (this != _reference)
+        {
+            rangeSprite.SetActive(false);
+        }
+    }
     private void OnTriggerEnter(Collider other) //Add creeps to list
     {
         if (other.CompareTag("Creep")) //Filther for tags
@@ -83,7 +102,6 @@ public class scrTowerTargeting : MonoBehaviour
             _creeps.Add(newCreep);
         }
     }
-    
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Creep"))
@@ -95,15 +113,14 @@ public class scrTowerTargeting : MonoBehaviour
             }
         }
     }
-    private void OnDrawGizmos()
+    private void OnEnable()
     {
-        Gizmos.color = Color.red;
-        if (!_gameStarted)
-        {
-            GetComponent<SphereCollider>().radius = attackRange * 2.5f; //I am not sure why the sphere collider radius is smaller that the wiresphere
-            //Radius, but if i multiply it with 2.5f, its very close to the same size...
-        }
-
-        Gizmos.DrawWireSphere(transform.position, attackRange); //Visualize the attack range
+        scrUIManager.OnTowerSelected += ToggleRangeSpriteOn;
+        scrUIManager.OnTowerSelected += ToggleRangeSpriteOff;
+    }
+    private void OnDisable()
+    {
+        scrUIManager.OnTowerSelected -= ToggleRangeSpriteOn;
+        scrUIManager.OnTowerSelected -= ToggleRangeSpriteOff;
     }
 }

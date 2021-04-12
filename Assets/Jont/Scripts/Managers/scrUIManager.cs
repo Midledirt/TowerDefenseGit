@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System;
 
 public class scrUIManager : Singleton<scrUIManager>
 {
+    public static Action<scrTowerTargeting> OnTowerSelected;
+
     [Header("Panels")]
     [SerializeField] private GameObject towerShopPanel;    
     [SerializeField] private GameObject nodeUIPanel;
@@ -132,6 +135,8 @@ public class scrUIManager : Singleton<scrUIManager>
         else
         {
             ShouWUpgradePanel(); //If there is a tower on the node, show the NodeUIpanel
+            //print("Hi, i run every time you click on a new tower. I am the function you are looking for!"); //YES
+            OnTowerSelected?.Invoke(_currentNodeSelected.Tower);
         }
     }
     public void SelectPath1()

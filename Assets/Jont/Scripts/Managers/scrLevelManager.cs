@@ -6,6 +6,7 @@ using System;
 public class scrLevelManager : Singleton<scrLevelManager> //This has also been turned into a singleton later, due to the need for a reference in the scrUIManager
                                                           //script. (by the tutorial, not be)
 {
+    public scrTowerTargeting CurrentTowerSelected { get; private set; }
     [SerializeField] private GameObject callWaveButton;
     [SerializeField] private GameObject startButton; //Find a better way of referencing this later
     public event EventHandler OnGameStart;
@@ -41,6 +42,10 @@ public class scrLevelManager : Singleton<scrLevelManager> //This has also been t
     {
         //CurrentWave = Should equal wave number
         callWaveButton.gameObject.SetActive(false);
+    }
+    public void SetCurrentTowerSelected(scrTowerTargeting _tower)
+    {
+        CurrentTowerSelected = _tower;
     }
     private void OnEnable()
     {

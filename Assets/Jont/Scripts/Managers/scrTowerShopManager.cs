@@ -73,8 +73,6 @@ public class scrTowerShopManager : MonoBehaviour
         scrTowerNode.OnTowerSold += TowerSold;
         scrTowerUICard.OnPlaceTower += PlaceTower;
     }
-
-
     private void OnDisable()
     {
         scrTowerNode.OnNodeSelected -= NodeSelected;
