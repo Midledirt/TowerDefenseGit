@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Random = UnityEngine.Random;
 
 public class scrTowerRallypointPos : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class scrTowerRallypointPos : MonoBehaviour
     [SerializeField] private GameObject rallyPointPrefab;
     [Header("Rally range")]
     [Range(2f, 5f)]
-    [SerializeField] private float towerRallyRange; //Should inherit from a "towerStatsSO" in the future
     public Action<Vector3, Vector3, Vector3> OnSetRallyPoint; //Contains information for the three transform possitions of the rally points
     public GameObject rallyPoint { get; private set; }
     public Transform RallyPointAPos { get; private set; }
@@ -19,18 +17,18 @@ public class scrTowerRallypointPos : MonoBehaviour
 
     private scrTowerTargeting towerParent;
     private float distanceFromTowerToRallypoint;
-    BoundingSphere attackRange;
+    private SphereCollider attackRange;
     private Vector3 latestViablePossition;
-    private Collider towerCollider;
 
     private void Awake()
     {
         towerParent = GetComponent<scrTowerTargeting>();
-        attackRange = new BoundingSphere(towerParent.transform.position, towerRallyRange);
-        towerCollider = GetComponent<Collider>(); //Get the collider
     }
     private void Start()
     {
+        attackRange = towerParent.collider; //Get the same collider used in the towerParent script
+        //attackRange = new BoundingSphere(towerParent.transform.position, towerParent.AttackRange);
+
         if (towerParent != null && towerParent.TowerHasDefenders == true) //Dont move this to awake!
         {
             rallyPoint = Instantiate(rallyPointPrefab, transform.position, Quaternion.identity, towerParent.transform);
@@ -48,11 +46,10 @@ public class scrTowerRallypointPos : MonoBehaviour
             //Debug.Log("Assigned rallyPoint points");
         }
     }
- 
     public void SetRallypointPos(Vector3 possition) //Make this into an action so that it is easy to reference it in the "scrDefenderSpawner" class as well as future ones
     {
         distanceFromTowerToRallypoint = (towerParent.transform.position - possition).magnitude;
-        if (distanceFromTowerToRallypoint <= attackRange.radius)
+        if (distanceFromTowerToRallypoint <= (attackRange.radius / 2.5))
         {
             latestViablePossition = possition; //Update latestViablePossition
             rallyPoint.transform.position = possition; //Move the rallypoint
@@ -64,13 +61,4 @@ public class scrTowerRallypointPos : MonoBehaviour
             rallyPoint.transform.position = latestViablePossition; //Rallypoint remains at latest viable possition
         }
     }
-
-    /*private void OnDrawGizmos() //THIS WILL CAUSE ERRORS WHILEST VIEWING THE TOWER PREFAB IN THE PREFAB WINDOW
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(towerParent.transform.position, attackRange.radius);
-    }*/
-    //Next is limiting the rallypoint possition to the actual range of the tower
-    //And finding some way of setting a random possition 
-    //How about creating an object that serves as the tower range, then use som function to get that objects extremeties?
 }

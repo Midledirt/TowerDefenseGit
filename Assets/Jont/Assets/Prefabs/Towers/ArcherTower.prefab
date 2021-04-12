@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb70c23117103c4f87c20695d159f7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 5
+  attackRange: 9
   rangeSprite: {fileID: 4459667439375648451}
   towerHasDefenders: 0
 --- !u!114 &2156339796716720343

@@ -8,6 +8,7 @@ using UnityEngine;
 public class scrTowerTargeting : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3f;
+    public float AttackRange { get; private set; }
     [Tooltip("Assign the tower range object as the range sprite")]
     [SerializeField] private GameObject rangeSprite;
     public scrUppgradeTowers TowerUpgrade { get; set; }
@@ -17,21 +18,22 @@ public class scrTowerTargeting : MonoBehaviour
     [Tooltip("Decides wheter or not this tower type has defenders by default")]
     [SerializeField] private bool towerHasDefenders = false;
     public bool TowerHasDefenders { get; private set; }
-
-    private bool _gameStarted;
     private List<Creep> _creeps;
+    public new SphereCollider collider { get; private set; }
 
     private void Awake()
     {
         _creeps = new List<Creep>(); //Initialize the list
+        collider = GetComponent<SphereCollider>();
     }
     private void Start()
     {
+        AttackRange = attackRange;
+        collider.radius = attackRange;
         rangeSprite.transform.position = transform.position;
-        rangeSprite.transform.localScale = new Vector3(attackRange * 5, attackRange * 5, attackRange * 5);
+        rangeSprite.transform.localScale = new Vector3(collider.radius * 2, collider.radius * 2, collider.radius * 2);
         rangeSprite.SetActive(false);
         TowerHasDefenders = towerHasDefenders; //Do not place this in awake. Or you might get a null reference
-        _gameStarted = true;
 
         TowerUpgrade = GetComponent<scrUppgradeTowers>();    
     }

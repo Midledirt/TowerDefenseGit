@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb70c23117103c4f87c20695d159f7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 3
+  attackRange: 8
   rangeSprite: {fileID: 3157338463039975784}
   towerHasDefenders: 1
 --- !u!114 &5445338451896795075
@@ -1067,7 +1067,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rallyPointPrefab: {fileID: 8198359425438993464, guid: 45e51000e1aa5bf48a5df408aabaad1c, type: 3}
-  towerRallyRange: 3.55
 --- !u!114 &-8014625541150772094
 MonoBehaviour:
   m_ObjectHideFlags: 0
