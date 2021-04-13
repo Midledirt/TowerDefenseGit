@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4691575765689693247, guid: c7da911284fc3534c99be39967d85e80, type: 3}
-  poolSize: 20
+  poolSize: 4
   isProjectileSpawner: 1
   isDefenderSpawner: 0
 --- !u!114 &2156339796716720299
@@ -706,7 +706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rallyPointPrefab: {fileID: 8198359425438993464, guid: 45e51000e1aa5bf48a5df408aabaad1c, type: 3}
-  towerRallyRange: 3.3
 --- !u!1 &2156339797014155316
 GameObject:
   m_ObjectHideFlags: 0

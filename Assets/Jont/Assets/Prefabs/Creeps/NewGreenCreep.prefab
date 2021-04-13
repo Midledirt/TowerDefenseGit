@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7892b5a45a50d2442938492759dbcd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionEffect: {fileID: 4600227737957751913, guid: 427d5b65295150846a9ae1514c4ff3ba, type: 3}
   splashDamageRadius: 1.5
   whatCanBeTargeted:
     serializedVersion: 2
