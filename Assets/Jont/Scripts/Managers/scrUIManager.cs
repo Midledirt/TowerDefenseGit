@@ -93,6 +93,7 @@ public class scrUIManager : Singleton<scrUIManager>
         _currentNodeSelected.SellTower(); //Sell the tower
         _currentNodeSelected = null; //Loose the reference
         nodeUIPanel.SetActive(false); //Close the UI Panel after we sell the tower
+        RallyPointButton.SetActive(false);
     }
 
     private void ShouWUpgradePanel() //Function that shows the UIPanel when run

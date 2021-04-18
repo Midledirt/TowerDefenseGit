@@ -5,10 +5,6 @@ using UnityEngine;
 public class scrSetRallyPoint : MonoBehaviour
 {
     [SerializeField] private LayerMask clickableLayer; //Allows us to filther using layers
-    //[SerializeField] private GameObject TestObject;
-    [Header("Assign ground")]
-    [Tooltip("Assign the ground object so the rally point gets a Y height")]
-    [SerializeField] private GameObject GroundHeight;
     private Camera mainCamera;
     private bool recordingMousePos = false;
     private RaycastHit hit;
@@ -38,7 +34,6 @@ public class scrSetRallyPoint : MonoBehaviour
     private void SetTheRallyPoint()
     {
         rallyPointPossition = hit.point;
-        rallyPointPossition.y = GroundHeight.transform.position.y;
         _currentNodeSelected.TowerRallypointPos.SetRallypointPos(rallyPointPossition);         //No issues here, tested!
     }
 
